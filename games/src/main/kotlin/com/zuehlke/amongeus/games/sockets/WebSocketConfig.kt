@@ -18,7 +18,7 @@ class WebSocketConfig : AbstractWebSocketMessageBrokerConfigurer() {
     }
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
-        registry.addEndpoint("/game").setAllowedOrigins("*");
-        registry.addEndpoint("/game").setAllowedOrigins("*").withSockJS()
+        registry.addEndpoint("/game").setAllowedOrigins("http://localhost:3000");
+        registry.addEndpoint("/game").setAllowedOrigins("http://localhost:3000").withSockJS()
     }
 }
