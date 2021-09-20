@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/GamesApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/GamesApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/GameSockets.kt" beforeDir="false" afterPath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/GameSockets.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/WebSocketConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/WebSocketConfig.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +55,7 @@
       <option name="presentableId" value="Default" />
       <updated>1632129281147</updated>
       <workItem from="1632129286377" duration="1655000" />
-      <workItem from="1632140704690" duration="368000" />
+      <workItem from="1632140704690" duration="989000" />
     </task>
     <servers />
   </component>
