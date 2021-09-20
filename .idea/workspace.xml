@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/games/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/games/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/GamesApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/GamesApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/GameSockets.kt" beforeDir="false" afterPath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/GameSockets.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/WebSocketConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/games/src/main/kotlin/com/zuehlke/amongeus/games/sockets/WebSocketConfig.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
