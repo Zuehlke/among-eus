@@ -1,24 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import ChooseName from "./components/ChooseName/ChooseName";
+import Lobby from "./components/Lobby/Lobby";
+import ChooseGame from "./components/ChooseGame/ChooseGame";
+import CreateTasks from "./components/CreateTasks/CreateTasks";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+    <ChooseName/>
+    <ChooseGame/>
+    <Lobby/>
+    <CreateTasks/>
+      </div>
   );
 }
 
