@@ -16,19 +16,20 @@ const Lobby = (props: LobbyProps) => (
     Lobby Component
       <table>
           <tr>
-              <th>Company</th>
-              <th>Contact</th>
-              <th>Country</th>
+              <th>id</th>
+              <th>name</th>
+              <th>tasks created</th>
           </tr>
           {console.log(props)}
-          {props.players.map((player: Player) => (
-              <tr>
+          {props.players.map((player: Player, index:number) => (
+              <tr key={index}>
                 <td>{player.id}</td>
                 <td>{player.name}</td>
                 <td>{player.tasksCreated}</td>
               </tr>
           ))}
       </table>
+      <button id="btnStart" onClick={() => console.log("start game")}>Start game</button>
   </div>
 );
 
