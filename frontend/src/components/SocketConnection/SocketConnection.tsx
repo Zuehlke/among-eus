@@ -1,0 +1,95 @@
+import React from 'react';
+import './SocketConnection.css';
+import * as Stomp from 'stompjs';
+import SockJS from "sockjs-client";
+import {client, Message} from "stompjs";
+
+
+interface SocketConnectionProps {
+}
+
+interface SocketConnectionState {
+    connected: boolean,
+    client?: Stomp.Client
+}
+
+class SocketConnection extends React.Component<SocketConnectionProps, SocketConnectionState> {
+    constructor(props: SocketConnectionProps) {
+        super(props);
+    }
+
+    componentWillMount() {
+        this.connect();
+    }
+
+    /*    connect = () => {
+            console.log("Connection to socket")
+            let client = Stomp.overWS('ws://localhost:8080/game');
+
+            this.setState({client: client});
+        }*/
+
+    connect () {
+        let socket = new SockJS("http://localhost:8080/game");
+        let stompClient = Stomp.over(socket);
+        stompClient.connect({}, (frame) => {
+            console.log('Connected: ' + frame);
+            this.setConnected(true, stompClient);
+            stompClient.subscribe('/topic/result', function(this:SocketConnection, messageOutput) {
+                this.showMessageOutput(messageOutput);
+            });
+        });
+    }
+
+    setConnected(b: boolean, stompClient?: Stomp.Client) {
+        this.setState({client: stompClient, connected: b});
+    }
+
+    disconnect = () => {
+        if(this.state.client != null) {
+            this.state.client.disconnect(() => console.debug("Disconnected"));
+        }
+        this.setConnected(false);
+        console.log("Disconnected");
+    }
+
+    sendMessage = () => {
+        // @ts-ignore
+        var from = document.getElementById('from').value;
+        // @ts-ignore
+        // this.state.client.send("/games", {},
+        var text = document.getElementById('text').value;
+        //     JSON.stringify({'from':from, 'text':text}));
+        // @ts-ignore
+        this.state.client.send("/game", {}, text);
+    }
+
+    showMessageOutput = (messageOutput: Message) => {
+        var response = document.getElementById('response');
+        var p = document.createElement('p');
+        p.style.wordWrap = 'break-word';
+        console.debug("received message");
+
+        /*p.appendChild(document.createTextNode(messageOutput.from + ": "
+            + messageOutput.text + " (" + messageOutput.time + ")"));
+        response.appendChild(p);*/
+        p.appendChild(document.createTextNode(messageOutput.body));
+        // @ts-ignore
+        response.appendChild(p);
+    }
+
+    render = () => {
+        return (
+            <div className="SocketConnection">
+                SocketConnection Component
+                <input id="from" type="text" />
+                <input id="text" type="text" />
+                <input id="response" type="text" />
+                <button id="btnSendMessage" onClick={() => this.sendMessage()}>Send Message</button>
+            </div>
+        );
+    }
+
+}
+
+export default SocketConnection;
