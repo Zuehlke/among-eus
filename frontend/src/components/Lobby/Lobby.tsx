@@ -8,6 +8,7 @@ interface Player {
 }
 
 interface LobbyProps {
+    isHost: boolean;
     players: Array<Player>
 }
 
@@ -29,11 +30,13 @@ const Lobby = (props: LobbyProps) => (
               </tr>
           ))}
       </table>
-      <button id="btnStart" onClick={() => console.log("start game")}>Start game</button>
+      {<button hidden={!props.isHost} id="btnStart" onClick={() => console.log("start game")}>Start game</button>}
+
   </div>
 );
 
 Lobby.defaultProps = {
+    isHost: true,
     players: [
         {"id": "1", "name": "DaniTheSlayer", "tasksCreated": 1} as Player,
         {"id": "2", "name": "SteffiTheMerciless", "tasksCreated": 0} as Player,
