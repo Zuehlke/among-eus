@@ -1,0 +1,20 @@
+branch-defaults:
+  default:
+    environment: among-eus-players-dev
+    group_suffix: null
+deploy:
+  artifact: build/libs/among-eus-players-0.0.1-SNAPSHOT.jar
+global:
+  application_name: among-eus-players
+  branch: null
+  default_ec2_keyname: null
+  default_platform: Corretto 11 running on 64bit Amazon Linux 2
+  default_region: us-east-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  repository: null
+  sc: null
+  workspace_type: Application
