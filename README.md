@@ -10,7 +10,7 @@ For subprojects that are configured for deployments:
 
 > eb deploy
 1. Install Elastic Beanstalk tooling
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.htm
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html
 2. Deploy as follows:
    > eb deploy
      - secret for the deployment (ask Rolf!)
@@ -18,7 +18,7 @@ https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.h
 ### Configure Deployment (Java)
 
 1. Install Elastic Beanstalk tooling
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.htm
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html
 2. Go to subproject folder you want to deploy and configure tooling as follows:
    > eb init
      - 14 for region Ohio
