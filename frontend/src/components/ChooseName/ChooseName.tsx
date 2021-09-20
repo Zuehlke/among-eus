@@ -3,7 +3,8 @@ import './ChooseName.css';
 
 const ChooseName = () => (
   <div className="ChooseName">
-    ChooseName Component
+    <input type="text" />
+    <button id="btnSubmit" onClick={() => console.log("sent")}>Send</button>
   </div>
 );
 
