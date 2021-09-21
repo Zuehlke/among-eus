@@ -7,7 +7,14 @@ import React from "react";
 import SocketConnection from "./components/SocketConnection/SocketConnection";
 import {Client, Message} from "@stomp/stompjs";
 
-class App extends React.Component<any, any> {
+interface AppState {
+    currentView: string,
+    client?: Client,
+    games: Game[],
+    playerName?: string,
+}
+
+class App extends React.Component<any, AppState> {
 
     constructor(props: any, context: any) {
         super(props, context);
@@ -42,8 +49,8 @@ class App extends React.Component<any, any> {
     }
 
     onHostGame() {
-        const client: Client = this.state.client;
-        client.publish({
+        const client: Client | undefined = this.state.client;
+        client?.publish({
             destination: '/create',
             body: JSON.stringify({
                 name: this.state.playerName + "'s Game",
@@ -63,7 +70,7 @@ class App extends React.Component<any, any> {
         const client = new Client({
             brokerURL: WS_GAMES_URL + WS_GAMES_ENDPOINT,
             debug: function (str) {
-                console.log(str);
+                console.debug(str);
             },
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
@@ -71,7 +78,6 @@ class App extends React.Component<any, any> {
         });
 
         client.onConnect = () => {
-            console.log('connected');
             this.setState({client})
 
             client.subscribe('/getGames', this.onGamesReceived)
@@ -95,7 +101,6 @@ class App extends React.Component<any, any> {
         this.setState({
             games,
         });
-        console.log(message.body);
     }
 }
 
