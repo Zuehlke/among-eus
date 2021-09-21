@@ -17,11 +17,13 @@ const Lobby = (props: LobbyProps) => (
     <div className="Lobby">
         Lobby Component
         <table>
+            <thead>
             <tr>
                 <th>id</th>
                 <th>name</th>
                 <th>tasks created</th>
             </tr>
+            </thead>
             <tbody>
             {props.players.map((player: Player, index: number) => (
                 <tr key={index}>
