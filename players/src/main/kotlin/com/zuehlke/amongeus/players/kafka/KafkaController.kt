@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.http.ResponseEntity
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
@@ -17,11 +18,13 @@ import java.util.concurrent.Future
 class KafkaController {
 
     @Autowired
-    constructor(kafkaTemplate: KafkaTemplate<String, String>?) {
+    constructor(kafkaTemplate: KafkaTemplate<String, String>?, kafkaProperties: KafkaProperties) {
         this.kafkaTemplate = kafkaTemplate
+        this.kafkaProperties = kafkaProperties;
     }
 
     var kafkaTemplate: KafkaTemplate<String, String>? = null;
+    var kafkaProperties: KafkaProperties;
     val topic: String = "mytopic"
 
     @GetMapping("/send")
@@ -35,12 +38,7 @@ class KafkaController {
     fun produceMessage(@RequestParam("message") message: String): ResponseEntity<String> {
         var producerRecord: ProducerRecord<String, String> = ProducerRecord(topic, message)
 
-        val map = mutableMapOf<String, String>()
-        map["key.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
-        map["value.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
-        map["bootstrap.servers"] = "localhost:29092"
-
-        var producer = KafkaProducer<String, String>(map as Map<String, Any>?)
+        var producer = KafkaProducer<String, String>(kafkaProperties.buildProducerProperties())
         var future: Future<RecordMetadata> = producer?.send(producerRecord)!!
         return ResponseEntity.ok(" message sent to " + future.get().topic());
     }
