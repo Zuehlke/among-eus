@@ -13,6 +13,10 @@ class LobbyService {
         return LobbyStore.getLobbies()
     }
 
+    fun getLobbyByGame(gameId: String): Lobby {
+        return LobbyStore.getLobbyByGame(gameId)!!
+    }
+
     fun createLobby(gameId: String): Lobby {
         val lobby = Lobby(UUID.randomUUID().toString(), gameId, ArrayList())
         LobbyStore.saveOrUpdateLobby(lobby)
@@ -38,5 +42,7 @@ class LobbyService {
     fun removePlayerFromGameLobby(gameId: String, playerId: String) {
         val lobby = LobbyStore.getLobbyByGame(gameId)
         lobby!!.playerIdTaskCountPairs.removeIf{p -> p.first.equals(playerId)}
+        println(lobby)
+        LobbyStore.saveOrUpdateLobby(lobby)
     }
 }
