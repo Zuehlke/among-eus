@@ -1,22 +1,17 @@
 import React, {useState} from 'react';
 import './ChooseGame.css';
 
-interface Game {
-    id: string;
+export interface Game {
+    gameId: string;
     name: string;
+    ownerId?: string;
 }
-
-const games: Game[] = [
-    {id: "1", name: "Game Steffi"},
-    {id: "2", name: "Game Dani"},
-    {id: "3", name: "Game Nicolas"}
-];
 
 const ChooseGame = (props: any) => {
     const [selectedGameId, setSelectedGameId] = useState("");
     const [selectedRowStyle, setSelectedRowStyle] = useState("");
 
-    function selectGameId(id: string){
+    function selectGameId(id: string) {
         setSelectedGameId(id);
         setSelectedRowStyle("selected-row");
     }
@@ -28,14 +23,17 @@ const ChooseGame = (props: any) => {
             <div className="flex-container">
                 <table>
                     <tbody>
-                    {games.map(game => {
-                        return <tr className={ selectedGameId === game.id ? selectedRowStyle : ''} key={game.id} onClick={() => selectGameId(game.id)}>
+                    {props.games.map((game: Game) => {
+                        return <tr className={selectedGameId === game.gameId ? selectedRowStyle : ''} key={game.gameId}
+                                   onClick={() => selectGameId(game.gameId)}>
                             <td>{game.name}</td>
                         </tr>
                     })}
                     </tbody>
                 </table>
-                <button hidden={!selectedGameId} id="btnJoinGame" onClick={() => console.log(selectedGameId)}>Join Game</button>
+                <button hidden={!selectedGameId} id="btnJoinGame" onClick={() => console.log(selectedGameId)}>Join
+                    Game
+                </button>
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import './App.css';
 import ChooseName from "./components/ChooseName/ChooseName";
 import Lobby from "./components/Lobby/Lobby";
-import ChooseGame from "./components/ChooseGame/ChooseGame";
+import ChooseGame, {Game} from "./components/ChooseGame/ChooseGame";
 import CreateTasks from "./components/CreateTasks/CreateTasks";
 import React from "react";
 import SocketConnection from "./components/SocketConnection/SocketConnection";
@@ -14,9 +14,11 @@ class App extends React.Component<any, any> {
         this.state = {
             currentView: 'ChooseName',
             client: undefined,
+            games: [],
         };
         this.onNameChosen = this.onNameChosen.bind(this);
         this.onHostGame = this.onHostGame.bind(this);
+        this.onGamesReceived = this.onGamesReceived.bind(this);
     }
 
     render() {
@@ -24,7 +26,7 @@ class App extends React.Component<any, any> {
         return (
             <div>
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
-                {currentView === 'ChooseGame' && <ChooseGame onHostGame={this.onHostGame}/>}
+                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame}/>}
                 {currentView === 'Lobby' && <Lobby/>}
                 {currentView === 'CreateTasks' && <CreateTasks/>}
                 {currentView === 'SocketConnection' && <SocketConnection/>}
@@ -37,11 +39,9 @@ class App extends React.Component<any, any> {
             playerName,
             currentView: 'ChooseGame',
         });
-        this.initialiseWebSocket();
     }
 
     onHostGame() {
-        console.log('onHostGame');
         const client: Client = this.state.client;
         client.publish({
             destination: '/create',
@@ -53,6 +53,7 @@ class App extends React.Component<any, any> {
     }
 
     componentDidMount() {
+        this.initialiseWebSocket();
     }
 
     initialiseWebSocket() {
@@ -90,6 +91,10 @@ class App extends React.Component<any, any> {
 
 
     private onGamesReceived(message: Message) {
+        const games: Game[] = JSON.parse(message.body);
+        this.setState({
+            games,
+        });
         console.log(message.body);
     }
 }
