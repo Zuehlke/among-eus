@@ -1,6 +1,6 @@
 package com.zuehlke.amongeus.tasks.services
 
-import com.zuehlke.amongeus.tasks.kafka.TasksPublisher
+import com.zuehlke.amongeus.tasks.kafka.KafkaPublisher
 import com.zuehlke.amongeus.tasks.model.CompleteTaskEvent
 import com.zuehlke.amongeus.tasks.model.CreateTaskEvent
 import com.zuehlke.amongeus.tasks.model.Task
@@ -13,13 +13,13 @@ import java.util.*
 class TaskService {
 
     @Autowired
-    private lateinit var tasksPublisher: TasksPublisher
+    private lateinit var kafkaPublisher: KafkaPublisher
 
     fun createTask(createTaskEvent: CreateTaskEvent): Task {
         val task = Task(UUID.randomUUID().toString(), createTaskEvent.lat, createTaskEvent.long,
                 createTaskEvent.imgBase64, createTaskEvent.creatorId, createTaskEvent.gameId)
         TaskStore.saveOrUpdateTask(task)
-        tasksPublisher.publishTask(task)
+        kafkaPublisher.sendCreateTask(task)
         return task
     }
 
@@ -28,7 +28,7 @@ class TaskService {
         //TODO: some checks like location proximity check and check if player is the assigned player
         task.completed = true
         TaskStore.saveOrUpdateTask(task)
-        tasksPublisher.publishTask(task)
+        kafkaPublisher.sendCompleteTask(task)
         return task
     }
 
