@@ -1,42 +1,81 @@
-.App {
+html *
+{
+  font-size: 1em;
+  font-family: AA Zuehlke, sans-serif;
+}
+
+.app-container {
+  height: 100vh;
+}
+
+input {
+  height: 3em;
+  border-radius: 5px;
+  width: 70%;
   text-align: center;
+  border: 3px solid white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input:focus {
+  outline: none;
+  border: 3px solid #985b9c;
+  box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.9);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+button {
+  display: block;
+  background-color: #985b9c;
   color: white;
+  border-radius: 2em;
+  height: 3em;
+  width: 5em;
+  margin-right: auto;
+  margin-left: auto;
+  border: none;
+  box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.9);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .flex-container {
   display: flex;
+}
+
+.big-space-top {
+  margin-top: 7em;
+}
+
+.space-top {
+  margin-top: 4em;
+}
+
+.center {
+  text-align: center;
+}
+
+.logo {
+  display: block;
+  text-align: center;
+}
+
+.logo>img {
+  margin-right: 10px;
+  margin-top: 5em;
+  height: 5em;
+}
+
+.logo>p {
+  font-size: 4em;
+  margin-top: 0;
+  color: white;
+}
+
+.schwarzwald-background{
+  background-image: url("links/schwarzwald.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }

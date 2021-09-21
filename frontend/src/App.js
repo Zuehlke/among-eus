@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './links/logo.png';
 import './App.css';
 import ChooseName from "./components/ChooseName/ChooseName";
 import Lobby from "./components/Lobby/Lobby";
@@ -7,11 +7,15 @@ import CreateTasks from "./components/CreateTasks/CreateTasks";
 
 function App() {
   return (
-      <div>
-    <ChooseName/>
-    <ChooseGame/>
+      <div className="app-container schwarzwald-background">
+        <div className="logo">
+          <img alt="Logo" src={logo}/>
+          <p className="logo-title">Among Eus</p>
+        </div>
+    <ChooseName />
+    {/*<ChooseGame/>
     <Lobby/>
-    <CreateTasks/>
+    <CreateTasks/>*/}
       </div>
   );
 }
