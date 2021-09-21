@@ -22,7 +22,8 @@ class GameService (
     fun createGame(name: String, ownerId: String): Game {
         val game = Game(UUID.randomUUID().toString(), name, ownerId, ArrayList(),false)
         GameStore.saveOrUpdateGame(game)
-        lobbyService.createLobby(game.gameId)
+        val lobby = lobbyService.createLobby(game.gameId)
+        lobbyService.addPlayerToGameLobby(lobby.gameId, ownerId)
         return game
     }
 

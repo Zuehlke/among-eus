@@ -20,8 +20,10 @@ class PlayerGameSessionStore {
             return map[key]
         }
 
-        fun deletePlayerGameSession(key: String) {
+        fun deletePlayerGameSession(key: String): PlayerGameSession? {
+            val playerGameSession = getPlayerGameSession(key)
             map.remove(key)
+            return playerGameSession
         }
 
         fun getPlayerGameSessionsByGame(gameId: String): List<PlayerGameSession> {

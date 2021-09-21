@@ -16,10 +16,10 @@ class PlayerGameSessionService(
         return P
     }
 
-    fun deletePlayerGameSession(sessionId: String) {
-        val playerGameSession = PlayerGameSessionStore.getPlayerGameSession(sessionId)!!
-        PlayerGameSessionStore.deletePlayerGameSession(sessionId)
+    fun deletePlayerGameSession(sessionId: String): PlayerGameSession {
+        val playerGameSession = PlayerGameSessionStore.deletePlayerGameSession(sessionId)!!
         lobbyService.removePlayerFromGameLobby(playerGameSession.gameId, playerGameSession.playerId)
+        return playerGameSession
     }
 
     fun getPlayerGameSessionsByGame(gameId: String): List<PlayerGameSession> {
