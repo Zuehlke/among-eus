@@ -38,7 +38,7 @@ const Lobby = (props: LobbyProps) => (
 );
 
 const isPending = (props: LobbyProps): boolean => {
-    return props.players.every(player => player.tasksCreated == props.numberOfTasks);
+    return props.players.some(player => player.tasksCreated < props.numberOfTasks);
 }
 
 Lobby.defaultProps = {
@@ -47,7 +47,7 @@ Lobby.defaultProps = {
     players: [
         {"id": "1", "name": "DaniTheSlayer", "tasksCreated": 2} as Player,
         {"id": "2", "name": "SteffiTheMerciless", "tasksCreated": 2} as Player,
-        {"id": "3", "name": "NicTheMad", "tasksCreated": 2} as Player,
+        {"id": "3", "name": "NicTheMad", "tasksCreated": 1} as Player,
     ]
 };
 
