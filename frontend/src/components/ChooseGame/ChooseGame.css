@@ -1,1 +1,8 @@
-.ChooseGame {}
+.ChooseGame table {
+  cursor: pointer;
+  background-color: blue;
+}
+
+.ChooseGame .selected-row {
+  background-color: red;
+}
