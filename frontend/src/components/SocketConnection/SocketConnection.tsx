@@ -14,20 +14,10 @@ interface SocketConnectionState {
 }
 
 class SocketConnection extends React.Component<SocketConnectionProps, SocketConnectionState> {
-    constructor(props: SocketConnectionProps) {
-        super(props);
-    }
 
     componentWillMount() {
         this.connect();
     }
-
-    /*    connect = () => {
-            console.log("Connection to socket")
-            let client = Stomp.overWS('ws://localhost:8080/game');
-
-            this.setState({client: client});
-        }*/
 
     connect () {
         let socket = new SockJS("http://localhost:8080/game");
@@ -35,8 +25,10 @@ class SocketConnection extends React.Component<SocketConnectionProps, SocketConn
         stompClient.connect({}, (frame) => {
             console.log('Connected: ' + frame);
             this.setConnected(true, stompClient);
-            stompClient.subscribe('/topic/result', function(this:SocketConnection, messageOutput) {
-                this.showMessageOutput(messageOutput);
+            let that = this;
+            stompClient.subscribe('/topic/result', (messageOutput) => {
+                console.log(messageOutput.body);
+                that.showMessageOutput(messageOutput);
             });
         });
     }
