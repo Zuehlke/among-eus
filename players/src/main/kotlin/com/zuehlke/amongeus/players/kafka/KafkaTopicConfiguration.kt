@@ -7,13 +7,13 @@ import org.springframework.kafka.config.TopicBuilder
 
 @Configuration
 class KafkaTopicConfiguration {
+
     @Bean
     fun topicExample(): NewTopic {
-        println("Creating topics ...")
+        println("Creating topics.")
         return TopicBuilder.name("mytopic")
             .partitions(1)
             .replicas(1)
             .build()
-        println("Creating topics ... DONE")
     }
 }

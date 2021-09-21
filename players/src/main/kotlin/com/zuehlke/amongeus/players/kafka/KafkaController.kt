@@ -28,11 +28,6 @@ class KafkaController {
     var kafkaProperties: KafkaProperties;
     val topic: String = "mytopic"
 
-    @PostConstruct
-    fun initKafka() {
-        sendMessage("just a start message")
-    }
-
     @GetMapping("/send")
     fun sendMessage(@RequestParam("message") message: String): ResponseEntity<String> {
         var lf: ListenableFuture<SendResult<String, String>> = kafkaTemplate?.send(topic, message)!!
