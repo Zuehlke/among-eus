@@ -25,7 +25,7 @@ class LobbyService {
 
     fun addPlayerToGameLobby(gameId: String, playerId: String) {
         val lobby = LobbyStore.getLobbyByGame(gameId)
-        lobby!!.playerIdTaskCountPairs.add(Pair(gameId, 0))
+        lobby!!.playerIdTaskCountPairs.add(Pair(playerId, 0))
         LobbyStore.saveOrUpdateLobby(lobby)
     }
 
