@@ -1,16 +1,27 @@
 package com.zuehlke.amongeus.games.store
 
+import com.zuehlke.amongeus.games.models.Game
+import kotlin.collections.HashMap
+
 class GameStore {
     companion object {
-        private val map = HashMap<String,String>()
+        private val map = HashMap<String,Game>()
 
-        fun saveOrUpdateGame(key:String, game: String) {
-            map[key] = game
+        fun saveOrUpdateGame(game: Game): Game {
+            map[game.gameId] = game
+            return game
         }
 
-        fun getGame(key:String): String? {
+        fun getGames() : List<Game> {
+            return map.values.toList()
+        }
+
+        fun getGame(key:String): Game? {
             return map[key]
         }
-    }
 
+        fun deleteGame(key: String) {
+            map.remove(key)
+        }
+    }
 }

@@ -10,7 +10,8 @@ import java.util.*
 class TaskService {
 
     fun createTask(createTaskEvent: CreateTaskEvent): Task {
-        val task = Task(UUID.randomUUID().toString(), createTaskEvent.lat, createTaskEvent.long, createTaskEvent.imgBase64, createTaskEvent.creatorId, createTaskEvent.gameId)
+        val task = Task(UUID.randomUUID().toString(), createTaskEvent.lat, createTaskEvent.long,
+                createTaskEvent.imgBase64, createTaskEvent.creatorId, createTaskEvent.gameId)
         TaskStore.saveOrUpdateTask(task)
         return task
     }
