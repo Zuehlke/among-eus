@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './ChooseName.css';
 
-const ChooseName = () => (
-  <div className="ChooseName">
-    <input type="text" />
-    <button id="btnSubmit" onClick={() => console.log("sent")}>Send</button>
-  </div>
-);
+const ChooseName = (props: any) => {
+
+    const [playerName, setPlayerName] = useState('')
+
+    return (
+        <div className="ChooseName">
+            <input type="text" onChange={event => setPlayerName(event.target.value)}/>
+            <button id="btnSubmit" onClick={() => props.onNameChosen(playerName)}>Send</button>
+        </div>
+    )
+};
 
 export default ChooseName;

@@ -13,19 +13,27 @@ class App extends React.Component {
         this.state = {
             currentView: 'ChooseName',
         };
+        this.onNameChosen = this.onNameChosen.bind(this);
     }
 
     render() {
         const currentView = this.state.currentView;
         return (
             <div>
-                {currentView === 'ChooseName' && <ChooseName/>}
+                {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
                 {currentView === 'ChooseGame' && <ChooseGame/>}
                 {currentView === 'Lobby' && <Lobby/>}
                 {currentView === 'CreateTasks' && <CreateTasks/>}
                 {currentView === 'SocketConnection' && <SocketConnection/>}
             </div>
         );
+    }
+
+    onNameChosen(playerName) {
+        this.setState({
+            playerName,
+            currentView: 'ChooseGame',
+        })
     }
 }
 
