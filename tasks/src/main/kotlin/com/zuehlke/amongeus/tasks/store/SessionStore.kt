@@ -2,20 +2,20 @@ package com.zuehlke.amongeus.tasks.store
 
 class SessionStore {
     companion object {
-        private val sessionMap = HashMap<String, String>()
-        private val playerMap = HashMap<String, String>()
+        private val sessionMap = HashMap<String, Session>()
+        private val playerMap = HashMap<String, Session>()
 
-        fun saveSession(sessionId: String, playerId: String) {
-            sessionMap[playerId] = sessionId
-            playerMap[sessionId] = playerId
+        fun saveSession(sessionId: String, playerId: String, gameId:String) {
+            playerMap[playerId] = Session(sessionId, playerId, gameId)
+            sessionMap[sessionId] = Session(sessionId, playerId, gameId)
         }
 
-        fun getSessionId(playerId: String): String {
-            return sessionMap[playerId]!!
+        fun getBySessionId(sessionId: String): Session {
+            return sessionMap[sessionId]!!
         }
 
-        fun getPlayerId(sessionId: String): String {
-            return playerMap[sessionId]!!
+        fun getByPlayerId(playerId: String): Session {
+            return playerMap[playerId]!!
         }
     }
 }

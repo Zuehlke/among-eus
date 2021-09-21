@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service
 @Service
 class TasksPublisher(private val objectMapper: ObjectMapper){
 
-    fun taskCompleted(task: Task) {
+    fun publishTask(task: Task) {
         val taskJson = objectMapper.writeValueAsString(task)
+        //TODO: send to kafka topic
     }
 }
