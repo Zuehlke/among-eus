@@ -1,13 +1,11 @@
-package com.zuehlke.amongeus.games
+package com.zuehlke.amongeus.tasks
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class GamesApplication
+class TasksApplication
 
 fun main(args: Array<String>) {
-	runApplication<GamesApplication>(*args)
-	Thread.sleep(20000)
-
+	runApplication<TasksApplication>(*args)
 }

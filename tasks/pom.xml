@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zuehlke.amongeus</groupId>
-	<artifactId>games</artifactId>
+	<artifactId>tasks</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>games</name>
+	<name>tasks</name>
 	<description>AmongEus Player Backend</description>
 	<properties>
 		<java.version>11</java.version>
