@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import ChooseName from "./components/ChooseName/ChooseName";
 import Lobby from "./components/Lobby/Lobby";
