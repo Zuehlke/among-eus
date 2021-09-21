@@ -1,23 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './ChooseGame.css';
 
 interface Game {
-    id: number;
+    id: string;
     name: string;
 }
 
 const games: Game[] = [
-    {id: 1, name: "Game Steffi"},
-    {id: 2, name: "Game Dani"},
-    {id: 3, name: "Game Nicolas"}
+    {id: "1", name: "Game Steffi"},
+    {id: "2", name: "Game Dani"},
+    {id: "3", name: "Game Nicolas"}
 ];
 
-let selectedGameId: number;
-function selectGameId(id: number){
-    selectedGameId = id;
-}
+const ChooseGame = () => {
+    const [selectedGameId, setSelectedGameId] = useState("");
+    const [style, setStyle] = useState("");
 
-const ChooseGame = () => (
+    function selectGameId(id: string){
+        setSelectedGameId(id);
+        setStyle("selected");
+    }
+
+    return (
         <div className="ChooseGame">
             <button id="btnHostGame" onClick={() => console.log("Host Game")}>Host New Game</button>
             <hr/>
@@ -25,15 +29,16 @@ const ChooseGame = () => (
                 <table>
                     <tbody>
                     {games.map(game => {
-                        return <tr key={game.id} onClick={() => selectGameId(game.id)}>
+                        return <tr className={ selectedGameId === game.id ? style : ''} key={game.id} onClick={() => selectGameId(game.id)}>
                             <td>{game.name}</td>
                         </tr>
                     })}
                     </tbody>
                 </table>
-                <button id="btnJoinGame" onClick={() => console.log(selectedGameId)}>Join Game</button>
+                <button hidden={!selectedGameId} id="btnJoinGame" onClick={() => console.log(selectedGameId)}>Join Game</button>
             </div>
         </div>
     );
+}
 
 export default ChooseGame;

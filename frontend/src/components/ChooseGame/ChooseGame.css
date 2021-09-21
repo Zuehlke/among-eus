@@ -1,1 +1,7 @@
-.ChooseGame {}
+table {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: red;
+}
