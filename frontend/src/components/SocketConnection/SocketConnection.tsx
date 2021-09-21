@@ -17,22 +17,21 @@ interface SocketConnectionState {
 class SocketConnection extends React.Component<SocketConnectionProps, SocketConnectionState> {
 
     componentWillMount() {
-        this.connect();
         this.setState({connected: false, client: undefined, response: ""})
+        this.connect();
     }
 
     connect () {
-        let socket = new SockJS("http://localhost:8080/game");
-        let stompClient = Stomp.over(socket);
+        const socket = new SockJS("http://localhost:8080/game");
+        const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
-            console.log('Connected: ' + frame);
             this.setConnected(true, stompClient);
             stompClient.subscribe('/topic/result', this.showMessageOutput);
         });
     }
 
-    setConnected(b: boolean, stompClient?: Stomp.Client) {
-        this.setState({client: stompClient, connected: b});
+    setConnected(connected: boolean, stompClient?: Stomp.Client) {
+        this.setState({client: stompClient, connected: connected});
     }
 
     disconnect = () => {
