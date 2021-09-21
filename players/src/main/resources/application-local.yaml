@@ -1,17 +1,7 @@
-info.app.name: Among Eus
-info.app.description: Event-driven Game by ZE USE Games
-info.app.version: 1.0.0
-management.endpoints.web.exposure.include: health,info
 server.port: 5000
 spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:29092
-      group-id: group_id
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       bootstrap-servers: localhost:29092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
