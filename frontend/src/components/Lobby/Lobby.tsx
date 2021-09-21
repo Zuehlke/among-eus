@@ -10,38 +10,39 @@ interface Player {
 interface LobbyProps {
     isHost: boolean;
     players: Array<Player>
+    numberOfTasks: number
 }
 
 const Lobby = (props: LobbyProps) => (
-  <div className="Lobby">
-    Lobby Component
-      <table>
-          <tr>
-              <th>id</th>
-              <th>name</th>
-              <th>tasks created</th>
-          </tr>
-          {console.log(props)}
-          {props.players.map((player: Player, index:number) => (
-              <tr key={index}>
-                <td>{player.id}</td>
-                <td>{player.name}</td>
-                <td>{player.tasksCreated}</td>
-              </tr>
-          ))}
-      </table>
-      {<button hidden={!props.isHost} disabled={isPending(props.players)} id="btnStart" onClick={() => console.log("start game")}>Start game</button>}
+    <div className="Lobby">
+        Lobby Component
+        <table>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>tasks created</th>
+            </tr>
+            <tbody>
+            {props.players.map((player: Player, index: number) => (
+                <tr key={index}>
+                    <td>{player.name}</td>
+                    <td>{player.tasksCreated}/{props.numberOfTasks}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+        {<button hidden={!props.isHost} disabled={isPending(props)} id="btnStart"
+                 onClick={() => console.log("start game")}>Start game</button>}
 
-  </div>
+    </div>
 );
 
-const isPending = (players: Array<Player>): boolean => {
-    return players.map(player => player.tasksCreated)
-        .reduce((a, b) => a + b)
-        < players.length * 2;
+const isPending = (props: LobbyProps): boolean => {
+    return props.players.every(player => player.tasksCreated == props.numberOfTasks);
 }
 
 Lobby.defaultProps = {
+    numberOfTasks: 2,
     isHost: true,
     players: [
         {"id": "1", "name": "DaniTheSlayer", "tasksCreated": 2} as Player,
