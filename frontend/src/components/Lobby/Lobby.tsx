@@ -30,16 +30,22 @@ const Lobby = (props: LobbyProps) => (
               </tr>
           ))}
       </table>
-      {<button hidden={!props.isHost} id="btnStart" onClick={() => console.log("start game")}>Start game</button>}
+      {<button hidden={!props.isHost} disabled={isPending(props.players)} id="btnStart" onClick={() => console.log("start game")}>Start game</button>}
 
   </div>
 );
 
+const isPending = (players: Array<Player>): boolean => {
+    return players.map(player => player.tasksCreated)
+        .reduce((a, b) => a + b)
+        < players.length * 2;
+}
+
 Lobby.defaultProps = {
     isHost: true,
     players: [
-        {"id": "1", "name": "DaniTheSlayer", "tasksCreated": 1} as Player,
-        {"id": "2", "name": "SteffiTheMerciless", "tasksCreated": 0} as Player,
+        {"id": "1", "name": "DaniTheSlayer", "tasksCreated": 2} as Player,
+        {"id": "2", "name": "SteffiTheMerciless", "tasksCreated": 2} as Player,
         {"id": "3", "name": "NicTheMad", "tasksCreated": 2} as Player,
     ]
 };
