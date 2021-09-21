@@ -10,13 +10,15 @@ interface SocketConnectionProps {
 
 interface SocketConnectionState {
     connected: boolean,
-    client?: Stomp.Client
+    client?: Stomp.Client,
+    response: string
 }
 
 class SocketConnection extends React.Component<SocketConnectionProps, SocketConnectionState> {
 
     componentWillMount() {
         this.connect();
+        this.setState({connected: false, client: undefined, response: ""})
     }
 
     connect () {
@@ -25,11 +27,7 @@ class SocketConnection extends React.Component<SocketConnectionProps, SocketConn
         stompClient.connect({}, (frame) => {
             console.log('Connected: ' + frame);
             this.setConnected(true, stompClient);
-            let that = this;
-            stompClient.subscribe('/topic/result', (messageOutput) => {
-                console.log(messageOutput.body);
-                that.showMessageOutput(messageOutput);
-            });
+            stompClient.subscribe('/topic/result', this.showMessageOutput);
         });
     }
 
@@ -47,28 +45,12 @@ class SocketConnection extends React.Component<SocketConnectionProps, SocketConn
 
     sendMessage = () => {
         // @ts-ignore
-        var from = document.getElementById('from').value;
-        // @ts-ignore
-        // this.state.client.send("/games", {},
-        var text = document.getElementById('text').value;
-        //     JSON.stringify({'from':from, 'text':text}));
-        // @ts-ignore
         this.state.client.send("/game", {}, text);
     }
 
     showMessageOutput = (messageOutput: Message) => {
-        var response = document.getElementById('response');
-        var p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-        console.debug("received message");
-
-        /*p.appendChild(document.createTextNode(messageOutput.from + ": "
-            + messageOutput.text + " (" + messageOutput.time + ")"));
-        response.appendChild(p);*/
-        p.appendChild(document.createTextNode(messageOutput.body));
-        // @ts-ignore
-        response.appendChild(p);
-    }
+        this.setState({response: messageOutput.body})
+    };
 
     render = () => {
         return (
@@ -76,7 +58,7 @@ class SocketConnection extends React.Component<SocketConnectionProps, SocketConn
                 SocketConnection Component
                 <input id="from" type="text" />
                 <input id="text" type="text" />
-                <input id="response" type="text" />
+                <input id="response" type="text" value={this.state.response}/>
                 <button id="btnSendMessage" onClick={() => this.sendMessage()}>Send Message</button>
             </div>
         );
