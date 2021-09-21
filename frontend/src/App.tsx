@@ -13,8 +13,10 @@ class App extends React.Component<any, any> {
         super(props, context);
         this.state = {
             currentView: 'ChooseName',
+            client: undefined,
         };
         this.onNameChosen = this.onNameChosen.bind(this);
+        this.onHostGame = this.onHostGame.bind(this);
     }
 
     render() {
@@ -22,7 +24,7 @@ class App extends React.Component<any, any> {
         return (
             <div>
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
-                {currentView === 'ChooseGame' && <ChooseGame/>}
+                {currentView === 'ChooseGame' && <ChooseGame onHostGame={this.onHostGame}/>}
                 {currentView === 'Lobby' && <Lobby/>}
                 {currentView === 'CreateTasks' && <CreateTasks/>}
                 {currentView === 'SocketConnection' && <SocketConnection/>}
@@ -36,6 +38,18 @@ class App extends React.Component<any, any> {
             currentView: 'ChooseGame',
         });
         this.initialiseWebSocket();
+    }
+
+    onHostGame() {
+        console.log('onHostGame');
+        const client: Client = this.state.client;
+        client.publish({
+            destination: '/create',
+            body: JSON.stringify({
+                name: this.state.playerName + "'s Game",
+                ownerId: 42,
+            }),
+        });
     }
 
     componentDidMount() {
@@ -57,6 +71,7 @@ class App extends React.Component<any, any> {
 
         client.onConnect = () => {
             console.log('connected');
+            this.setState({client})
         }
 
         client.onStompError = (frame) => {

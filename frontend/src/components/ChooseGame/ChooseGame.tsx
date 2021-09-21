@@ -12,7 +12,7 @@ const games: Game[] = [
     {id: "3", name: "Game Nicolas"}
 ];
 
-const ChooseGame = () => {
+const ChooseGame = (props: any) => {
     const [selectedGameId, setSelectedGameId] = useState("");
     const [selectedRowStyle, setSelectedRowStyle] = useState("");
 
@@ -23,7 +23,7 @@ const ChooseGame = () => {
 
     return (
         <div className="ChooseGame">
-            <button id="btnHostGame" onClick={() => console.log("Host Game")}>Host New Game</button>
+            <button id="btnHostGame" onClick={props.onHostGame}>Host New Game</button>
             <hr/>
             <div className="flex-container">
                 <table>
