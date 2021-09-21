@@ -1,8 +1,6 @@
 import React from 'react';
 import './SocketConnection.css';
-import * as Stomp from 'stompjs';
-import SockJS from "sockjs-client";
-import {client, Message} from "stompjs";
+import {Client, Message} from "@stomp/stompjs";
 
 
 interface SocketConnectionProps {
@@ -10,56 +8,85 @@ interface SocketConnectionProps {
 
 interface SocketConnectionState {
     connected: boolean,
-    client?: Stomp.Client,
     response: string
 }
 
 class SocketConnection extends React.Component<SocketConnectionProps, SocketConnectionState> {
 
-    componentWillMount() {
-        this.setState({connected: false, client: undefined, response: ""})
+    private client?: Client;
+
+
+    constructor(props: SocketConnectionProps) {
+        super(props);
+        this.state = {
+            connected: false,
+            response: ''
+        };
+    }
+
+    componentDidMount() {
+        this.setState({connected: false, response: ""})
         this.connect();
     }
 
-    connect () {
-        const WS_GAMES_URL : string = (process.env.REACT_APP_WS_URL as string);
-        const WS_GAMES_ENDPOINT : string = (process.env.REACT_APP_WS_GAMES_ENDPOINT as string);
-        const socket = new SockJS(WS_GAMES_URL + WS_GAMES_ENDPOINT);
-        const stompClient = Stomp.over(socket);
-        stompClient.connect({}, (frame) => {
-            this.setConnected(true, stompClient);
-            stompClient.subscribe('/topic/result', this.showMessageOutput);
+    connect() {
+        const that = this;
+        //const WS_GAMES_URL: string = (process.env.REACT_APP_WS_URL as string);
+        //const WS_GAMES_ENDPOINT: string = (process.env.REACT_APP_WS_GAMES_ENDPOINT as string);
+
+        this.client = new Client({
+            brokerURL: 'ws://among-eus-games-dev.us-east-2.elasticbeanstalk.com/game',
+            debug: function (str) {
+                console.log(str);
+            },
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
         });
+
+        this.client.onConnect = () => {
+            // Do something, all subscribes must be done is this callback
+            // This is needed because this will be executed after a (re)connect
+            //this.setConnected(true, stompClient);
+            this.setState({connected: true});
+            this.client?.subscribe('/topic/result', that.showMessageOutput);
+        };
+
+        this.client.onStompError = function (frame) {
+            // Will be invoked in case of error encountered at Broker
+            // Bad login/passcode typically will cause an error
+            // Complaint brokers will set `message` header with a brief message. Body may contain details.
+            // Compliant brokers will terminate the connection after any error
+            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Additional details: ' + frame.body);
+        };
+
+        this.client.activate();
+
     }
 
-    setConnected(connected: boolean, stompClient?: Stomp.Client) {
-        this.setState({client: stompClient, connected: connected});
+    componentWillUnmount() {
+        this.client?.deactivate();
     }
 
-    disconnect = () => {
-        if(this.state.client != null) {
-            this.state.client.disconnect(() => console.debug("Disconnected"));
-        }
-        this.setConnected(false);
-        console.log("Disconnected");
-    }
-
-    sendMessage = () => {
-        // @ts-ignore
-        this.state.client.send("/game", {}, text);
+    private sendMessage() {
+        this.client?.publish({
+            destination: '/game',
+            body: ''
+        });
     }
 
     showMessageOutput = (messageOutput: Message) => {
         this.setState({response: messageOutput.body})
     };
 
-    render = () => {
+    render() {
         return (
             <div className="SocketConnection">
                 SocketConnection Component
-                <input id="from" type="text" />
-                <input id="text" type="text" />
-                <input id="response" type="text" value={this.state.response}/>
+                <input id="from" type="text"/>
+                <input id="text" type="text"/>
+                <input id="response" type="text" defaultValue={this.state.response}/>
                 <button id="btnSendMessage" onClick={() => this.sendMessage()}>Send Message</button>
             </div>
         );
