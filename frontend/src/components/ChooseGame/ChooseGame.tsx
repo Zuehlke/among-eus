@@ -14,11 +14,11 @@ const games: Game[] = [
 
 const ChooseGame = () => {
     const [selectedGameId, setSelectedGameId] = useState("");
-    const [style, setStyle] = useState("");
+    const [selectedRowStyle, setSelectedRowStyle] = useState("");
 
     function selectGameId(id: string){
         setSelectedGameId(id);
-        setStyle("selected");
+        setSelectedRowStyle("selected-row");
     }
 
     return (
@@ -29,7 +29,7 @@ const ChooseGame = () => {
                 <table>
                     <tbody>
                     {games.map(game => {
-                        return <tr className={ selectedGameId === game.id ? style : ''} key={game.id} onClick={() => selectGameId(game.id)}>
+                        return <tr className={ selectedGameId === game.id ? selectedRowStyle : ''} key={game.id} onClick={() => selectGameId(game.id)}>
                             <td>{game.name}</td>
                         </tr>
                     })}
