@@ -1,16 +1,15 @@
 package com.zuehlke.amongeus.tasks.store
 
+import com.zuehlke.amongeus.tasks.model.Task
+
 class TaskStore {
     companion object {
-        private val map = HashMap<String,String>()
+        private val map = HashMap<String,Task>()
 
-        fun saveOrUpdateTask(key:String, game: String) {
-            map[key] = game
+        fun saveOrUpdateTask(task: Task) {
+            map[task.taskId] = task
         }
 
-        fun getTask(key:String): String? {
-            return map[key]
-        }
     }
 
 }
