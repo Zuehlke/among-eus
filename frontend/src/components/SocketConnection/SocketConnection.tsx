@@ -22,7 +22,9 @@ class SocketConnection extends React.Component<SocketConnectionProps, SocketConn
     }
 
     connect () {
-        const socket = new SockJS("http://localhost:8080/game");
+        const WS_GAMES_URL : string = (process.env.REACT_APP_WS_URL as string);
+        const WS_GAMES_ENDPOINT : string = (process.env.REACT_APP_WS_GAMES_ENDPOINT as string);
+        const socket = new SockJS(WS_GAMES_URL + WS_GAMES_ENDPOINT);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             this.setConnected(true, stompClient);
