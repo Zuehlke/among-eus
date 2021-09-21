@@ -5,7 +5,7 @@ import ChooseGame from "./components/ChooseGame/ChooseGame";
 import CreateTasks from "./components/CreateTasks/CreateTasks";
 import React from "react";
 import SocketConnection from "./components/SocketConnection/SocketConnection";
-import {Client} from "@stomp/stompjs";
+import {Client, Message} from "@stomp/stompjs";
 
 class App extends React.Component<any, any> {
 
@@ -72,6 +72,8 @@ class App extends React.Component<any, any> {
         client.onConnect = () => {
             console.log('connected');
             this.setState({client})
+
+            client.subscribe('/getGames', this.onGamesReceived)
         }
 
         client.onStompError = (frame) => {
@@ -84,6 +86,11 @@ class App extends React.Component<any, any> {
         };
 
         client.activate();
+    }
+
+
+    private onGamesReceived(message: Message) {
+        console.log(message.body);
     }
 }
 
