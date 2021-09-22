@@ -135,4 +135,5 @@ button:disabled {
   font-size: 3.5em;
   margin-top: 0;
   color: white;
+  text-shadow: 0 0 4px black;
 }
