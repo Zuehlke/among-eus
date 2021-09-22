@@ -1,5 +1,6 @@
 import React from 'react';
 import './Lobby.css';
+import {Client} from "@stomp/stompjs";
 
 interface Pair {
     [key: string]: number;
@@ -7,13 +8,15 @@ interface Pair {
 
 interface Lobby {
     gameId: string;
-    playerIdTaskCountPairs: Array<Pair>
+    playerIdTaskCountPairs: Array<Pair>;
 }
 
 interface LobbyProps {
-    lobby?: Lobby
+    lobby?: Lobby;
     isHost: boolean;
-    numberOfTasks: number
+    numberOfTasks: number;
+    gameId: string;
+    client: Client;
 }
 
 const Lobby = (props: LobbyProps) => (
