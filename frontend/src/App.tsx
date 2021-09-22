@@ -66,7 +66,7 @@ class App extends React.Component<any, AppState> {
     }
 
     onLobbyJoin(gameId: string) {
-        this.setState(gameId);
+        this.setState({gameId});
     }
 
     private publish(endpoint:string, payload?: any) {
