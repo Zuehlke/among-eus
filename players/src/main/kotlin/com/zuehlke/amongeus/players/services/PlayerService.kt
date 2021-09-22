@@ -1,20 +1,23 @@
 package com.zuehlke.amongeus.players.services
 
+import com.zuehlke.amongeus.players.kafka.PlayerTopicProducer
+import com.zuehlke.amongeus.players.models.Game
 import com.zuehlke.amongeus.players.models.Player
 import com.zuehlke.amongeus.players.stores.PlayerStore
 import org.springframework.stereotype.Service
 
 @Service
-class PlayerService {
+class PlayerService(val playerTopicProducer: PlayerTopicProducer) {
 
     //Publishes in topic
     fun create(nameId: String) {
-
+        playerTopicProducer.create(nameId)
     }
 
     //Reads from Game topic
-    fun joined(gameId: String, playerId: String) {
-
+    fun gameStarted(game: Game) {
+// save user ids
+//        select imposter game.getNumberOfImposter
     }
 
     //Has 2 origins, from client and kafka queue (voting topic)
@@ -27,7 +30,6 @@ class PlayerService {
     fun selectImposter(gameId: String, count: Int): List<Player> {
         return ArrayList()
     }
-
 
 
     //Create
