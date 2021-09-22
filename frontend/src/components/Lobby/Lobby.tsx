@@ -1,15 +1,18 @@
 import React from 'react';
 import './Lobby.css';
 
-interface Player {
-    id: string;
-    name: string;
-    tasksCreated: number;
+interface Pair {
+    [key: string]: number;
+}
+
+interface Lobby {
+    gameId: string;
+    playerIdTaskCountPairs: Array<Pair>
 }
 
 interface LobbyProps {
+    lobby?: Lobby
     isHost: boolean;
-    players: Array<Player>
     numberOfTasks: number
 }
 
@@ -25,10 +28,10 @@ const Lobby = (props: LobbyProps) => (
             </tr>
             </thead>
             <tbody>
-            {props.players.map((player: Player, index: number) => (
+            {props.lobby?.playerIdTaskCountPairs.map((player:Pair, index: number) => (
                 <tr key={index}>
-                    <td>{player.name}</td>
-                    <td>{player.tasksCreated}/{props.numberOfTasks}</td>
+                    <td>{player.key}</td>
+                    <td>{player.value}/{props.numberOfTasks}</td>
                 </tr>
             ))}
             </tbody>
@@ -40,17 +43,7 @@ const Lobby = (props: LobbyProps) => (
 );
 
 const isPending = (props: LobbyProps): boolean => {
-    return props.players.some(player => player.tasksCreated < props.numberOfTasks);
+    return props.lobby?.playerIdTaskCountPairs.some(player => player.tasksCreated < props.numberOfTasks) as boolean;
 }
-
-Lobby.defaultProps = {
-    numberOfTasks: 2,
-    isHost: true,
-    players: [
-        {"id": "1", "name": "DaniTheSlayer", "tasksCreated": 2} as Player,
-        {"id": "2", "name": "SteffiTheMerciless", "tasksCreated": 2} as Player,
-        {"id": "3", "name": "NicTheMad", "tasksCreated": 1} as Player,
-    ]
-};
 
 export default Lobby;

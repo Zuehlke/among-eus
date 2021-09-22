@@ -12,6 +12,7 @@ interface AppState {
     client?: Client,
     games: Game[],
     playerName?: string,
+    lobby?: Lobby
 }
 
 class App extends React.Component<any, AppState> {
@@ -22,10 +23,13 @@ class App extends React.Component<any, AppState> {
             currentView: 'ChooseName',
             client: undefined,
             games: [],
+            lobby: undefined
         };
         this.onNameChosen = this.onNameChosen.bind(this);
         this.onHostGame = this.onHostGame.bind(this);
         this.onGamesReceived = this.onGamesReceived.bind(this);
+        this.onLobbyJoin = this.onLobbyJoin.bind(this);
+        this.onLobbyReceived = this.onLobbyReceived.bind(this);
     }
 
     render() {
@@ -33,8 +37,8 @@ class App extends React.Component<any, AppState> {
         return (
             <div>
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
-                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame}/>}
-                {currentView === 'Lobby' && <Lobby/>}
+                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame} onLobbyJoin={this.onLobbyJoin}/>}
+                {currentView === 'Lobby' && <Lobby lobby={this.state.lobby} isHost={true} numberOfTasks={2} />}
                 {currentView === 'CreateTasks' && <CreateTasks/>}
                 {currentView === 'SocketConnection' && <SocketConnection/>}
             </div>
@@ -56,6 +60,20 @@ class App extends React.Component<any, AppState> {
                 name: this.state.playerName + "'s Game",
                 ownerId: 42,
             }),
+        });
+    }
+
+    onLobbyJoin(gameId: string) {
+        const client: Client | undefined = this.state.client;
+        // @ts-ignore
+        client.subscribe('/getLobby/' + gameId, this.onLobbyReceived)
+    }
+
+    private publish(endpoint:string, payload?: any) {
+        const client: Client | undefined = this.state.client;
+        client?.publish({
+            destination: endpoint,
+            body: JSON.stringify(payload),
         });
     }
 
@@ -100,6 +118,13 @@ class App extends React.Component<any, AppState> {
         const games: Game[] = JSON.parse(message.body);
         this.setState({
             games,
+        });
+    }
+
+    private onLobbyReceived(message: Message) {
+        const lobby: Lobby = JSON.parse(message.body);
+        this.setState({
+            lobby
         });
     }
 }
