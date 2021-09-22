@@ -23,15 +23,14 @@ const Lobby = (props: LobbyProps) => (
             <thead>
             <tr>
                 <th>id</th>
-                <th>name</th>
                 <th>tasks created</th>
             </tr>
             </thead>
             <tbody>
             {props.lobby?.playerIdTaskCountPairs.map((player:Pair, index: number) => (
                 <tr key={index}>
-                    <td>{player.key}</td>
-                    <td>{player.value}/{props.numberOfTasks}</td>
+                    <td>{player.first}</td>
+                    <td>{player.second}/{props.numberOfTasks}</td>
                 </tr>
             ))}
             </tbody>

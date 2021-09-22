@@ -124,7 +124,8 @@ class App extends React.Component<any, AppState> {
     private onLobbyReceived(message: Message) {
         const lobby: Lobby = JSON.parse(message.body);
         this.setState({
-            lobby
+            lobby,
+            currentView: "Lobby"
         });
     }
 }
