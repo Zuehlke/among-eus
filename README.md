@@ -42,6 +42,12 @@ https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.h
                                                           
 See also https://mydeveloperplanet.com/2020/10/21/how-to-deploy-a-spring-boot-app-to-aws-elastic-beanstalk/
 
+### Configure Deployment (NodeJS)
+
+* See steps above for Java
+* When you are in a nodejs project it will ask youfor the node version to configure
+* make sure that the npm start script is running the app with the settings needed in production
+
 ### Amazon MSK - Managed Kafka                                                      >
 
 Zookeeper URLs: z-2.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-1.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-3.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181
