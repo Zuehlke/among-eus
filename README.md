@@ -12,7 +12,7 @@ For subprojects that are configured for deployments:
 1. Install Elastic Beanstalk tooling
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html
 2. Deploy as follows:
-   > eb deploy
+   `> eb deploy`
      - secret for the deployment (ask Rolf!)
 
 ### Configure Deployment (Java)
@@ -38,6 +38,12 @@ https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.h
      - (-s is important for not having several load balanced instances and avoid extra costs)
 6. Remove files added to .gitignore from .gitignore to commit the deployment config
 7. Redeployment can be triggered as simple as follows:
-    > eb deploy
-                                                          >
+    `> eb deploy`
+                                                          
 See also https://mydeveloperplanet.com/2020/10/21/how-to-deploy-a-spring-boot-app-to-aws-elastic-beanstalk/
+
+### Amazon MSK - Managed Kafka                                                      >
+
+Zookeeper URLs: z-2.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-1.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-3.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181
+
+Caution: Is not accessible from outside Amazon Cloud

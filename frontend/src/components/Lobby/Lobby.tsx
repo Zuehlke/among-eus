@@ -17,11 +17,13 @@ const Lobby = (props: LobbyProps) => (
     <div className="Lobby">
         Lobby Component
         <table>
+            <thead>
             <tr>
                 <th>id</th>
                 <th>name</th>
                 <th>tasks created</th>
             </tr>
+            </thead>
             <tbody>
             {props.players.map((player: Player, index: number) => (
                 <tr key={index}>
@@ -38,7 +40,7 @@ const Lobby = (props: LobbyProps) => (
 );
 
 const isPending = (props: LobbyProps): boolean => {
-    return props.players.every(player => player.tasksCreated == props.numberOfTasks);
+    return props.players.some(player => player.tasksCreated < props.numberOfTasks);
 }
 
 Lobby.defaultProps = {
@@ -47,7 +49,7 @@ Lobby.defaultProps = {
     players: [
         {"id": "1", "name": "DaniTheSlayer", "tasksCreated": 2} as Player,
         {"id": "2", "name": "SteffiTheMerciless", "tasksCreated": 2} as Player,
-        {"id": "3", "name": "NicTheMad", "tasksCreated": 2} as Player,
+        {"id": "3", "name": "NicTheMad", "tasksCreated": 1} as Player,
     ]
 };
 

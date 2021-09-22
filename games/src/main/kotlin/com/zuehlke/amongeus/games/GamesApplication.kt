@@ -8,6 +8,4 @@ class GamesApplication
 
 fun main(args: Array<String>) {
 	runApplication<GamesApplication>(*args)
-	Thread.sleep(20000)
-
 }
