@@ -1,8 +1,19 @@
 .ChooseGame table {
   cursor: pointer;
-  background-color: blue;
 }
 
-.ChooseGame .selected-row {
-  background-color: red;
+.ChooseGame tr {
+  background-color: white;
 }
+
+.ChooseGame tr>td {
+  padding: 1em;
+  width: 8em;
+}
+
+.ChooseGame .selected-tr {
+  background-color: #985b9c ;
+  color: white;
+  font-weight: bold ;
+}
+

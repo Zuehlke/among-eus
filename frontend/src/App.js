@@ -8,13 +8,13 @@ import CreateTasks from "./components/CreateTasks/CreateTasks";
 function App() {
   return (
       <div className="app-container schwarzwald-background">
-        <div className="logo">
+          {/*<div className="logo">
           <img alt="Logo" src={logo}/>
-          <p className="logo-title">Among Eus</p>
+          <p>Among Eus</p>
         </div>
-    <ChooseName />
-    {/*<ChooseGame/>
-    <Lobby/>
+    <ChooseName />*/}
+            <ChooseGame/>
+        {/*<Lobby/>
     <CreateTasks/>*/}
       </div>
   );
