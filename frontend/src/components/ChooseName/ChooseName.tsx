@@ -1,16 +1,23 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {useState} from 'react';
 import './ChooseName.css';
+import logo from '../../links/logo.png';
 
-const ChooseName = () => {
+const ChooseName = (props: any) => {
 
-    const [name, setName] = useState("");
+    const [playerName, setPlayerName] = useState('');
 
-    return(
-        <div className="ChooseName center big-space-top">
-            <input type="text" placeholder="Enter your name" maxLength={20} onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}/>
-            <button id="btnSubmit" disabled={!name} onClick={() => console.log(name)} className="space-top" >Send</button>
+    return (
+        <div>
+            <div className="logo">
+                <img alt="Logo" src={logo}/>
+                <p>Among Eus</p>
+            </div>
+            <div className="ChooseName center big-space-top">
+                <input type="text" placeholder="Enter your name" maxLength={20} onChange={event => setPlayerName(event.target.value)}/>
+                <button id="btnSubmit" disabled={!playerName} onClick={() => props.onNameChosen(playerName)} className="space-top" >Send</button>
+            </div>
         </div>
-    );
-}
+    )
+};
 
 export default ChooseName;

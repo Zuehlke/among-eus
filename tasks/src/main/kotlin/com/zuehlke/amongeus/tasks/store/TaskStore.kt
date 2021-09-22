@@ -10,6 +10,10 @@ class TaskStore {
             map[task.taskId] = task
         }
 
+        fun getTask(taskId: String): Task {
+            return map[taskId]!!
+        }
+
     }
 
 }

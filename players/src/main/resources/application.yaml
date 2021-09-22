@@ -1,0 +1,16 @@
+info.app.name: Among Eus
+info.app.description: Event-driven Game by ZE USE Games
+info.app.version: 1.0.0
+management.endpoints.web.exposure.include: health,info
+server.port: 5000
+spring:
+  kafka:
+    bootstrap-servers: "b-1.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:9092,b-2.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:9092"
+    consumer:
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
