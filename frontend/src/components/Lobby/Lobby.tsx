@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Lobby.css';
-import {Client} from "@stomp/stompjs";
+import {Client, Message} from "@stomp/stompjs";
 
 interface Pair {
     [key: string]: number;
@@ -16,36 +16,61 @@ interface LobbyProps {
     isHost: boolean;
     numberOfTasks: number;
     gameId: string;
-    client: Client;
+    client?: Client;
 }
 
-const Lobby = (props: LobbyProps) => (
-    <div className="Lobby">
-        Lobby Component
-        <table>
-            <thead>
-            <tr>
-                <th>id</th>
-                <th>tasks created</th>
-            </tr>
-            </thead>
-            <tbody>
-            {props.lobby?.playerIdTaskCountPairs.map((player:Pair, index: number) => (
-                <tr key={index}>
-                    <td>{player.first}</td>
-                    <td>{player.second}/{props.numberOfTasks}</td>
+const Lobby = (props: LobbyProps) => {
+    const [lobby, setLobby] = useState<Lobby>();
+
+    const isPending = (props: LobbyProps): boolean => {
+        return lobby?.playerIdTaskCountPairs.some(player => player.tasksCreated < props.numberOfTasks) as boolean;
+    }
+
+    const onLobbyJoin = (gameId: string) => {
+        props?.client?.subscribe('/getLobby/' + gameId, onLobbyReceived)
+    }
+
+    const onLobbyReceived = (message: Message) => {
+        const lobby: Lobby = JSON.parse(message.body);
+        setLobby(lobby);
+    }
+
+    const useInitialize = (callBack = () => {
+    }) => {
+        const [hasBeenCalled, setHasBeenCalled] = useState(false);
+        if (hasBeenCalled) return;
+        callBack();
+        setHasBeenCalled(true);
+    }
+
+    useInitialize(() => {
+        onLobbyJoin(props.gameId);
+    });
+    return (
+        <div className="Lobby">
+            Lobby Component
+            <table>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>tasks created</th>
                 </tr>
-            ))}
-            </tbody>
-        </table>
-        {<button hidden={!props.isHost} disabled={isPending(props)} id="btnStart"
-                 onClick={() => console.log("start game")}>Start game</button>}
+                </thead>
+                <tbody>
+                {lobby?.playerIdTaskCountPairs.map((player: Pair, index: number) => (
+                    <tr key={index}>
+                        <td>{player.first}</td>
+                        <td>{player.second}/{props.numberOfTasks}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+            {<button hidden={!props.isHost} disabled={isPending(props)} id="btnStart"
+                     onClick={() => console.log("start game")}>Start game</button>}
 
-    </div>
-);
+        </div>
+    );
 
-const isPending = (props: LobbyProps): boolean => {
-    return props.lobby?.playerIdTaskCountPairs.some(player => player.tasksCreated < props.numberOfTasks) as boolean;
 }
 
 export default Lobby;

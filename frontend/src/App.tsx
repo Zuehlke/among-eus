@@ -37,7 +37,7 @@ class App extends React.Component<any, AppState> {
             <div>
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
                 {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame} onLobbyJoin={this.onLobbyJoin}/>}
-                {currentView === 'Lobby' && <Lobby client={client} isHost={true} numberOfTasks={2} />}
+                {currentView === 'Lobby' && <Lobby client={this.state.client} gameId={this.state.gameId} isHost={true} numberOfTasks={2} />}
                 {currentView === 'CreateTasks' && <CreateTasks/>}
                 {currentView === 'SocketConnection' && <SocketConnection/>}
             </div>
@@ -63,7 +63,7 @@ class App extends React.Component<any, AppState> {
     }
 
     onLobbyJoin(gameId: string) {
-        this.setState({gameId});
+        this.setState({currentView: "Lobby", gameId});
     }
 
     private publish(endpoint:string, payload?: any) {
