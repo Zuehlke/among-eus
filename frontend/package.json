@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "REACT_APP_ENV=dev npm run build",
+    "start:production": "cross-env REACT_APP_ENV=production npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@types/sockjs-client": "^1.5.1"
+    "@types/sockjs-client": "^1.5.1",
+    "cross-env": "^7.0.3"
   }
 }
