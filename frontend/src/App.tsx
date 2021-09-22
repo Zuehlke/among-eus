@@ -64,11 +64,10 @@ class App extends React.Component<any, AppState> {
     }
 
     initialiseWebSocket() {
-        const WS_GAMES_URL: string = (process.env.REACT_APP_WS_URL as string);
-        const WS_GAMES_ENDPOINT: string = (process.env.REACT_APP_WS_GAMES_ENDPOINT as string);
+        const WS_GAMES_URL: string = (process.env.REACT_APP_WS_GAMES_URL as string);
 
         const client = new Client({
-            brokerURL: WS_GAMES_URL + WS_GAMES_ENDPOINT,
+            brokerURL: WS_GAMES_URL,
             debug: function (str) {
                 console.debug(str);
             },
