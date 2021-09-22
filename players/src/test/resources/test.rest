@@ -1,0 +1,8 @@
+POST http://localhost:5000/startGame
+Content-Type: application/json
+
+{
+  "gameId": "1",
+  "players": ["1","2"],
+  "numberOfImposters": 1
+}
