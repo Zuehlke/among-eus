@@ -1,3 +1,5 @@
+management.endpoints.web.exposure.include: health,info
+server.port: 5000
 spring:
   kafka:
     bootstrap-servers: "b-1.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:9092,b-2.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:9092"
