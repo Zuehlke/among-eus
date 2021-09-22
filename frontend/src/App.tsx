@@ -12,7 +12,8 @@ interface AppState {
     client?: Client,
     games: Game[],
     playerName?: string,
-    lobby?: Lobby
+    lobby?: Lobby,
+    gameId: string,
 }
 
 class App extends React.Component<any, AppState> {
@@ -23,7 +24,8 @@ class App extends React.Component<any, AppState> {
             currentView: 'ChooseName',
             client: undefined,
             games: [],
-            lobby: undefined
+            lobby: undefined,
+            gameId: ""
         };
         this.onNameChosen = this.onNameChosen.bind(this);
         this.onHostGame = this.onHostGame.bind(this);
@@ -64,9 +66,7 @@ class App extends React.Component<any, AppState> {
     }
 
     onLobbyJoin(gameId: string) {
-        const client: Client | undefined = this.state.client;
-        // @ts-ignore
-        client.subscribe('/getLobby/' + gameId, this.onLobbyReceived)
+        this.setState(gameId);
     }
 
     private publish(endpoint:string, payload?: any) {
