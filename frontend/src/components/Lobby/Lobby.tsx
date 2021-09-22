@@ -27,7 +27,14 @@ const Lobby = (props: LobbyProps) => {
     }
 
     const onLobbyJoin = (gameId: string) => {
-        props?.client?.subscribe('/getLobby/' + gameId, onLobbyReceived)
+        props.client?.publish({
+            destination: '/join',
+            body: JSON.stringify({
+                playerId: "Another player",
+                gameId: gameId,
+            })
+        });
+        props.client?.subscribe('/getLobby/' + gameId, onLobbyReceived)
     }
 
     const onLobbyReceived = (message: Message) => {
