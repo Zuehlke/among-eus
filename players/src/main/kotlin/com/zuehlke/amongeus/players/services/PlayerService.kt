@@ -132,4 +132,8 @@ class PlayerService(val playerTopicProducer: PlayerTopicProducer, val playerKill
 
     }
 
+    fun gameStarted(game: Game) {
+
+    }
+
 }
