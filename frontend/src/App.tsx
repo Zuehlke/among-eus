@@ -13,6 +13,12 @@ interface AppState {
     games: Game[],
     playerName?: string,
     gameId: string,
+    playerClient?: Client,
+    playerId?: string
+}
+
+interface Player {
+    id: string,
 }
 
 class App extends React.Component<any, AppState> {
@@ -24,11 +30,14 @@ class App extends React.Component<any, AppState> {
             client: undefined,
             games: [],
             gameId: '',
+            playerClient: undefined,
+            playerId: '',
         };
         this.onNameChosen = this.onNameChosen.bind(this);
         this.onHostGame = this.onHostGame.bind(this);
         this.onGamesReceived = this.onGamesReceived.bind(this);
         this.onLobbyJoin = this.onLobbyJoin.bind(this);
+        this.onPlayerReceived = this.onPlayerReceived.bind(this);
     }
 
     render() {
@@ -36,7 +45,7 @@ class App extends React.Component<any, AppState> {
         return (
             <div className="app-container schwarzwald-background">
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
-                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games}
+                {currentView === 'ChooseGame' && <ChooseGame playerId={this.state.playerId} games={this.state.games}
                                                              onHostGame={this.onHostGame}
                                                              onLobbyJoin={this.onLobbyJoin}/>}
                 {currentView === 'Lobby' && <Lobby playerId={this.state.playerName || ''}
@@ -57,6 +66,14 @@ class App extends React.Component<any, AppState> {
             playerName,
             currentView: 'ChooseGame',
         });
+        const playerClient: Client | undefined = this.state.playerClient;
+        console.debug("creating player");
+        playerClient?.publish({
+            destination: '/create',
+            body: JSON.stringify({
+                name: this.state.playerName,
+            }),
+        });
     }
 
     onHostGame() {
@@ -76,6 +93,7 @@ class App extends React.Component<any, AppState> {
 
     componentDidMount() {
         this.initialiseWebSocket();
+        this.initialiseWebSocketPlayers();
     }
 
     initialiseWebSocket() {
@@ -91,11 +109,28 @@ class App extends React.Component<any, AppState> {
         client.activate();
     }
 
+    initialiseWebSocketPlayers() {
+        const WS_PLAYERS_URL: string = (process.env.REACT_APP_WS_PLAYERS_URL as string);
+        const playerClient = createClient(WS_PLAYERS_URL)
+        playerClient.onConnect = () => {
+            this.setState({playerClient: playerClient});
+            playerClient.subscribe('/player', this.onPlayerReceived)
+        }
+        playerClient.activate();
+    }
+
 
     private onGamesReceived(message: Message) {
         const games: Game[] = JSON.parse(message.body);
         this.setState({
             games,
+        });
+    }
+
+    private onPlayerReceived(message: Message) {
+        const player: Player = JSON.parse(message.body);
+        this.setState({
+            playerId: player.id,
         });
     }
 }
