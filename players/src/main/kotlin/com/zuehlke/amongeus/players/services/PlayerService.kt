@@ -4,6 +4,8 @@ import com.zuehlke.amongeus.players.kafka.PlayerKilledEventProducer
 import com.zuehlke.amongeus.players.kafka.PlayerTopicProducer
 import com.zuehlke.amongeus.players.models.Game
 import com.zuehlke.amongeus.players.models.Player
+import com.zuehlke.amongeus.players.models.PlayerProximity
+import com.zuehlke.amongeus.players.stores.PlayerProximitiesStore
 import com.zuehlke.amongeus.players.stores.PlayerStore
 import org.springframework.stereotype.Service
 import java.util.*
@@ -18,7 +20,7 @@ class PlayerService(val playerTopicProducer: PlayerTopicProducer, val playerKill
 
     fun create(name: String): Player {
         val player = Player(UUID.randomUUID().toString(), name, "",
-                isLiving = true, isImposter = false, long = 0f, lat = 0f)
+                isLiving = true, isImposter = false, long = 0.0, lat = 0.0)
         return PlayerStore.saveOrUpdatePlayer(player)
     }
 
@@ -54,26 +56,80 @@ class PlayerService(val playerTopicProducer: PlayerTopicProducer, val playerKill
         return imposters
     }
 
-    fun updatePosition(playerId: String, long: Double, lat: Double): List<Player> {
+    fun updatePosition(playerId: String, long: Double, lat: Double) {
         val player = PlayerStore.getPlayer(playerId)!!
         player.long = long
         player.lat = lat
         PlayerStore.saveOrUpdatePlayer(player)
+        calculateProximities(player.gameId)
     }
 
-    fun calculateProximities(playerId: String):List<Player> {
+    private fun calculateProximities(playerId: String):List<PlayerProximity> {
+
+        // Calc proximities for this player
         val player = PlayerStore.getPlayer(playerId)!!
         val players = PlayerStore.getPlayersByGame(player.gameId) !!
         val distanceCalc = DistanceCalculator()
-        val proximities = ArrayList<Player>()
+        val proximities = ArrayList<PlayerProximity>()
         players.forEach {
             if (it != player) {
                 val distance = distanceCalc.getDistanceInKm(player,it)
-                if (distance < 0.005) {
-                    proximities.add(player)
+                if (distance < 0.01) {
+                    proximities.add(proximity(it, player, distance))
                 }
             }
         }
+
+        // Remove player from other player's proximities not anymore in proximity
+        val existingProximities = PlayerProximitiesStore.getProximities(playerId) !!
+        existingProximities.forEach {
+            if (!proximities.contains(it)) {
+                removeOtherPlayerProximity(it.id, it)
+            }
+        }
+
+        // Update player in other player's proximities
+        proximities.forEach {
+            updateOtherPlayerProximity(it.id, it)
+        }
+
+        // Store and send update proximities for this player
+        PlayerProximitiesStore.saveOrUpdateProximities(player.id, proximities)
+        sendUpdateProximities(playerId, proximities)
         return proximities
     }
+
+    private fun proximity(currentPlayer:Player, player:Player, distance:Double): PlayerProximity {
+        return PlayerProximity(player.id,
+                player.name,
+                player.isLiving,
+                distance<0.005,
+                currentPlayer.isImposter && player.isImposter,
+                player.lat,
+                player.long,
+                distance)
+
+    }
+
+    private fun updateOtherPlayerProximity(playerId: String, proximity: PlayerProximity) {
+        val proximities = PlayerProximitiesStore.getProximities(playerId)
+        proximities.remove(proximity) // with same id (see equals)
+        proximities.add(proximity)
+        PlayerProximitiesStore.saveOrUpdateProximities(playerId, proximities)
+        sendUpdateProximities(playerId, proximities)
+    }
+
+
+    private fun removeOtherPlayerProximity(playerId: String, proximity: PlayerProximity) {
+        val proximities = PlayerProximitiesStore.getProximities(playerId)
+        proximities.remove(proximity) // with same id (see equals)
+        PlayerProximitiesStore.saveOrUpdateProximities(playerId, proximities)
+        sendUpdateProximities(playerId, proximities)
+    }
+
+    private fun sendUpdateProximities(playerId: String, proximities: ArrayList<PlayerProximity>) {
+        // TODO send event to frontend
+
+    }
+
 }
