@@ -19,8 +19,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "env-cmd": "env-cmd",
-    "start:production": "npm install && env-cmd -f .env.production react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
