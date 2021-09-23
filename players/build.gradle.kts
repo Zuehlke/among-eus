@@ -22,6 +22,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.+")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")

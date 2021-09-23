@@ -1,0 +1,12 @@
+server.port: 5000
+spring:
+  kafka:
+    bootstrap-servers: "b-1.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:9092,b-2.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:9092"
+    consumer:
+      group-id: consumer-group-games
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

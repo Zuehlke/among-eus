@@ -9,9 +9,9 @@ import org.springframework.kafka.config.TopicBuilder
 class KafkaTopicConfiguration {
 
     @Bean
-    fun topicExample(): NewTopic {
-        println("Creating topics.")
-        return TopicBuilder.name("mytopic")
+    fun createPlayer(): NewTopic {
+        println("Creating player topic.")
+        return TopicBuilder.name("player")
             .partitions(1)
             .replicas(1)
             .build()

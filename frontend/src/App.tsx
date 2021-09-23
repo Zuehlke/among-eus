@@ -34,7 +34,7 @@ class App extends React.Component<any, AppState> {
     render() {
         const currentView = this.state.currentView;
         return (
-            <div>
+            <div className="app-container schwarzwald-background">
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
                 {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame} onLobbyJoin={this.onLobbyJoin}/>}
                 {currentView === 'Lobby' && <Lobby client={this.state.client} gameId={this.state.gameId} isHost={true} numberOfTasks={2} />}
@@ -79,11 +79,10 @@ class App extends React.Component<any, AppState> {
     }
 
     initialiseWebSocket() {
-        const WS_GAMES_URL: string = (process.env.REACT_APP_WS_URL as string);
-        const WS_GAMES_ENDPOINT: string = (process.env.REACT_APP_WS_GAMES_ENDPOINT as string);
+        const WS_GAMES_URL: string = (process.env.REACT_APP_WS_GAMES_URL as string);
 
         const client = new Client({
-            brokerURL: WS_GAMES_URL + WS_GAMES_ENDPOINT,
+            brokerURL: WS_GAMES_URL,
             debug: function (str) {
                 console.debug(str);
             },
