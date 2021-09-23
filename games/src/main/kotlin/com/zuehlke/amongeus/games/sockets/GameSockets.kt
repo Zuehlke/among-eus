@@ -54,7 +54,7 @@ class GameSockets(
     @MessageMapping("/start")
     fun startGame(startGameEvent: StartGameEvent) {
         gameService.startGame(startGameEvent.gameId)
-        simp.convertAndSend("/startGame/" + startGameEvent.gameId, null)
+        simp.convertAndSend("/startGame/" + startGameEvent.gameId, startGameEvent)
     }
 
     @MessageMapping("/join")

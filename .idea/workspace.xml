@@ -4,23 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="Trivial version of create tasks without GPS." />
+    <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="Trivial version of create tasks without GPS.">
+      <change afterPath="$PROJECT_DIR$/players/src/main/kotlin/com/zuehlke/amongeus/players/events/GameStartedEvent.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/players/src/main/kotlin/com/zuehlke/amongeus/players/kafka/GameStartedEventListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/players/src/main/kotlin/com/zuehlke/amongeus/players/services/PlayerService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/players/src/main/kotlin/com/zuehlke/amongeus/players/services/PlayerService.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/players">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="feature/player-service" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -44,12 +67,79 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/frontend/node_modules/typescript/lib" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.PlayersApplication">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="generated-requests#12" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="12" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GamesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="games" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.games.GamesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayersApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="among-eus-players.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.players.PlayersApplication" />
+      <option name="ACTIVE_PROFILES" value="local" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TasksApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="tasks" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.tasks.TasksApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="HTTP Request.generated-requests#12" />
+      <item itemvalue="Spring Boot.GamesApplication" />
+      <item itemvalue="Spring Boot.PlayersApplication" />
+      <item itemvalue="Spring Boot.TasksApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.generated-requests#12" />
+        <item itemvalue="HTTP Request.generated-requests#12" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -61,6 +151,7 @@
       <updated>1632129281147</updated>
       <workItem from="1632129286377" duration="1655000" />
       <workItem from="1632140704690" duration="989000" />
+      <workItem from="1632240043518" duration="7331000" />
     </task>
     <task id="LOCAL-00001" summary="Trivial version of create tasks without GPS.">
       <created>1632208039315</created>
@@ -69,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632208039316</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Player killed event topic integration">
+      <created>1632379624940</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1632379624940</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -89,7 +187,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Trivial version of create tasks without GPS." />
-    <option name="LAST_COMMIT_MESSAGE" value="Trivial version of create tasks without GPS." />
+    <MESSAGE value="Player killed event topic integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="Player killed event topic integration" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

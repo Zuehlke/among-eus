@@ -54,7 +54,7 @@ See also https://mydeveloperplanet.com/2020/10/21/how-to-deploy-a-spring-boot-ap
    ```
 * see also https://www.freecodecamp.org/news/how-to-deploy-a-node-js-app-to-the-aws-elastic-beanstalk-f150899ed977/
 
-### Amazon MSK - Managed Kafka                                                      >
+### Amazon MSK - Managed Kafka                      
 
 Zookeeper URLs: z-2.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-1.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-3.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181
 
