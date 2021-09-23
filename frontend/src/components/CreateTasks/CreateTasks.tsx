@@ -1,10 +1,23 @@
 import React from 'react';
 import './CreateTasks.css';
 import CreateTask, {Task} from "./CreateTask";
+import {createClient} from "../../websocket-helper";
+import {Message} from "@stomp/stompjs";
 
-class CreateTasks extends React.Component<any, any> {
+interface CreateTasksProps {
+    playerId: string;
+    gameId: string;
+    onTasksCreated: () => void;
+}
 
-    constructor(props: any) {
+interface CreateTasksState {
+    tasks: Partial<Task>[];
+    createPossible: boolean;
+}
+
+class CreateTasks extends React.Component<CreateTasksProps, CreateTasksState> {
+
+    constructor(props: CreateTasksProps) {
         super(props);
         this.state = {
             tasks: [{
@@ -12,6 +25,7 @@ class CreateTasks extends React.Component<any, any> {
             }, {
                 index: 2,
             }],
+            createPossible: false,
         }
         this.onTaskChanged = this.onTaskChanged.bind(this);
         this.onCreateTasks = this.onCreateTasks.bind(this);
@@ -27,24 +41,54 @@ class CreateTasks extends React.Component<any, any> {
                                        taskIndex={task.index}/>
                 })}
 
-                <button className="btnCreateTasks" onClick={this.onCreateTasks}>Create tasks</button>
+                <button disabled={!this.state.createPossible} className="btnCreateTasks"
+                        onClick={this.onCreateTasks}>Create tasks
+                </button>
             </div>
         );
     }
 
     onCreateTasks() {
         console.log('create tasks ', this.state.tasks);
+        const client = createClient(process.env.REACT_APP_WS_TASKS_URL as string);
+
+        client.onConnect = (() => {
+            client.subscribe('/user/create', (message: Message) => {
+                console.log('received data', message.body);
+            });
+
+            this.state.tasks.forEach(task => {
+                client.publish({
+                    destination: '/create',
+                    body: JSON.stringify({
+                        long: task.longitude,
+                        lat: task.latitude,
+                        imgBase64: task.imageSrc,
+                        creatorId: this.props.playerId,
+                        gameId: this.props.gameId,
+                    }),
+                });
+            });
+
+            client.deactivate().then(() => this.props.onTasksCreated());
+        });
+
+        client.activate();
     }
 
     onTaskChanged(updatedTask: Task) {
         const tasks = this.state.tasks;
-        const newTasks = tasks.map((task: any) => {
+        const newTasks: Task[] = tasks.map((task: any) => {
             if (task.index === updatedTask.index) {
                 return updatedTask;
             }
             return task;
         });
-        this.setState({tasks: newTasks})
+        const createPossible = newTasks.every(task => task.imageSrc);
+        this.setState({
+            tasks: newTasks,
+            createPossible,
+        })
     }
 }
 
