@@ -4,6 +4,7 @@ import com.zuehlke.amongeus.players.kafka.PlayerKilledEventProducer
 import com.zuehlke.amongeus.players.kafka.PlayerTopicProducer
 import com.zuehlke.amongeus.players.models.Game
 import com.zuehlke.amongeus.players.models.Player
+import com.zuehlke.amongeus.players.stores.PlayerStore
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,7 +35,7 @@ class PlayerService(val playerTopicProducer: PlayerTopicProducer, val playerKill
         val player = PlayerStore.getPlayer(playerId)!!
         player.isLiving = false
         PlayerStore.saveOrUpdatePlayer(player)
-        playerKilledEventProducer.playerKilled(gameId, playerId)
+        playerKilledEventProducer.playerKilled(player.gameId, playerId)
 
         return PlayerStore.getPlayersByGame(player.gameId)
     }
