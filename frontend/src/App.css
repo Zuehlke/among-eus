@@ -16,9 +16,6 @@ html *
 
 .component-element-container {
   margin: 1em;
-  padding: 1em;
-  border: 5px solid rgba(152,91,156,0.1);
-  background-color: rgba(152,91,156,0.3);
 }
 
 input {
@@ -33,6 +30,11 @@ input:focus {
   outline: none;
   border: 3px solid #985b9c;
   box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.9);
+}
+
+.button-container {
+  min-height: 8em;
+  padding-top: 3em;
 }
 
 button {
@@ -87,9 +89,7 @@ button:disabled {
 }
 
 .align-items-center {
-  height: 100%;
   align-items: center;
-  justify-content: center;
 }
 
 .center {
@@ -106,4 +106,17 @@ button:disabled {
 
 .margin-left {
   margin-left: 2em;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #985b9c;
+  border-radius: 10px;
+}
+
+.test {
+  background-color: red;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import './CreateTasks.css';
 import CreateTask, {Task} from "./CreateTask";
+import Header from "../Header/Header";
 
 class CreateTasks extends React.Component<any, any> {
 
@@ -19,15 +20,23 @@ class CreateTasks extends React.Component<any, any> {
 
     render() {
         return (
-            <div className="CreateTasks">
-                <div>Go to a location and take a picture for others to find.</div>
-                {this.state.tasks.map((task: any) => {
-                    return <CreateTask key={task.index}
-                                       onChange={this.onTaskChanged}
-                                       taskIndex={task.index}/>
-                })}
+            <div className="CreateTasks flex-container full-height flex-flow-column overflow-hidden">
+                <Header/>
+                <div className="component-element-container">
+                    <div className="flex-container flex-flow-row align-items-center">
+                        <div className="info-icon">&#9432;</div>
+                        <div>Go to a location and take a picture for others to find</div>
+                    </div>
+                    {this.state.tasks.map((task: any) => {
+                        return <CreateTask key={task.index}
+                                           onChange={this.onTaskChanged}
+                                           taskIndex={task.index}/>
+                    })}
 
-                <button className="btnCreateTasks" onClick={this.onCreateTasks}>Create tasks</button>
+                    <div className="button-container center">
+                        <button onClick={this.onCreateTasks}>Create tasks</button>
+                    </div>
+                </div>
             </div>
         );
     }

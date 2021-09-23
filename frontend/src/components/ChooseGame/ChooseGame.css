@@ -18,16 +18,8 @@
   font-weight: bold ;
 }
 
-.ChooseGame .button-container {
-  min-height: 8em;
-  padding-top: 3em;
-}
-
-::-webkit-scrollbar {
-  width: 20px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #985b9c;
-  border-radius: 10px;
+.ChooseGame .component-element-container {
+  padding: 1em;
+  border: 5px solid rgba(152,91,156,0.1);
+  background-color: rgba(152,91,156,0.3);
 }
