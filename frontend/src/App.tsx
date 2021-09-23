@@ -71,7 +71,7 @@ class App extends React.Component<any, AppState> {
     }
 
     onLobbyJoin(gameId: string) {
-        this.setState({currentView: "Lobby", gameId});
+        this.setState({currentView: 'CreateTasks', gameId});
     }
 
     componentDidMount() {
