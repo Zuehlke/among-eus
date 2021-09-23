@@ -42,6 +42,18 @@ https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.h
                                                           
 See also https://mydeveloperplanet.com/2020/10/21/how-to-deploy-a-spring-boot-app-to-aws-elastic-beanstalk/
 
+### Configure Deployment (NodeJS)
+
+* See steps above for Java
+* When you are in a nodejs project it will ask you for the node version to configure
+* make sure that the npm start script is running the app with the settings needed in production OR BETTER: configure the node js start command in special `.ebextensions`-folder config file in the frontend folder (e.g. a file `.ebextensions/node.config` in your project folder), as follows: 
+   ```
+    option_settings:
+      aws:elasticbeanstalk:container:nodejs:
+        NodeCommand: "npm run start:production"
+   ```
+* see also https://www.freecodecamp.org/news/how-to-deploy-a-node-js-app-to-the-aws-elastic-beanstalk-f150899ed977/
+
 ### Amazon MSK - Managed Kafka                                                      >
 
 Zookeeper URLs: z-2.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-1.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181,z-3.among-eus-events.ytwrun.c2.kafka.us-east-2.amazonaws.com:2181

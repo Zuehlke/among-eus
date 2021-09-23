@@ -14,6 +14,10 @@ class TaskStore {
             return map[taskId]!!
         }
 
+        fun getTasksForGame(gameId: String): List<Task> {
+            return map.values.filter { it.gameId == gameId }
+        }
+
     }
 
 }

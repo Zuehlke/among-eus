@@ -31,11 +31,10 @@ class SocketConnection extends React.Component<SocketConnectionProps, SocketConn
 
     connect() {
         const that = this;
-        //const WS_GAMES_URL: string = (process.env.REACT_APP_WS_URL as string);
-        //const WS_GAMES_ENDPOINT: string = (process.env.REACT_APP_WS_GAMES_ENDPOINT as string);
+        const WS_GAMES_URL: string = (process.env.REACT_APP_WS_GAMES_URL as string);
 
         this.client = new Client({
-            brokerURL: 'ws://among-eus-games-dev.us-east-2.elasticbeanstalk.com/game',
+            brokerURL: WS_GAMES_URL,
             debug: function (str) {
                 console.log(str);
             },
