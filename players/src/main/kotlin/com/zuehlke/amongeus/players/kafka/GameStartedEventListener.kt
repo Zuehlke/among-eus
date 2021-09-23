@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class GameStartedEventListener(val objectMapper: ObjectMapper) {
 
-    @KafkaListener(topics = ["game_started_event"], groupId = "player_service" )
+    @KafkaListener(topics = ["game-start"], groupId = "player_service" )
     fun gameStartedEventHandler(event : String) {
 
         val eventObject :GameStartedEvent = objectMapper.readValue(event);
