@@ -16,6 +16,7 @@ interface LobbyProps {
     isHost: boolean;
     numberOfTasks: number;
     gameId: string;
+    playerId: string;
     client?: Client;
 }
 
@@ -26,12 +27,12 @@ const Lobby = (props: LobbyProps) => {
         return lobby?.playerIdTaskCountPairs.some(player => player.tasksCreated < props.numberOfTasks) as boolean;
     }
 
-    const onLobbyJoin = (gameId: string) => {
+    const onLobbyJoin = (gameId: string, playerId: string) => {
         props.client?.publish({
             destination: '/join',
             body: JSON.stringify({
-                playerId: "Another player",
-                gameId: gameId,
+                playerId,
+                gameId,
             })
         });
         props.client?.subscribe('/getLobby/' + gameId, onLobbyReceived)
@@ -51,7 +52,7 @@ const Lobby = (props: LobbyProps) => {
     }
 
     useInitialize(() => {
-        onLobbyJoin(props.gameId);
+        onLobbyJoin(props.gameId, props.playerId);
     });
     return (
         <div className="Lobby">
