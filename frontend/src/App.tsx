@@ -6,6 +6,7 @@ import CreateTasks from "./components/CreateTasks/CreateTasks";
 import React from "react";
 import {Client, Message} from "@stomp/stompjs";
 import {createClient} from "./websocket-helper";
+import TasksMap from "./components/TasksMap/TasksMap";
 
 interface AppState {
     currentView: string,
@@ -20,7 +21,7 @@ class App extends React.Component<any, AppState> {
     constructor(props: any, context: any) {
         super(props, context);
         this.state = {
-            currentView: 'ChooseName',
+            currentView: 'TasksMap',
             client: undefined,
             games: [],
             gameId: '',
@@ -48,6 +49,9 @@ class App extends React.Component<any, AppState> {
                 <CreateTasks playerId={this.state.playerName || ''}
                              gameId={this.state.gameId}
                              onTasksCreated={() => this.setState({currentView: 'Lobby'})}/>}
+                {currentView === 'TasksMap' &&
+                <TasksMap />
+                }
             </div>
         );
     }
