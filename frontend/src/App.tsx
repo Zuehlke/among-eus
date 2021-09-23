@@ -111,28 +111,11 @@ class App extends React.Component<any, AppState> {
 
     initialiseWebSocketPlayers() {
         const WS_PLAYERS_URL: string = (process.env.REACT_APP_WS_PLAYERS_URL as string);
-
-        const playerClient = new Client({
-            brokerURL: WS_PLAYERS_URL,
-            debug: function (str) {
-                console.debug(str);
-            },
-            reconnectDelay: 5000,
-            heartbeatIncoming: 4000,
-            heartbeatOutgoing: 4000,
-        });
-
+        const playerClient = createClient(WS_PLAYERS_URL)
         playerClient.onConnect = () => {
             this.setState({playerClient: playerClient});
-
             playerClient.subscribe('/player', this.onPlayerReceived)
         }
-
-        playerClient.onStompError = (frame) => {
-            console.error('Broker reported error: ' + frame.headers['message']);
-            console.error('Additional details: ' + frame.body);
-        };
-
         playerClient.activate();
     }
 
