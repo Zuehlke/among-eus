@@ -7,6 +7,18 @@ const TasksMap = (props: any) => {
         width: '100%',
         height: '100%'
     };
+
+    const renderMarkers = (map: any, maps: any) => {
+        props.tasks.map((task: { id: any; }) => {
+            console.debug(task.id);
+        });
+        const marker = new new maps.Marker({
+            position: {"lat": props.tasks[0].lat, "long": props.tasks[0].long},
+            map: map,
+        });
+
+    }
+
     return (
         <div className="TasksMap">
             <Map
@@ -14,21 +26,25 @@ const TasksMap = (props: any) => {
                 style={mapStyles}
                 initialCenter={
                     {
-                        lat: -1.2884,
-                        lng: 36.8233
+                        lat: 46.670157642456424,
+                        lng: 7.287877789507476
                     }
+                }
+                children={
+                    <Marker mapCenter={ {"lat": props.tasks[0].lat, "lng": props.tasks[0].long} } />
+
                 }
             />
         </div>
     );
-}
+};
 
 TasksMap.defaultProps = {
     playerId: "42",
     tasks: [
         {"taskId": 1, "lat": 46.670157642456424, "long": 7.287877789507476, "imgBase64": "asdf123", "gameId": 1},
         {"taskId": 2, "lat": 46.66834531462181, "long": 7.280936998091193, "imgBase64": "asdf123", "gameId": 1},
-        {"taskId": 3, "lat": 46.67101563154103, "long": 7.285364304380624, "imgBase64": "asdf123", "gameId": 1},
+        {"taskId": 3, "lat": 46.67101563154103, "long": 7.285364304380624, "imgBase64": "asdf123", "gameId": 1}
     ]
 };
 
