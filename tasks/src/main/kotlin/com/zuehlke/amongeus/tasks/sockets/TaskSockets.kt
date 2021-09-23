@@ -21,8 +21,8 @@ class TaskSockets {
     @Autowired
     private lateinit var sessionService: SessionService
 
-    @MessageMapping("/tasks/create")
-    @SendToUser("/tasks/create")
+    @MessageMapping("/create")
+    @SendToUser("/create")
     fun createTask(@Header("simpSessionId") sessionId: String, createEvent: CreateTaskEvent): Task {
         val task = taskService.createTask(createEvent)
         sessionService.saveSession(sessionId, createEvent.creatorId, createEvent.gameId)
@@ -31,8 +31,8 @@ class TaskSockets {
         return task
     }
 
-    @MessageMapping("/tasks/complete")
-    @SendToUser("/tasks/complete")
+    @MessageMapping("/complete")
+    @SendToUser("/complete")
     fun completeTask(completeEvent: CompleteTaskEvent): Task {
         return taskService.completeTask(completeEvent)
     }

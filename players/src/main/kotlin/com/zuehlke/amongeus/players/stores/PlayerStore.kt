@@ -11,12 +11,16 @@ class PlayerStore {
             return game
         }
 
-        fun getPlayer() : List<Player> {
+        fun getPlayers() : List<Player> {
             return map.values.toList()
         }
 
         fun getPlayer(key:String): Player? {
             return map[key]
+        }
+
+        fun getPlayersByGame(key: String): List<Player> {
+            return map.values.filter{p -> p.gameId.equals(key)}
         }
 
         fun deletePlayer(key: String) {
