@@ -1,0 +1,9 @@
+.Header {
+  margin: 1em;
+  height: 2em;
+}
+
+.Header > img {
+  height: 2em;
+  width: 2em;
+}

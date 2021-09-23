@@ -14,16 +14,6 @@ html *
   background-size: cover;
 }
 
-.header {
-  margin: 1em;
-  height: 2em;
-}
-
-.header > img {
-  height: 2em;
-  width: 2em;
-}
-
 .component-element-container {
   margin: 1em;
   padding: 1em;

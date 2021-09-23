@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './ChooseGame.css';
-import logo from "../../links/logo.png";
+import Header from "../Header/Header";
 
 export interface Game {
     gameId: string;
@@ -19,9 +19,7 @@ const ChooseGame = (props: any) => {
 
     return (
         <div className="ChooseGame flex-container full-height flex-flow-column overflow-hidden">
-            <div className="header">
-                <img alt="Logo" src={logo}/>
-            </div>
+            <Header/>
             <div className="button-container center">
                 <button id="btnHostGame" onClick={props.onHostGame}>Host New Game</button>
             </div>
