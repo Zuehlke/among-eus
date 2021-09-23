@@ -20,10 +20,4 @@ public class PlayerTopicProducer {
     kafkaTemplate.send("player", player);
   }
 
-  public void create(String playerId) {
-    Player player = new Player(playerId);
-    kafkaTemplate.send("player", player);
-  }
-
-
 }
