@@ -1,8 +1,33 @@
 .ChooseGame table {
   cursor: pointer;
-  background-color: blue;
 }
 
-.ChooseGame .selected-row {
-  background-color: red;
+.ChooseGame tr {
+  background-color: white;
+  height: 2em;
+}
+
+.ChooseGame tr>td {
+  padding: 1em;
+  width: 80vw;
+}
+
+.ChooseGame .selected-tr {
+  background-color: #985b9c ;
+  color: white;
+  font-weight: bold ;
+}
+
+.ChooseGame .button-container {
+  min-height: 8em;
+  padding-top: 3em;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #985b9c;
+  border-radius: 10px;
 }
