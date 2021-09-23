@@ -4,14 +4,15 @@ import Lobby from "./components/Lobby/Lobby";
 import ChooseGame, {Game} from "./components/ChooseGame/ChooseGame";
 import CreateTasks from "./components/CreateTasks/CreateTasks";
 import React from "react";
-import SocketConnection from "./components/SocketConnection/SocketConnection";
 import {Client, Message} from "@stomp/stompjs";
+import {createClient} from "./websocket-helper";
 
 interface AppState {
     currentView: string,
     client?: Client,
     games: Game[],
     playerName?: string,
+    gameId?: string,
 }
 
 class App extends React.Component<any, AppState> {
@@ -35,10 +36,12 @@ class App extends React.Component<any, AppState> {
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
                 {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame}/>}
                 {currentView === 'Lobby' && <Lobby/>}
-                {currentView === 'CreateTasks' && <CreateTasks/>}
-                {currentView === 'SocketConnection' && <SocketConnection/>}
+                {currentView === 'CreateTasks' &&
+                <CreateTasks playerId={this.state.playerName || ''}
+                             gameId={this.state.gameId || ''}
+                             onTasksCreated={() => this.setState({currentView: 'Lobby'})}/>}
             </div>
-        );
+        ); // game id
     }
 
     onNameChosen(playerName: string) {
@@ -64,32 +67,14 @@ class App extends React.Component<any, AppState> {
     }
 
     initialiseWebSocket() {
-        const WS_GAMES_URL: string = (process.env.REACT_APP_WS_GAMES_URL as string);
-
-        const client = new Client({
-            brokerURL: WS_GAMES_URL,
-            debug: function (str) {
-                console.debug(str);
-            },
-            reconnectDelay: 5000,
-            heartbeatIncoming: 4000,
-            heartbeatOutgoing: 4000,
-        });
+        const gameEndpoint: string = (process.env.REACT_APP_WS_GAMES_URL as string);
+        const client = createClient(gameEndpoint);
 
         client.onConnect = () => {
             this.setState({client})
 
             client.subscribe('/getGames', this.onGamesReceived)
         }
-
-        client.onStompError = (frame) => {
-            // Will be invoked in case of error encountered at Broker
-            // Bad login/passcode typically will cause an error
-            // Complaint brokers will set `message` header with a brief message. Body may contain details.
-            // Compliant brokers will terminate the connection after any error
-            console.error('Broker reported error: ' + frame.headers['message']);
-            console.error('Additional details: ' + frame.body);
-        };
 
         client.activate();
     }
