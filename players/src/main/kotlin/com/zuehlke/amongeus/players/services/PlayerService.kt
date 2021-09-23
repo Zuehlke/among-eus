@@ -1,13 +1,13 @@
 package com.zuehlke.amongeus.players.services
 
+import com.zuehlke.amongeus.players.kafka.PlayerKilledEventProducer
 import com.zuehlke.amongeus.players.kafka.PlayerTopicProducer
 import com.zuehlke.amongeus.players.models.Game
 import com.zuehlke.amongeus.players.models.Player
-import com.zuehlke.amongeus.players.stores.PlayerStore
 import org.springframework.stereotype.Service
 
 @Service
-class PlayerService(val playerTopicProducer: PlayerTopicProducer) {
+class PlayerService(val playerTopicProducer: PlayerTopicProducer, val playerKilledEventProducer: PlayerKilledEventProducer) {
 
     //Publishes in topic
     fun create(nameId: String) {
@@ -23,7 +23,7 @@ class PlayerService(val playerTopicProducer: PlayerTopicProducer) {
     //Has 2 origins, from client and kafka queue (voting topic)
     //Publishes in topic (Send info about which player are still alive)
     fun killed(gameId: String, playerId: String) {
-
+        playerKilledEventProducer.playerKilled(gameId, playerId)
     }
 
     //Reads from Game topic

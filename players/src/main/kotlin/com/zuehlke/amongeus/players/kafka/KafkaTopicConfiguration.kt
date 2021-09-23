@@ -15,5 +15,12 @@ class KafkaTopicConfiguration {
             .partitions(1)
             .replicas(1)
             .build()
+    }    @Bean
+    fun createPlayerKilledTopic(): NewTopic {
+        println("Creating player topic.")
+        return TopicBuilder.name("player_killed")
+            .partitions(1)
+            .replicas(1)
+            .build()
     }
 }
