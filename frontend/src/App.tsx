@@ -4,14 +4,15 @@ import Lobby from "./components/Lobby/Lobby";
 import ChooseGame, {Game} from "./components/ChooseGame/ChooseGame";
 import CreateTasks from "./components/CreateTasks/CreateTasks";
 import React from "react";
-import SocketConnection from "./components/SocketConnection/SocketConnection";
 import {Client, Message} from "@stomp/stompjs";
+import {createClient} from "./websocket-helper";
 
 interface AppState {
     currentView: string,
     client?: Client,
     games: Game[],
     playerName?: string,
+    gameId: string,
 }
 
 class App extends React.Component<any, AppState> {
@@ -22,21 +23,31 @@ class App extends React.Component<any, AppState> {
             currentView: 'ChooseName',
             client: undefined,
             games: [],
+            gameId: '',
         };
         this.onNameChosen = this.onNameChosen.bind(this);
         this.onHostGame = this.onHostGame.bind(this);
         this.onGamesReceived = this.onGamesReceived.bind(this);
+        this.onLobbyJoin = this.onLobbyJoin.bind(this);
     }
 
     render() {
         const currentView = this.state.currentView;
         return (
-            <div>
+            <div className="app-container schwarzwald-background">
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
-                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame}/>}
-                {currentView === 'Lobby' && <Lobby/>}
-                {currentView === 'CreateTasks' && <CreateTasks/>}
-                {currentView === 'SocketConnection' && <SocketConnection/>}
+                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games}
+                                                             onHostGame={this.onHostGame}
+                                                             onLobbyJoin={this.onLobbyJoin}/>}
+                {currentView === 'Lobby' && <Lobby playerId={this.state.playerName || ''}
+                                                   client={this.state.client}
+                                                   gameId={this.state.gameId}
+                                                   isHost={true}
+                                                   numberOfTasks={2}/>}
+                {currentView === 'CreateTasks' &&
+                <CreateTasks playerId={this.state.playerName || ''}
+                             gameId={this.state.gameId}
+                             onTasksCreated={() => this.setState({currentView: 'Lobby'})}/>}
             </div>
         );
     }
@@ -59,37 +70,23 @@ class App extends React.Component<any, AppState> {
         });
     }
 
+    onLobbyJoin(gameId: string) {
+        this.setState({currentView: 'CreateTasks', gameId});
+    }
+
     componentDidMount() {
         this.initialiseWebSocket();
     }
 
     initialiseWebSocket() {
-        const WS_GAMES_URL: string = (process.env.REACT_APP_WS_GAMES_URL as string);
-
-        const client = new Client({
-            brokerURL: WS_GAMES_URL,
-            debug: function (str) {
-                console.debug(str);
-            },
-            reconnectDelay: 5000,
-            heartbeatIncoming: 4000,
-            heartbeatOutgoing: 4000,
-        });
+        const gameEndpoint: string = (process.env.REACT_APP_WS_GAMES_URL as string);
+        const client = createClient(gameEndpoint);
 
         client.onConnect = () => {
             this.setState({client})
 
             client.subscribe('/getGames', this.onGamesReceived)
         }
-
-        client.onStompError = (frame) => {
-            // Will be invoked in case of error encountered at Broker
-            // Bad login/passcode typically will cause an error
-            // Complaint brokers will set `message` header with a brief message. Body may contain details.
-            // Compliant brokers will terminate the connection after any error
-            console.error('Broker reported error: ' + frame.headers['message']);
-            console.error('Additional details: ' + frame.body);
-        };
 
         client.activate();
     }
