@@ -23,7 +23,7 @@ class App extends React.Component<any, AppState> {
             currentView: 'ChooseName',
             client: undefined,
             games: [],
-            gameId: ""
+            gameId: '',
         };
         this.onNameChosen = this.onNameChosen.bind(this);
         this.onHostGame = this.onHostGame.bind(this);
@@ -36,14 +36,20 @@ class App extends React.Component<any, AppState> {
         return (
             <div className="app-container schwarzwald-background">
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
-                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame} onLobbyJoin={this.onLobbyJoin}/>}
-                {currentView === 'Lobby' && <Lobby client={this.state.client} gameId={this.state.gameId} isHost={true} numberOfTasks={2} />}
+                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games}
+                                                             onHostGame={this.onHostGame}
+                                                             onLobbyJoin={this.onLobbyJoin}/>}
+                {currentView === 'Lobby' && <Lobby playerId={this.state.playerName || ''}
+                                                   client={this.state.client}
+                                                   gameId={this.state.gameId}
+                                                   isHost={true}
+                                                   numberOfTasks={2}/>}
                 {currentView === 'CreateTasks' &&
                 <CreateTasks playerId={this.state.playerName || ''}
-                             gameId={this.state.gameId || ''}
+                             gameId={this.state.gameId}
                              onTasksCreated={() => this.setState({currentView: 'Lobby'})}/>}
             </div>
-        ); // game id
+        );
     }
 
     onNameChosen(playerName: string) {
@@ -66,14 +72,6 @@ class App extends React.Component<any, AppState> {
 
     onLobbyJoin(gameId: string) {
         this.setState({currentView: "Lobby", gameId});
-    }
-
-    private publish(endpoint:string, payload?: any) {
-        const client: Client | undefined = this.state.client;
-        client?.publish({
-            destination: endpoint,
-            body: JSON.stringify(payload),
-        });
     }
 
     componentDidMount() {
