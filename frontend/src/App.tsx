@@ -40,7 +40,7 @@ class App extends React.Component<any, AppState> {
     render() {
         const currentView = this.state.currentView;
         return (
-            <div>
+            <div className="app-container schwarzwald-background">
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
                 {currentView === 'ChooseGame' && <ChooseGame playerId={this.state.playerId} games={this.state.games} onHostGame={this.onHostGame}/>}
                 {currentView === 'Lobby' && <Lobby/>}
