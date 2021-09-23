@@ -26,7 +26,7 @@ const ChooseGame = (props: any) => {
             {props.games.length > 0 &&
             <div className="flex-container flex-flow-column overflow-hidden">
                 <div className="component-element-container scroll">
-                    <table className="">
+                    <table>
                         <tbody>
                         {props.games.map((game: Game) => {
                             return <tr className={selectedGameId === game.gameId ? selectedRowStyle : ''}

@@ -27,24 +27,24 @@ class CreateTask extends React.Component<CreateTaskProps, any> {
     render() {
         const taskIndex: number = this.props.taskIndex;
 
-        return <div key={taskIndex}>
-            <h2>Task {taskIndex}</h2>
-            <div>
-                <div>
-                    <input type="file" accept="image/*"
-                           onChange={(event) => {
-                               this.onPhotoUpload(event)
-                           }}/>
-                </div>
-                <div>
-                    <img id={'taskImage' + taskIndex}
-                         src={this.state.imageSrc}
-                         alt={'Task ' + taskIndex}
-                    />
-                </div>
-                <div>
+        return <div key={taskIndex} className="flex-container flex-flow-column flex-grow">
+            <h2>
+                Task {taskIndex}
+                {this.state.latitude &&
+                <h3>
                     Latitude: {this.state.latitude} Longitude: {this.state.longitude}
-                </div>
+                </h3>
+                }
+            </h2>
+            <div>
+                <input type="file" accept="image/*"
+                       onChange={(event) => {
+                           this.onPhotoUpload(event)
+                       }}/>
+                <img id={'taskImage' + taskIndex}
+                     src={this.state.imageSrc}
+                     alt={'Task ' + taskIndex}
+                    className="task-image"/>
             </div>
         </div>;
     }

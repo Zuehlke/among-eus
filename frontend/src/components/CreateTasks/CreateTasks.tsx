@@ -20,19 +20,20 @@ class CreateTasks extends React.Component<any, any> {
 
     render() {
         return (
-            <div className="CreateTasks flex-container full-height flex-flow-column overflow-hidden">
+            <div className="CreateTasks flex-container flex-flow-column full-height">
                 <Header/>
-                <div className="component-element-container">
+                <div className="component-element-container flex-container flex-flow-column height-100-percent">
                     <div className="flex-container flex-flow-row align-items-center">
                         <div className="info-icon">&#9432;</div>
                         <div>Go to a location and take a picture for others to find</div>
                     </div>
-                    {this.state.tasks.map((task: any) => {
-                        return <CreateTask key={task.index}
-                                           onChange={this.onTaskChanged}
-                                           taskIndex={task.index}/>
-                    })}
-
+                    <div className="flex">
+                        {this.state.tasks.map((task: any) => {
+                            return <CreateTask key={task.index}
+                                               onChange={this.onTaskChanged}
+                                               taskIndex={task.index}/>
+                        })}
+                    </div>
                     <div className="button-container center">
                         <button onClick={this.onCreateTasks}>Create tasks</button>
                     </div>

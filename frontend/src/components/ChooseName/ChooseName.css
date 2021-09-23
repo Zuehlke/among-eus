@@ -14,3 +14,17 @@
   color: white;
   text-shadow: 0 0 4px black;
 }
+
+.ChooseName input {
+  height: 3em;
+  border-radius: 5px;
+  width: 70%;
+  text-align: center;
+  border: 3px solid white;
+}
+
+.ChooseName input:focus {
+  outline: none;
+  border: 3px solid #985b9c;
+  box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.9);
+}

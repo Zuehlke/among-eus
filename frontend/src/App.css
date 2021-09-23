@@ -18,18 +18,17 @@ html *
   margin: 1em;
 }
 
-input {
-  height: 3em;
+h2 {
+  background-color: white;
+  padding: 1em;
   border-radius: 5px;
-  width: 70%;
+  color: #985b9c;
   text-align: center;
-  border: 3px solid white;
 }
 
-input:focus {
-  outline: none;
-  border: 3px solid #985b9c;
-  box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.9);
+h3 {
+  font-weight: normal;
+  margin: unset;
 }
 
 .button-container {
@@ -71,9 +70,18 @@ button:disabled {
   flex-flow: row;
 }
 
+.flex {
+  flex: 1 1 auto;
+}
+
 .flex-grow {
   flex-grow: 1;
   flex-shrink: 0;
+}
+
+.flex-shrink {
+  flex-grow: 0;
+  flex-shrink: 1;
 }
 
 .overflow-hidden {
@@ -115,8 +123,4 @@ button:disabled {
 ::-webkit-scrollbar-thumb {
   background: #985b9c;
   border-radius: 10px;
-}
-
-.test {
-  background-color: red;
 }

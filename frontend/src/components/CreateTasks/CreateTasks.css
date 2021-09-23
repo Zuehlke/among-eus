@@ -2,3 +2,15 @@
     font-size: 2em;
     margin-right: 10px;
 }
+
+.CreateTasks input {
+    z-index: 1;
+    height: 30px;
+    position: absolute;
+}
+
+.CreateTasks .task-image {
+    object-fit: cover;
+    width: 100%;
+    background-color: blue;
+}
