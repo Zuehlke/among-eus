@@ -16,6 +16,7 @@ html *
 
 .header {
   margin: 1em;
+  height: 2em;
 }
 
 .header > img {
@@ -24,10 +25,10 @@ html *
 }
 
 .component-element-container {
-  background-color: midnightblue;
-  margin-left: 1em;
-  margin-bottom: 1em;
-  margin-right: 1em;
+  margin: 1em;
+  padding: 1em;
+  border: 5px solid rgba(152,91,156,0.1);
+  background-color: rgba(152,91,156,0.3);
 }
 
 input {
@@ -79,7 +80,8 @@ button:disabled {
 }
 
 .flex-grow {
-  flex: 1 0;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .overflow-hidden {
@@ -114,26 +116,4 @@ button:disabled {
 
 .margin-left {
   margin-left: 2em;
-}
-
-.margin-top {
-  margin-top: 2em;
-}
-
-.logo {
-  display: block;
-  text-align: center;
-}
-
-.logo>img {
-  margin-right: 10px;
-  margin-top: 5em;
-  height: 5em;
-}
-
-.logo>p {
-  font-size: 3.5em;
-  margin-top: 0;
-  color: white;
-  text-shadow: 0 0 4px black;
 }

@@ -4,11 +4,12 @@
 
 .ChooseGame tr {
   background-color: white;
+  height: 2em;
 }
 
 .ChooseGame tr>td {
   padding: 1em;
-  width: 8em;
+  width: 80vw;
 }
 
 .ChooseGame .selected-tr {
@@ -17,3 +18,16 @@
   font-weight: bold ;
 }
 
+.ChooseGame .button-container {
+  min-height: 8em;
+  padding-top: 3em;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #985b9c;
+  border-radius: 10px;
+}

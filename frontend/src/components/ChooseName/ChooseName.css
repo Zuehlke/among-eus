@@ -1,0 +1,16 @@
+.ChooseName .logo {
+  display: block;
+  text-align: center;
+}
+
+.ChooseName .logo>img {
+  margin-top: 5em;
+  height: 5em;
+}
+
+.ChooseName .logo>p {
+  font-size: 3.5em;
+  margin-top: 0;
+  color: white;
+  text-shadow: 0 0 4px black;
+}
