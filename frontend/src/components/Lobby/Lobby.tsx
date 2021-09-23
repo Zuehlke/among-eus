@@ -6,13 +6,13 @@ interface Pair {
     [key: string]: number;
 }
 
-interface Lobby {
+interface LobbyWithPlayers {
     gameId: string;
     playerIdTaskCountPairs: Array<Pair>;
 }
 
 interface LobbyProps {
-    lobby?: Lobby;
+    lobby?: LobbyWithPlayers;
     isHost: boolean;
     numberOfTasks: number;
     gameId: string;
@@ -21,7 +21,7 @@ interface LobbyProps {
 }
 
 const Lobby = (props: LobbyProps) => {
-    const [lobby, setLobby] = useState<Lobby>();
+    const [lobby, setLobby] = useState<LobbyWithPlayers>();
 
     const isPending = (props: LobbyProps): boolean => {
         return lobby?.playerIdTaskCountPairs.some(player => player.tasksCreated < props.numberOfTasks) as boolean;
@@ -39,7 +39,7 @@ const Lobby = (props: LobbyProps) => {
     }
 
     const onLobbyReceived = (message: Message) => {
-        const lobby: Lobby = JSON.parse(message.body);
+        const lobby: LobbyWithPlayers = JSON.parse(message.body);
         setLobby(lobby);
     }
 
