@@ -45,4 +45,11 @@ class LobbyService {
         println(lobby)
         LobbyStore.saveOrUpdateLobby(lobby)
     }
+
+    fun getPlayersInLobby(gameId: String): List<String> {
+        val lobby = LobbyStore.getLobbyByGame(gameId)
+        return lobby!!.playerIdTaskCountPairs.map {
+            it.first
+        }
+    }
 }
