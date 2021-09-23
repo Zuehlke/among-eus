@@ -12,6 +12,7 @@ interface AppState {
     client?: Client,
     games: Game[],
     playerName?: string,
+    gameId: string,
 }
 
 class App extends React.Component<any, AppState> {
@@ -22,10 +23,12 @@ class App extends React.Component<any, AppState> {
             currentView: 'ChooseName',
             client: undefined,
             games: [],
+            gameId: ""
         };
         this.onNameChosen = this.onNameChosen.bind(this);
         this.onHostGame = this.onHostGame.bind(this);
         this.onGamesReceived = this.onGamesReceived.bind(this);
+        this.onLobbyJoin = this.onLobbyJoin.bind(this);
     }
 
     render() {
@@ -33,8 +36,8 @@ class App extends React.Component<any, AppState> {
         return (
             <div className="app-container schwarzwald-background">
                 {currentView === 'ChooseName' && <ChooseName onNameChosen={this.onNameChosen}/>}
-                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame}/>}
-                {currentView === 'Lobby' && <Lobby/>}
+                {currentView === 'ChooseGame' && <ChooseGame games={this.state.games} onHostGame={this.onHostGame} onLobbyJoin={this.onLobbyJoin}/>}
+                {currentView === 'Lobby' && <Lobby client={this.state.client} gameId={this.state.gameId} isHost={true} numberOfTasks={2} />}
                 {currentView === 'CreateTasks' && <CreateTasks/>}
                 {currentView === 'SocketConnection' && <SocketConnection/>}
             </div>
@@ -56,6 +59,18 @@ class App extends React.Component<any, AppState> {
                 name: this.state.playerName + "'s Game",
                 ownerId: 42,
             }),
+        });
+    }
+
+    onLobbyJoin(gameId: string) {
+        this.setState({currentView: "Lobby", gameId});
+    }
+
+    private publish(endpoint:string, payload?: any) {
+        const client: Client | undefined = this.state.client;
+        client?.publish({
+            destination: endpoint,
+            body: JSON.stringify(payload),
         });
     }
 

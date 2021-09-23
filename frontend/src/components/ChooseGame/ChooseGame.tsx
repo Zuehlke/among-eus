@@ -41,7 +41,7 @@ const ChooseGame = (props: any) => {
                     </table>
                 </div>
                 <div className="button-container center ">
-                   <button hidden={!selectedGameId} id="btnJoinGame" className="" onClick={() => console.log(selectedGameId)}>
+                   <button hidden={!selectedGameId} id="btnJoinGame" className="" onClick={() => props.onLobbyJoin(selectedGameId)}>
                         Join Game
                     </button>
                 </div>
