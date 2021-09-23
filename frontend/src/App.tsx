@@ -55,6 +55,14 @@ class App extends React.Component<any, AppState> {
             playerName,
             currentView: 'ChooseGame',
         });
+        const playerClient: Client | undefined = this.state.playerClient;
+        console.debug("creating player");
+        playerClient?.publish({
+            destination: '/create',
+            body: JSON.stringify({
+                name: this.state.playerName,
+            }),
+        });
     }
 
     onHostGame() {
@@ -70,6 +78,7 @@ class App extends React.Component<any, AppState> {
 
     componentDidMount() {
         this.initialiseWebSocket();
+        this.initialiseWebSocketPlayers();
     }
 
     initialiseWebSocket() {
@@ -119,8 +128,7 @@ class App extends React.Component<any, AppState> {
         playerClient.onConnect = () => {
             this.setState({playerClient: playerClient});
 
-            // TODO: Change URL
-            playerClient.subscribe('/players', this.onGamesReceived)
+            playerClient.subscribe('/player', this.onPlayerReceived)
         }
 
         playerClient.onStompError = (frame) => {
