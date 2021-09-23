@@ -31,9 +31,9 @@ class CreateTask extends React.Component<CreateTaskProps, any> {
             <h2>
                 Task {taskIndex}
                 {this.state.latitude &&
-                <h3>
+                <div>
                     Latitude: {this.state.latitude} Longitude: {this.state.longitude}
-                </h3>
+                </div>
                 }
             </h2>
             <div>

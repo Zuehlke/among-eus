@@ -50,9 +50,11 @@ class CreateTasks extends React.Component<CreateTasksProps, CreateTasksState> {
                     </div>
                     <div className="button-container center">
                         <button disabled={!this.state.createPossible} className="btnCreateTasks"
-                                onClick={this.onCreateTasks}>Create tasks
+                                onClick={this.onCreateTasks}>
+                            Create tasks
                         </button>
                     </div>
+                </div>
             </div>
         );
     }
