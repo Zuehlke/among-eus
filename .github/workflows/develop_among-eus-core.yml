@@ -51,4 +51,4 @@ jobs:
           app-name: 'among-eus-core'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9CB4DDAFE7D74EA08C36C5D1E540B8C3 }}
-          package: '*.jar'
+          package: '*-SNAPSHOT.jar'
