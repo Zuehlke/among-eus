@@ -93,17 +93,6 @@
     <configuration name="generated-requests#12" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="12" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="GamesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="games" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.games.GamesApplication" />
@@ -112,11 +101,10 @@
       </method>
     </configuration>
     <configuration name="PlayersApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="among-eus-players.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.players.PlayersApplication" />
       <option name="ACTIVE_PROFILES" value="local" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="among-eus-players.main" />
       <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.players.PlayersApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -130,6 +118,7 @@
     </configuration>
     <list>
       <item itemvalue="HTTP Request.generated-requests#12" />
+      <item itemvalue="Spring Boot.GamesApplication " />
       <item itemvalue="Spring Boot.GamesApplication" />
       <item itemvalue="Spring Boot.PlayersApplication" />
       <item itemvalue="Spring Boot.TasksApplication" />

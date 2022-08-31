@@ -9,7 +9,7 @@ html *
 }
 
 .schwarzwald-background{
-  background-image: url("links/schwarzwald.jpg");
+  background-image: url("src/links/schwarzwald.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
