@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="Trivial version of create tasks without GPS.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/controller/TestController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,9 +69,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "jdk.selected.JAVA_MODULE": "corretto-1.8",
     "last_opened_file_path": "C:/Users/caoe/Documents/Projects/camp/among-eus/spring-backend",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.keymap"
@@ -82,7 +86,7 @@
       <recent name="C:\Users\caoe\Documents\Projects\camp\among-eus\old" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.PlayersApplication">
+  <component name="RunManager" selected="Spring Boot.Core">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -104,6 +108,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Core" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ACTIVE_PROFILES" />
+      <module name="core.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.core.CoreApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GamesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="games" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.games.GamesApplication" />
@@ -113,8 +125,6 @@
     </configuration>
     <configuration name="PlayersApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" value="local" />
-      <module name="among-eus-players.main" />
-      <option name="SHORTEN_COMMAND_LINE" value="NONE" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.players.PlayersApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -133,6 +143,7 @@
       <item itemvalue="Spring Boot.GamesApplication " />
       <item itemvalue="Spring Boot.GamesApplication" />
       <item itemvalue="Spring Boot.PlayersApplication" />
+      <item itemvalue="Spring Boot.Core" />
       <item itemvalue="Spring Boot.TasksApplication" />
     </list>
     <recent_temporary>
