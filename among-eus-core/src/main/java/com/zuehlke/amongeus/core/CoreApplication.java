@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AmongeusApplication {
+public class CoreApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AmongeusApplication.class, args);
+		SpringApplication.run(CoreApplication.class, args);
 	}
 
 }
