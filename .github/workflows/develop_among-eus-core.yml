@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/among-eus-core/target/*.jar'
+          path: '${{ github.workspace }}/among-eus-core/build/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
