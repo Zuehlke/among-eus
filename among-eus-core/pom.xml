@@ -8,11 +8,11 @@
         <version>2.7.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.zuehlke</groupId>
+    <groupId>com.zuehlke.amongeus</groupId>
     <artifactId>amongeus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>amongeus</name>
-    <description>AmongEus Base Backend USE Camp 2022</description>
+    <name>core</name>
+    <description>AmongEus Core Backend USE Camp 2022</description>
     <properties>
         <java.version>17</java.version>
     </properties>

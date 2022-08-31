@@ -1,4 +1,4 @@
-package com.zuehlke.amongeus.base;
+package com.zuehlke.amongeus.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
