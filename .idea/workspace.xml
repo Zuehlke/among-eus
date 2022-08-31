@@ -6,15 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="Trivial version of create tasks without GPS.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/mvnw" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/src/main/java/com/zuehlke/amongeus/base/AmongeusApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/AmongeusApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-base/src/test/java/com/zuehlke/amongeus/base/AmongeusApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/test/java/com/zuehlke/amongeus/core/AmongeusApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +14,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/among-eus-core">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$/players">
       <ProjectState />
     </projectState>
@@ -43,6 +38,7 @@
       <list>
         <option value="Kotlin Class" />
         <option value="Kotlin Data Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
