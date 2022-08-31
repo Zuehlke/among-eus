@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="Trivial version of create tasks without GPS.">
-      <change afterPath="$PROJECT_DIR$/among-eus-base/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-base/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-base/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +93,13 @@
     <configuration name="generated-requests#12" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="12" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration name="AmongeusApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="among-eus-base" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.base.AmongeusApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GamesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="games" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.games.GamesApplication" />
@@ -118,6 +125,7 @@
     </configuration>
     <list>
       <item itemvalue="HTTP Request.generated-requests#12" />
+      <item itemvalue="Spring Boot.AmongeusApplication" />
       <item itemvalue="Spring Boot.GamesApplication " />
       <item itemvalue="Spring Boot.GamesApplication" />
       <item itemvalue="Spring Boot.PlayersApplication" />
