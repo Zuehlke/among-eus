@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="Trivial version of create tasks without GPS.">
+    <list default="true" id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/GamesApplication .run.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/controller/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-core/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,20 +70,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "jdk.selected.JAVA_MODULE": "corretto-1.8",
-    "last_opened_file_path": "C:/Users/caoe/Documents/Projects/camp/among-eus/spring-backend",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-1.8&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/caoe/Documents/Projects/camp/among-eus/spring-backend&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\caoe\Documents\Projects\camp\among-eus\old" />
@@ -101,13 +104,6 @@
     <configuration name="generated-requests#12" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="12" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="AmongeusApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="among-eus-core" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.base.AmongeusApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Core" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
       <module name="core.main" />
@@ -116,35 +112,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GamesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="games" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.games.GamesApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlayersApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <option name="ACTIVE_PROFILES" value="local" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.players.PlayersApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TasksApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="tasks" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.tasks.TasksApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="HTTP Request.generated-requests#12" />
-      <item itemvalue="Spring Boot.AmongeusApplication" />
-      <item itemvalue="Spring Boot.GamesApplication " />
-      <item itemvalue="Spring Boot.GamesApplication" />
-      <item itemvalue="Spring Boot.PlayersApplication" />
       <item itemvalue="Spring Boot.Core" />
-      <item itemvalue="Spring Boot.TasksApplication" />
     </list>
     <recent_temporary>
       <list>
