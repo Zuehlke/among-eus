@@ -1,6 +1,6 @@
-package com.zuehlke.amongeus.core.test.socket;
+package com.zuehlke.amongeus.core.player;
 
-import com.zuehlke.amongeus.core.test.model.Player;
+import com.zuehlke.amongeus.core.model.Player;
 
 public class PlayerMessage {
 

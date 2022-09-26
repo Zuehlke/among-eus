@@ -1,6 +1,5 @@
-package com.zuehlke.amongeus.core.test.controller;
+package com.zuehlke.amongeus.core.test;
 
-import com.zuehlke.amongeus.core.CoreApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,4 +19,5 @@ public class TestController {
         logger.info("An INFO Message");
         return new ResponseEntity<>("Hello world", HttpStatus.OK);
     }
+
 }

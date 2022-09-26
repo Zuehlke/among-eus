@@ -1,4 +1,4 @@
-package com.zuehlke.amongeus.core.test.socket;
+package com.zuehlke.amongeus.core.socket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
