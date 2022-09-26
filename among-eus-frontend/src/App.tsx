@@ -7,7 +7,7 @@ import {connect, sendMessage} from "./utils/websocket-client";
 
 function App() {
 
-    connect('ws:localhost:10000', () => sendMessage('test'));
+    connect('wss://among-eus-core.azurewebsites.net/socket/topic/positions', () => sendMessage('test'));
 
     const gameDetails = parseGameDetails();
     console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
