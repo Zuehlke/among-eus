@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="Setup multi-module project to include frontend.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-    </list>
+    <list default="true" id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="Upgrade to gradle 7.5." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +26,12 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="among-eus" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -53,6 +54,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="WARN_ABOUT_CRLF" value="false" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -131,8 +133,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="among-eus.among-eus-core.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.amongeus.core.CoreApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="HTTP Request.generated-requests#12" />
+      <item itemvalue="Spring Boot.CoreApplication" />
       <item itemvalue="Spring Boot.PlayersApplication" />
       <item itemvalue="Spring Boot.TasksApplication" />
       <item itemvalue="Spring Boot.Core" />
@@ -156,7 +166,7 @@
       <workItem from="1632140704690" duration="989000" />
       <workItem from="1632240043518" duration="7331000" />
       <workItem from="1664178851218" duration="19000" />
-      <workItem from="1664178992645" duration="577000" />
+      <workItem from="1664178992645" duration="666000" />
     </task>
     <task id="LOCAL-00001" summary="Trivial version of create tasks without GPS.">
       <created>1632208039315</created>
@@ -179,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664179250942</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Upgrade to gradle 7.5.">
+      <created>1664180765233</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1664180765233</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +217,8 @@
     <MESSAGE value="Trivial version of create tasks without GPS." />
     <MESSAGE value="Player killed event topic integration" />
     <MESSAGE value="Setup multi-module project to include frontend." />
-    <option name="LAST_COMMIT_MESSAGE" value="Setup multi-module project to include frontend." />
+    <MESSAGE value="Upgrade to gradle 7.5." />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrade to gradle 7.5." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
