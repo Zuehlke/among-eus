@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import MapOverview from "./components/MapOverview/MapOverview";
 import {parseGameDetails} from "./utils/game-details";
@@ -12,7 +11,7 @@ function App() {
 
     return (
         <div className="App">
-            <MapOverview></MapOverview>
+            <MapOverview userId={gameDetails.userId} gameId={gameDetails.gameId} ></MapOverview>
         </div>
     );
 }
