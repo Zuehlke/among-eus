@@ -1,5 +1,4 @@
-import {Stomp} from "@stomp/stompjs";
-import {Client, Message} from '@stomp/stompjs';
+import {Client} from "@stomp/stompjs";
 
 
 let client: Client | undefined = undefined;

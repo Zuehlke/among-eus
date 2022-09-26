@@ -7,7 +7,7 @@ import {connect, subscribe} from "./utils/websocket-client";
 
 function App() {
 
-    connect('wss://among-eus-core.azurewebsites.net/socket/topic/positions',
+    connect('wss://among-eus-core.azurewebsites.net/socket',
         () => subscribe('/topic/positions', (message: any) => console.info(message)));
 
     const gameDetails = parseGameDetails();
