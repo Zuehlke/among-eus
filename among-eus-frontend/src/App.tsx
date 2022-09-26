@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import MapOverview from "./components/MapOverview/MapOverview";
 import {parseGameDetails} from "./utils/game-details";
