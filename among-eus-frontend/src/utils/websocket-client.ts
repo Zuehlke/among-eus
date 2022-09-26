@@ -1,21 +1,25 @@
 import {Stomp} from "@stomp/stompjs";
-import { Client, Message } from '@stomp/stompjs';
+import {Client, Message} from '@stomp/stompjs';
 
 
-let ws: WebSocket | undefined = undefined;
+let client: Client | undefined = undefined;
 
-export function sendMessage(data: string) {
-    if (!ws) {
-        throw new Error('No connection exists');
-    }
-    ws.send(data);
+export function sendMessage(destination: string, body: string) {
+    client?.publish({
+        destination,
+        body
+    });
 }
 
-export function connect(url: string, connectedCallback: any) {
-    if (ws === undefined) {
+export function subscribe(destination: string, callback: any) {
+    client?.subscribe(destination, callback);
+}
 
-        const client = new Client({
-            brokerURL: 'wss://among-eus-core.azurewebsites.net/socket',
+export function connect(url: string = 'ws://localhost:8080/socket', connectedCallback: any) {
+    if (client === undefined) {
+
+        client = new Client({
+            brokerURL: url,
             debug: function (str) {
                 console.log(str);
             },
@@ -28,6 +32,7 @@ export function connect(url: string, connectedCallback: any) {
             // Do something, all subscribes must be done is this callback
             // This is needed because this will be executed after a (re)connect
             console.info('we are connected', frame);
+            connectedCallback();
         };
 
         client.onStompError = function (frame) {
