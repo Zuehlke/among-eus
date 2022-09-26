@@ -11,7 +11,7 @@ function App() {
 
     return (
         <div className="App">
-            <MapOverview></MapOverview>
+            <MapOverview userId={gameDetails.userId} gameId={gameDetails.gameId} ></MapOverview>
         </div>
     );
 }
