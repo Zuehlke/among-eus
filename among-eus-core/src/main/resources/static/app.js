@@ -34,7 +34,7 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
+function sendPosition() {
     const username = $("#name").val();
     stompClient.send("/app/positions", {}, JSON.stringify({
         gameId: 'gameId',
@@ -57,6 +57,6 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
+    $( "#send" ).click(function() { sendPosition(); });
 });
 
