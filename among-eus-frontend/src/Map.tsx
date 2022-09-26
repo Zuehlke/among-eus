@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import React, {useEffect, useRef, useState} from "react";
+import {Status, Wrapper} from "@googlemaps/react-wrapper";
 import './Map.css';
 
 const render = (status: Status) => {
@@ -41,7 +41,14 @@ function MyMapComponent({center, zoom}: {
 
     useEffect(() => {
         if (ref.current && !map) {
-            setMap(new window.google.maps.Map(ref.current, {center, zoom, scrollwheel: false, draggable: false, fullscreenControl: false}));
+            setMap(new window.google.maps.Map(ref.current,
+                {
+                    center,
+                    zoom,
+                    scrollwheel: false,
+                    draggable: false,
+                    fullscreenControl: false
+                }));
         }
     }, [ref, map]);
 
@@ -49,13 +56,13 @@ function MyMapComponent({center, zoom}: {
 }
 
 export default function Map() {
-    const center = { lat: 47.04423359340005, lng: 8.465418735471747 };
+    const pos = { lat: 47.04423359340005, lng: 8.465418735471747 };
     const zoom = 20;
-    const position = { lat: 47.04423359340005, lng: 8.465418735471747 };
+
     return (
-        <Wrapper apiKey="" render={render}>
-            <MyMapComponent center={center} zoom={zoom} />
-            <Marker position={position} />
+        <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={render}>
+            <MyMapComponent center={pos} zoom={zoom} />
+            <Marker position={pos} />
         </Wrapper>
     );
 }
