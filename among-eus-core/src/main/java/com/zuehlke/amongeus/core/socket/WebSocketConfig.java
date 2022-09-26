@@ -18,7 +18,10 @@ class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/socket").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/socket").setAllowedOrigins(
+                "http://localhost:3000",
+                "https://blue-sea-050a45e10.1.azurestaticapps.net");
+        registry.addEndpoint("/socket").withSockJS();
     }
 
 }
