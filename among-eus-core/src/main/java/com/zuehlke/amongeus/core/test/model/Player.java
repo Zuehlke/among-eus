@@ -41,4 +41,14 @@ public class Player {
     public void setAccuracy(double accuracy) {
         this.accuracy = accuracy;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "username='" + username + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", accuracy=" + accuracy +
+                '}';
+    }
 }

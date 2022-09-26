@@ -26,4 +26,12 @@ public class PlayerMessage {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerMessage{" +
+                "gameId='" + gameId + '\'' +
+                ", player=" + player +
+                '}';
+    }
 }
