@@ -28,7 +28,7 @@ export default function Map() {
     const zoom = 20;
 
     return (
-        <Wrapper apiKey="AIzaSyBz_kVEByStS6Ecr9OIPNKx0Mm0rYESWGY" render={render}>
+        <Wrapper apiKey="" render={render}>
             <MyMapComponent center={center} zoom={zoom} />
         </Wrapper>
     );
