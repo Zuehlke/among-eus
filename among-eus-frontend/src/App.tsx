@@ -1,26 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import MapOverview from "./components/MapOverview/MapOverview";
+import {parseGameDetails} from "./utils/game-details";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const gameDetails = parseGameDetails();
+    console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
+
+    return (
+        <div className="App">
+            <MapOverview userId={gameDetails.userId} gameId={gameDetails.gameId} ></MapOverview>
+        </div>
+    );
 }
 
 export default App;
