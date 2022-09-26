@@ -4,11 +4,12 @@ package com.zuehlke.amongeus.core.test.model;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Game {
 
     private String id;
-    private Map<String, Player> players = new HashMap<>();
+    private Map<String, Player> players = new ConcurrentHashMap<>();
 
 
     public Game() {
