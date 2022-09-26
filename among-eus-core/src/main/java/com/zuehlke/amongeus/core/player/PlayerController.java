@@ -1,8 +1,8 @@
-package com.zuehlke.amongeus.core.test.socket;
+package com.zuehlke.amongeus.core.player;
 
-import com.zuehlke.amongeus.core.test.model.Game;
-import com.zuehlke.amongeus.core.test.model.Player;
-import com.zuehlke.amongeus.core.test.service.GameService;
+import com.zuehlke.amongeus.core.game.GameService;
+import com.zuehlke.amongeus.core.model.Game;
+import com.zuehlke.amongeus.core.model.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;

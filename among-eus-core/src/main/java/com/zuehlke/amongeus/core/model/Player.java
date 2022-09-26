@@ -1,4 +1,4 @@
-package com.zuehlke.amongeus.core.test.model;
+package com.zuehlke.amongeus.core.model;
 
 public class Player {
 
