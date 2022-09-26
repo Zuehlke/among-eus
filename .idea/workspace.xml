@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="Upgrade to gradle 7.5." />
+    <list default="true" id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/test/socket/TestSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/test/socket/TestSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/test/socket/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/test/socket/WebSocketConfig.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,12 +29,20 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/among-eus-core">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="among-eus" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="among-eus" type="f1a62948:ProjectNode" />
+                <item name="among-eus-core" type="2d1252cf:ModuleNode" />
               </path>
             </expand>
             <select />
@@ -64,6 +77,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="125opft5" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -78,26 +94,34 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Git.Branch.Popup.ShowAllRemotes": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "corretto-1.8",
-    "last_opened_file_path": "C:/Users/caoe/Documents/Projects/camp/among-eus/spring-backend",
+    "last_opened_file_path": "/Users/alho/Code/camp-2022/among-eus/among-eus-core/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "spring.configuration.checksum": "379471da9da7f6ab65f3dedfb2a71fde"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/among-eus-core/src/main/resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\caoe\Documents\Projects\camp\among-eus\old" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Core">
+  <component name="RunManager" selected="Spring Boot.CoreApplication">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -167,6 +191,7 @@
       <workItem from="1632240043518" duration="7331000" />
       <workItem from="1664178851218" duration="19000" />
       <workItem from="1664178992645" duration="666000" />
+      <workItem from="1664182296850" duration="6478000" />
     </task>
     <task id="LOCAL-00001" summary="Trivial version of create tasks without GPS.">
       <created>1632208039315</created>
@@ -219,6 +244,22 @@
     <MESSAGE value="Setup multi-module project to include frontend." />
     <MESSAGE value="Upgrade to gradle 7.5." />
     <option name="LAST_COMMIT_MESSAGE" value="Upgrade to gradle 7.5." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/test/socket/TestSocket.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/test/socket/TestSocket.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
