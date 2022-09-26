@@ -40,5 +40,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.50.2",
+    "@types/googlemaps": "^3.43.3"
   }
 }
