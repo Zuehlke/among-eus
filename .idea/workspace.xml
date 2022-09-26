@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="">
+    <list default="true" id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="Player killed event topic integration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.run/GamesApplication .run.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/java/com/zuehlke/amongeus/core/controller/TestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/among-eus-core/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/among-eus-core/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +13,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$/among-eus-core">
       <ProjectState />
     </projectState>
@@ -48,7 +47,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/player-service" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -61,6 +60,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1yOixMLs5pBJMIdqA6f548lyi2G" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -70,20 +72,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-1.8&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/caoe/Documents/Projects/camp/among-eus/spring-backend&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "corretto-1.8",
+    "last_opened_file_path": "C:/Users/caoe/Documents/Projects/camp/among-eus/spring-backend",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\caoe\Documents\Projects\camp\among-eus\old" />
@@ -104,6 +108,19 @@
     <configuration name="generated-requests#12" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="12" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="frontend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="frontend" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Core" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
       <module name="core.main" />
@@ -114,6 +131,8 @@
     </configuration>
     <list>
       <item itemvalue="HTTP Request.generated-requests#12" />
+      <item itemvalue="Spring Boot.PlayersApplication" />
+      <item itemvalue="Spring Boot.TasksApplication" />
       <item itemvalue="Spring Boot.Core" />
     </list>
     <recent_temporary>
@@ -126,7 +145,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="57492ba1-6900-47f6-95ba-ce2669a21228" name="Default Changelist" comment="" />
+      <changelist id="dc38a942-bf46-4a78-bbfd-046efd6ce9b2" name="Changes" comment="" />
       <created>1632129281147</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -134,6 +153,8 @@
       <workItem from="1632129286377" duration="1655000" />
       <workItem from="1632140704690" duration="989000" />
       <workItem from="1632240043518" duration="7331000" />
+      <workItem from="1664178851218" duration="19000" />
+      <workItem from="1664178992645" duration="229000" />
     </task>
     <task id="LOCAL-00001" summary="Trivial version of create tasks without GPS.">
       <created>1632208039315</created>
