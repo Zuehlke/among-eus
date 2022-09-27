@@ -12,10 +12,11 @@ export default class Map extends Component<any, any> {
         }
     }
 
-    componentWillMount() {
-        navigator.geolocation.getCurrentPosition(
+    componentDidMount() {
+        navigator.geolocation.watchPosition(
             position => {
                 this.setState({ lat: position.coords.latitude, lng: position.coords.longitude});
+                console.log("State is " + this.state.lat + " " + this.state.lng)
             },
             error => console.log(error)
         );
