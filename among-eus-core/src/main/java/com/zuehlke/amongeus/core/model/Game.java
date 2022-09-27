@@ -11,6 +11,8 @@ public class Game {
 
     private Map<String, Player> players = new ConcurrentHashMap<>();
 
+    private Map<String, Task> tasks = new ConcurrentHashMap<>();
+
     public Game() {
     }
 
@@ -28,5 +30,17 @@ public class Game {
 
     public void updatePlayer(Player player) {
         players.put(player.getUsername(), player);
+    }
+
+    public void updateTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    public void completeTask(String taskId) {
+        tasks.get(taskId).setCompleted(true);
+    }
+
+    public Collection<Task> getTasks() {
+        return tasks.values();
     }
 }
