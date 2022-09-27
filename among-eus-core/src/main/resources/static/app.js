@@ -50,7 +50,6 @@ function connect() {
             console.log("Received event '/topic/players' websocket", event);
             showEventMessage("#players", event.body);
         });
-
         stompClient.subscribe('/topic/tasks', function (event) {
             console.log("Received event '/topic/tasks' websocket", event);
             showEventMessage("#tasks", event.body);
@@ -82,7 +81,7 @@ function createTask() {
 
 function sendKillPlayer() {
     const playerKillMsg = $( "#player-kill-payload" ).val();
-    stompClient.send("/app/players/killed", {}, playerKillMsg);
+    stompClient.send("/app/players/kill", {}, playerKillMsg);
 }
 
 function updateTask() {

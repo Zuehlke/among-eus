@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
+    <title>AmongIsch API</title>
     <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <script src="/webjars/jquery/jquery.min.js"></script>
@@ -15,13 +15,13 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
+        <h1>AmongIsch Websocket API - Documentation & Test Client</h1>
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
+                    <label for="connect">WebSocket Connection:</label>
                     <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                    </button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
                 </div>
             </form>
         </div>
@@ -34,7 +34,7 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="players-payload">Create & Update Player</label>
+                    <label for="players-payload">Create & Update Player /app/players</label>
                     <textarea id="players-payload" class="form-control payload">player JSON here...</textarea>
                     <button id="players-send" class="btn btn-default" type="submit">Send</button>
                 </div>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-md-8">
-            <div><label>Event: Players</label></div>
+            <div><label>Event: Players /topic/players</label></div>
             <div class="scrollable-event-area">
             <table id="players-status" class="table table-striped">
                 <tbody id="players">
@@ -58,7 +58,7 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="player-kill-payload">Kill Player</label>
+                    <label for="player-kill-payload">Kill Player /app/players/kill</label>
                     <textarea id="player-kill-payload" class="form-control payload">player kill JSON here...</textarea>
                     <button id="player-kill-send" class="btn btn-default" type="submit">Send</button>
                 </div>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="col-md-8">
-            <div><label>Event: Player killed</label></div>
+            <div><label>Event: Player Killed /topic/players/killed</label></div>
             <div class="scrollable-event-area">
             <table id="player-killed" class="table table-striped">
                 <tbody id="player-killed-events">
@@ -83,7 +83,7 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="create-task-payload">Create Task</label>
+                    <label for="create-task-payload">Create Task /app/tasks</label>
                     <textarea id="create-task-payload" class="form-control payload">task JSON here...</textarea>
                     <button id="create-task-send" class="btn btn-default" type="submit">Send</button>
                 </div>
@@ -91,7 +91,7 @@
 
             <form>
                 <div class="form-group">
-                    <label for="update-task-payload">Complete Task</label>
+                    <label for="update-task-payload">Complete Task /app/tasks/complete</label>
                     <textarea id="update-task-payload" class="form-control payload">task JSON here...</textarea>
                     <button id="update-task-send" class="btn btn-default" type="submit">Send</button>
                 </div>
@@ -99,7 +99,7 @@
         </div>
 
         <div class="col-md-8">
-            <div><label>Event: Tasks</label></div>
+            <div><label>Event: Tasks /topic/tasks</label></div>
             <div class="scrollable-event-area">
                 <table id="tasks-status" class="table table-striped">
                     <tbody id="tasks">

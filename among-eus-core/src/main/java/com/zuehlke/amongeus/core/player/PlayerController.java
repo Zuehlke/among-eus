@@ -33,7 +33,7 @@ public class PlayerController {
 
         return game.getPlayers();
     }
-    @MessageMapping("/players/killed")
+    @MessageMapping("/players/kill")
     @SendTo("/topic/players/killed")
     public Player killed(final KilledMessage killedMessage) {
 
