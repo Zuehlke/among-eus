@@ -19,7 +19,7 @@ function App() {
     }, [setPlayers]);
 
     useEffect(() => {
-        connect('ws://localhost:8080/socket',
+        connect('wss://among-eus-core.azurewebsites.net/socket',
             () => {
                 subscribe('/topic/players', (message: IMessage) => updatePlayerDetails(message));
                 subscribe('/topic/tasks', (message: IMessage) => {
