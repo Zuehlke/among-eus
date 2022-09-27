@@ -1,4 +1,5 @@
 import {Client} from "@stomp/stompjs";
+import {IMessage} from "@stomp/stompjs/src/i-message";
 
 
 let client: Client | undefined = undefined;
@@ -10,7 +11,7 @@ export function sendMessage(destination: string, body: string) {
     });
 }
 
-export function subscribe(destination: string, callback: any) {
+export function subscribe(destination: string, callback: (message: IMessage) => void) {
     client?.subscribe(destination, callback);
 }
 
@@ -27,7 +28,7 @@ export function connect(url: string = 'ws://localhost:8080/socket', connectedCal
             heartbeatOutgoing: 4000,
         });
 
-        client.onConnect = function (frame) {
+        client.onConnect = function (_) {
             // Do something, all subscribes must be done is this callback
             // This is needed because this will be executed after a (re)connect
             connectedCallback();

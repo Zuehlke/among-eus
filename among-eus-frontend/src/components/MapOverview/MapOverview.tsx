@@ -8,11 +8,13 @@ import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 import {Player} from "../../utils/player";
+import Task from "../../utils/task";
 
 interface MapOverviewProps {
     userId: string;
     gameId: string;
     players: Player[];
+    tasks: Task[];
 }
 
 const renderMapStatus = (status: Status) => {
@@ -54,8 +56,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             <h2 className="title">Among Eus - {props.gameId}</h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
             <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {props.players.length} Players - <FontAwesomeIcon
-                icon={faCheck}/> 5
-                Tasks
+                icon={faCheck}/> {props.tasks.length}
+                Task(s)
             </div>
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
@@ -66,6 +68,14 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                                 lat: player.latitude,
                                 lng: player.longitude,
                             }} labelName={player.username} labelType={type}></Marker>
+                        })
+                    }
+                    {
+                        props.tasks.map(task => {
+                            return <Marker key={task.id} position={{
+                                lat: task.latitude,
+                                lng: task.longitude,
+                            }} labelName={'Task ' + task.id} labelType={MarkerTypes.TASK}></Marker>
                         })
                     }
                 </PlayerMap>
