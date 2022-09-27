@@ -67,7 +67,19 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             <div className="action-bar">
                 <div className="action-bar-child">Daniel (7 Meter)</div>
                 <div className="action-bar-child">
-                    <button>umtue</button>
+                    <button className="kill-action-button">umtue</button>
+                </div>
+            </div>
+            <div className="action-bar">
+                <div className="action-bar-child">Task platziere</div>
+                <div className="action-bar-child">
+                    <button className="task-action-button">Task do platziere</button>
+                </div>
+            </div>
+            <div className="action-bar">
+                <div className="action-bar-child">Start Game</div>
+                <div className="action-bar-child">
+                    <button className="game-action-button">starte</button>
                 </div>
             </div>
         </div>

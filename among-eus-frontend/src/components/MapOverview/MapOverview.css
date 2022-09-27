@@ -28,7 +28,7 @@
 .action-bar {
     display: flex;
     font-size: 18px;
-    margin-top: 10px;
+    margin-top: 2px;
     padding: 10px 0;
     align-items: center;
     justify-content: center;
@@ -38,6 +38,14 @@
 
 .action-bar-child {
     flex: 1;
+}
+
+.task-action-button {
+    background-color: red;
+}
+
+.kill-action-button {
+    background-color: orange;
 }
 
 .action-bar-child:first-child {
