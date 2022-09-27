@@ -7,11 +7,12 @@ import {Status, Wrapper} from '@googlemaps/react-wrapper';
 import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
+import {Player} from "../../utils/player";
 
 interface MapOverviewProps {
     userId: string;
     gameId: string;
-    players: any[] | null;
+    players: Player[] | null;
 }
 
 const renderMapStatus = (status: Status) => {
