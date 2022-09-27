@@ -2,6 +2,8 @@ package com.zuehlke.amongeus.core.task;
 
 import com.zuehlke.amongeus.core.model.Task;
 
+import java.util.UUID;
+
 public class TaskCreatedMessage {
 
     private String gameId;
@@ -34,7 +36,7 @@ public class TaskCreatedMessage {
         this.latitude = latitude;
     }
 
-    public Task createTask() {
-        return new Task(gameId, longitude, latitude, false);
+    public Task createTask(String id) {
+        return new Task(id, longitude, latitude, false);
     }
 }

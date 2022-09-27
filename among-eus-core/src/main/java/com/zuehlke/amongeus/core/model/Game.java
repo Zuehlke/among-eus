@@ -1,6 +1,8 @@
 package com.zuehlke.amongeus.core.model;
 
 
+import com.zuehlke.amongeus.core.task.TaskCreatedMessage;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,7 +34,9 @@ public class Game {
         players.put(player.getUsername(), player);
     }
 
-    public void updateTask(Task task) {
+    public synchronized void createTask(TaskCreatedMessage message) {
+        var id = tasks.size() + 1;
+        var task = message.createTask(String.valueOf(id));
         tasks.put(task.getId(), task);
     }
 

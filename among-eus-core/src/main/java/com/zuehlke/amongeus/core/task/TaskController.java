@@ -30,7 +30,7 @@ public class TaskController {
 
         Game game = gameService.getGame(message.getGameId());
 
-        game.updateTask(message.createTask());
+        game.createTask(message);
 
         return game.getTasks();
     }
