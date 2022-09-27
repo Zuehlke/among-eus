@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
@@ -10,14 +10,9 @@ interface MapOverviewProps {
 }
 
 const MapOverview: FC<MapOverviewProps> = (props) => {
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (props.gameId && props.userId) {
-                startGpsTracking(props.gameId, props.userId);
-            }
-        }, 5000);
-        return () => clearInterval(interval);
-    }, []);
+    if (props.gameId && props.userId) {
+        startGpsTracking(props.gameId, props.userId);
+    }
 
     return (
         <div>
@@ -39,6 +34,9 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 };
 
 function startGpsTracking(game: string, user: string) {
+    let latitude = 0;
+    let longitude = 0;
+    let accuracy = 0;
     if ("geolocation" in navigator) {
         const options = {
             enableHighAccuracy: true,
@@ -48,13 +46,19 @@ function startGpsTracking(game: string, user: string) {
 
         const watchId = navigator.geolocation.watchPosition((position => {
             console.info(`GPS latitude ${position.coords.latitude} longitude ${position.coords.longitude} accuracy ${position.coords.accuracy}`);
-            sendMessage("/app/positions", JSON.stringify({
-                game: game,
-                user: user,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                accuracy: position.coords.accuracy
-            }));
+            if (latitude != position.coords.latitude || longitude != position.coords.longitude) {
+                sendMessage("/app/positions", JSON.stringify({
+                    game,
+                    user,
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    accuracy: position.coords.accuracy
+                }));
+            }
+
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            accuracy = position.coords.accuracy;
         }), (error) => {
             console.error(error.code + " " + error.message)
         }, options);
