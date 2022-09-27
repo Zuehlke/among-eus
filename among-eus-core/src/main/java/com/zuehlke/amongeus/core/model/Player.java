@@ -12,6 +12,8 @@ public class Player {
 
     private boolean alive = true;
 
+    private PlayerRole role = PlayerRole.UNASSIGNED;
+
     public String getUsername() {
         return username;
     }
@@ -50,5 +52,25 @@ public class Player {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public PlayerRole getRole() {
+        return role;
+    }
+
+    public void setRole(PlayerRole role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "username='" + username + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", accuracy=" + accuracy +
+                ", alive=" + alive +
+                ", role=" + role +
+                '}';
     }
 }
