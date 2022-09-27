@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
@@ -17,14 +17,13 @@ const renderMapStatus = (status: Status) => {
 };
 
 const MapOverview: FC<MapOverviewProps> = (props) => {
-    if (props.gameId && props.userId) {
-        startGpsTracking(props.gameId, props.userId);
-    }
+    const [currentLocation, setCurrentLocation] = useState<google.maps.LatLngLiteral>({
+        lat: 47,
+        lng: 8,
+    });
 
-    // TODO use GPS positioning
-    const center = {
-        lat: 47.0443195,
-        lng: 8.465423,
+    if (props.gameId && props.userId) {
+        startGpsTracking(props.gameId, props.userId, setCurrentLocation);
     }
 
     const otherPlayer = {
@@ -41,8 +40,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 Tasks
             </div>
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
-                <PlayerMap center={center} zoom={18}>
-                    <Marker key={1} position={center} labelName={'Me'} labelType={MarkerTypes.PLAYER}></Marker>
+                <PlayerMap center={currentLocation} zoom={18}>
+                    <Marker key={1} position={currentLocation} labelName={'Me'} labelType={MarkerTypes.PLAYER}></Marker>
                     <Marker key={2} position={otherPlayer} labelName={'Fabio'} labelType={MarkerTypes.OPPONENT}></Marker>
                 </PlayerMap>
             </Wrapper>
@@ -56,7 +55,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     )
 };
 
-function startGpsTracking(game: string, user: string) {
+function startGpsTracking(game: string, user: string,
+                          setCurrentLocation: (location: google.maps.LatLngLiteral) => void) {
     let latitude = 0;
     let longitude = 0;
     let accuracy = 0;
@@ -79,6 +79,11 @@ function startGpsTracking(game: string, user: string) {
                         accuracy: position.coords.accuracy
                     }
                 }));
+                // Update current location
+                setCurrentLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                })
             }
 
             latitude = position.coords.latitude;
