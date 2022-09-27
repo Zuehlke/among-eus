@@ -7,11 +7,12 @@ import {Status, Wrapper} from '@googlemaps/react-wrapper';
 import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
+import {Player} from "../../utils/player";
 
 interface MapOverviewProps {
     userId: string;
     gameId: string;
-    players: any[] | null;
+    players: Player[];
 }
 
 const renderMapStatus = (status: Status) => {
@@ -44,24 +45,25 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         });
     }, [props.gameId, props.userId]);
 
-    const otherPlayer = {
-        lat: 47.0444195,
-        lng: 8.466423,
-    }
-
     return (
         <div>
             <h2 className="title">Among Eus - {props.gameId}</h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {props.players?.length} Players - <FontAwesomeIcon
+            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {props.players.length} Players - <FontAwesomeIcon
                 icon={faCheck}/> 5
                 Tasks
             </div>
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
-                    <Marker key={1} position={currentLocation} labelName={'Me'} labelType={MarkerTypes.PLAYER}></Marker>
-                    <Marker key={2} position={otherPlayer} labelName={'Fabio'}
-                            labelType={MarkerTypes.OPPONENT}></Marker>
+                    {
+                        props.players.map((player) => {
+                            const type = props.userId === player.username ? MarkerTypes.PLAYER : MarkerTypes.OPPONENT;
+                            return <Marker key={player.username} position={{
+                                lat: player.latitude,
+                                lng: player.longitude,
+                            }} labelName={player.username} labelType={type}></Marker>
+                        })
+                    }
                 </PlayerMap>
             </Wrapper>
             <div className="action-bar">
