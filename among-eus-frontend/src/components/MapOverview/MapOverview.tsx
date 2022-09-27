@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
@@ -6,10 +6,11 @@ import {sendMessage} from "../../utils/websocket-client";
 import {Status, Wrapper} from '@googlemaps/react-wrapper';
 import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
+import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 
 interface MapOverviewProps {
-    userId: string | null;
-    gameId: string | null;
+    userId: string;
+    gameId: string;
 }
 
 const renderMapStatus = (status: Status) => {
@@ -22,9 +23,25 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         lng: 8,
     });
 
-    if (props.gameId && props.userId) {
-        startGpsTracking(props.gameId, props.userId, setCurrentLocation);
-    }
+    useEffect(() => {
+        const watchId = startGpsTracking2();
+        registerCallback((position: GeolocationPosition) => {
+            setCurrentLocation({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            });
+        });
+
+        return () => {
+            navigator.geolocation.clearWatch(watchId);
+        }
+    }, []);
+
+    useEffect(() => {
+        registerCallback((position) => {
+            sendOwnPosition(props.gameId, props.userId, position);
+        });
+    }, [props.gameId, props.userId]);
 
     const otherPlayer = {
         lat: 47.0444195,
@@ -42,7 +59,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
                     <Marker key={1} position={currentLocation} labelName={'Me'} labelType={MarkerTypes.PLAYER}></Marker>
-                    <Marker key={2} position={otherPlayer} labelName={'Fabio'} labelType={MarkerTypes.OPPONENT}></Marker>
+                    <Marker key={2} position={otherPlayer} labelName={'Fabio'}
+                            labelType={MarkerTypes.OPPONENT}></Marker>
                 </PlayerMap>
             </Wrapper>
             <div className="action-bar">
@@ -55,46 +73,17 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     )
 };
 
-function startGpsTracking(game: string, user: string,
-                          setCurrentLocation: (location: google.maps.LatLngLiteral) => void) {
-    let latitude = 0;
-    let longitude = 0;
-    let accuracy = 0;
-    if ("geolocation" in navigator) {
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0
-        };
-
-        const watchId = navigator.geolocation.watchPosition((position => {
-            console.info(`GPS latitude ${position.coords.latitude} longitude ${position.coords.longitude} accuracy ${position.coords.accuracy}`);
-            if (latitude != position.coords.latitude || longitude != position.coords.longitude) {
-                sendMessage("/app/players", JSON.stringify({
-                    gameId: game,
-                    player: {
-                        username: user,
-                        longitude: position.coords.longitude,
-                        latitude: position.coords.latitude,
-                        accuracy: position.coords.accuracy
-                    }
-                }));
-                // Update current location
-                setCurrentLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                })
-            }
-
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            accuracy = position.coords.accuracy;
-        }), (error) => {
-            console.error(error.code + " " + error.message)
-        }, options);
-    } else {
-        console.error("Geolocation not available");
-    }
+function sendOwnPosition(gameId: string, userId: string, position: GeolocationPosition) {
+    sendMessage("/app/players", JSON.stringify({
+        gameId: gameId,
+        player: {
+            username: userId,
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+            accuracy: position.coords.accuracy
+        }
+    }));
 }
+
 
 export default MapOverview;

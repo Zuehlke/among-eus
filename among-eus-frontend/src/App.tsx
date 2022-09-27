@@ -15,7 +15,7 @@ function App() {
 
     return (
         <div className="App">
-            <MapOverview userId={gameDetails.userId} gameId={gameDetails.gameId}></MapOverview>
+            {gameDetails.userId && gameDetails.gameId && <MapOverview userId={gameDetails.userId} gameId={gameDetails.gameId}></MapOverview>}
         </div>
     );
 }

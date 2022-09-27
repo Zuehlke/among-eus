@@ -46,7 +46,7 @@ const Marker: FC<MarkerProps> = ({labelName, labelType, ...options}) => {
 
             });
         }
-    }, [marker, options]);
+    }, [marker, options, labelName, labelType]);
 
     return null;
 };
