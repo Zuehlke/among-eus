@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
@@ -8,6 +8,8 @@ import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 import {Player} from "../../utils/player";
+import {findNearestAlivePlayer, getDistanceInMeter} from "../../utils/distance-calculator";
+import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
 
 interface MapOverviewProps {
@@ -41,6 +43,16 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     }, []);
 
+    const me: Player | undefined = props.players.find((element) => element.username === props.userId);
+    let distanceToClosestPlayer: number = 0;
+    let closestPlayer: Player | null = null;
+    if (me) {
+        closestPlayer = findNearestAlivePlayer(props.players, me);
+        if (closestPlayer) {
+            distanceToClosestPlayer = getDistanceInMeter(me, closestPlayer);
+        }
+    }
+
     useEffect(() => {
         registerCallback((position) => {
             sendOwnPosition(props.gameId, props.userId, position);
@@ -50,6 +62,12 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     const createTask = () => {
         doCreateTask(props.gameId, currentLocation);
     }
+
+    const kill = useCallback(() => {
+        if (closestPlayer) {
+            doKill(props.gameId, props.userId, closestPlayer.username);
+        }
+    }, [props.gameId, props.userId, closestPlayer]);
 
     return (
         <div>
@@ -80,12 +98,10 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                     }
                 </PlayerMap>
             </Wrapper>
-            <div className="action-bar">
-                <div className="action-bar-child">Daniel (7 Meter)</div>
-                <div className="action-bar-child">
-                    <button className="kill-action-button">umtue</button>
-                </div>
-            </div>
+            {
+                closestPlayer && distanceToClosestPlayer <= 10 &&
+                <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)} onKill={kill} />
+            }
             <div className="action-bar">
                 <div className="action-bar-child">Task platziere</div>
                 <div className="action-bar-child">
@@ -110,6 +126,13 @@ function doCreateTask(gameId: string, position: google.maps.LatLngLiteral) {
     }));
 }
 
+function doKill(gameId: string, killerId: string, killedId: string) {
+    sendMessage("/app/players/kill", JSON.stringify({
+        gameId,
+        killerId,
+        killedId
+    }));
+}
 
 function sendOwnPosition(gameId: string, userId: string, position: GeolocationPosition) {
     sendMessage("/app/players", JSON.stringify({
