@@ -1,9 +1,9 @@
 var stompClient = null;
 
 const playerPayloadTemplate = {
-    gameId: 'gameId',
+    gameId: 'rigi',
     player: {
-        username: 'bob',
+        username: 'mathis',
         longitude: 11.5,
         latitude: 22.5,
         accuracy: 33.5
@@ -11,14 +11,20 @@ const playerPayloadTemplate = {
 };
 
 const taskCreatePayloadTemplate = {
-    gameId: 'gameId',
+    gameId: 'rigi',
     longitude: 11.5,
     latitude: 22.5
 };
 
 const taskUpdatePayloadTemplate = {
-    gameId: 'gameId',
+    gameId: 'rigi',
     taskId: 'taskId'
+};
+
+const playerKillPayloadTemplate = {
+    gameId: 'rigi',
+    killerId: 'mathis',
+    killedId: 'daniel'
 };
 
 function setConnected(connected) {
@@ -39,12 +45,19 @@ function connect() {
 
     stompClient.connect({}, function (frame) {
         setConnected(true);
-        stompClient.subscribe('/topic/players', function (response) {
-            showPlayers(response.body);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/players', function (event) {
+            console.log("Received event '/topic/players' websocket", event);
+            showEventMessage("#players", event.body);
         });
 
-        stompClient.subscribe('/topic/tasks', function (response) {
-            showTasks(response.body);
+        stompClient.subscribe('/topic/tasks', function (event) {
+            console.log("Received event '/topic/tasks' websocket", event);
+            showEventMessage("#tasks", event.body);
+        });
+        stompClient.subscribe('/topic/players/killed', function (event) {
+            console.log("Received event '/topic/players/killed' websocket", event);
+            showEventMessage("#killed", event.body);
         });
     });
 }
@@ -67,31 +80,39 @@ function createTask() {
     stompClient.send("/app/tasks", {}, task);
 }
 
+function sendKillPlayer() {
+    const playerKillMsg = $( "#player-kill-payload" ).val();
+    stompClient.send("/app/players/killed", {}, playerKillMsg);
+}
+
 function updateTask() {
     const task = $("#update-task-payload").val();
     stompClient.send("/app/tasks/complete", {}, task);
 }
 
-function showPlayers(message) {
-    $("#players").append("<tr><td><pre>" + JSON.stringify(message, null, 4) + "</pre></td></tr>");
-}
+function showEventMessage(elementId, message) {
+    $(elementId).append("<tr><td><pre>" + JSON.stringify(message, null, 4) + "</pre></td></tr>");
 
-function showTasks(message) {
-    $("#tasks").append("<tr><td><pre>" + JSON.stringify(message, null, 4) + "</pre></td></tr>");
 }
 
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
+
+
     $("#connect").click(function() { connect(); });
     $("#disconnect").click(function() { disconnect(); });
+
     $("#players-send").click(function() { sendPlayer(); });
+    $( "#kill-player-send" ).click(function() { sendKillPlayer(); });
+
     $("#create-task-send").click(function() { createTask(); });
     $("#update-task-send").click(function() { updateTask(); });
 
     $("#players-payload").val(JSON.stringify(playerPayloadTemplate, null, 4));
     $("#create-task-payload").val(JSON.stringify(taskCreatePayloadTemplate, null, 4));
     $("#update-task-payload").val(JSON.stringify(taskUpdatePayloadTemplate, null, 4));
+    $("#player-kill-payload").val(JSON.stringify(playerKillPayloadTemplate, null, 4));
 });
 

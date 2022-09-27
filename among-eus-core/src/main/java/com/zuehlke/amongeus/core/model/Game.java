@@ -5,6 +5,7 @@ import com.zuehlke.amongeus.core.task.TaskCreatedMessage;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Game {
@@ -31,7 +32,16 @@ public class Game {
     }
 
     public void updatePlayer(Player player) {
+        Optional<Player> playerOptional = Optional.ofNullable(players.get(player.getUsername()));
+        playerOptional.ifPresent(value -> player.setAlive(value.isAlive()));
         players.put(player.getUsername(), player);
+    }
+
+    public Player killPlayer(String killerId, String killedId) {
+//        TODO: check whether player can  be killed: isAlive, is near (10m), isImposter
+        Player player = players.get(killedId);
+        player.setAlive(false);
+        return player;
     }
 
     public synchronized void createTask(TaskCreatedMessage message) {
@@ -47,4 +57,5 @@ public class Game {
     public Collection<Task> getTasks() {
         return tasks.values();
     }
+
 }
