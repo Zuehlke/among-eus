@@ -13,7 +13,6 @@ const PlayerMap: FC<PlayerMapProps> = ({
 
     useEffect(() => {
         if (ref.current && !map) {
-            console.log('called');
             setMap(new window.google.maps.Map(ref.current, {}));
         }
     }, [ref, map]);
@@ -41,7 +40,6 @@ const PlayerMap: FC<PlayerMapProps> = ({
             {Children.map(children, (child) => {
                 if (isValidElement(child)) {
                     // set the map prop on the child component
-                    console.log('adding marker', child);
                     // @ts-ignore
                     return cloneElement(child, {map});
                 }
