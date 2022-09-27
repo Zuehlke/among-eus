@@ -4,12 +4,12 @@ export enum MarkerTypes {
     PLAYER, OPPONENT
 }
 
-interface MarkerOps extends  google.maps.MarkerOptions {
+interface MarkerProps extends  google.maps.MarkerOptions {
     labelName: string,
     labelType: MarkerTypes,
 }
 
-const Marker: FC<MarkerOps> = ({labelName, labelType, ...options}) => {
+const Marker: FC<MarkerProps> = ({labelName, labelType, ...options}) => {
     const [marker, setMarker] = useState<google.maps.Marker>();
 
     useEffect(() => {
