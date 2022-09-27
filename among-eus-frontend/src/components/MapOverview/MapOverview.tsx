@@ -1,7 +1,8 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
+import {sendMessage} from "../../utils/websocket-client";
 
 interface MapOverviewProps {
     userId: string | null;
@@ -9,7 +10,14 @@ interface MapOverviewProps {
 }
 
 const MapOverview: FC<MapOverviewProps> = (props) => {
-    startGpsTracking();
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (props.gameId && props.userId) {
+                startGpsTracking(props.gameId, props.userId);
+            }
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <div>
@@ -30,7 +38,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     )
 };
 
-function startGpsTracking() {
+function startGpsTracking(game: string, user: string) {
     if ("geolocation" in navigator) {
         const options = {
             enableHighAccuracy: true,
@@ -40,6 +48,13 @@ function startGpsTracking() {
 
         const watchId = navigator.geolocation.watchPosition((position => {
             console.info(`GPS latitude ${position.coords.latitude} longitude ${position.coords.longitude} accuracy ${position.coords.accuracy}`);
+            sendMessage("/app/positions", JSON.stringify({
+                game: game,
+                user: user,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            }));
         }), (error) => {
             console.error(error.code + " " + error.message)
         }, options);
