@@ -1,19 +1,16 @@
-import React, {FC, useContext} from 'react';
+import React, {FC} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
 import {sendMessage} from "../../utils/websocket-client";
-import {UserContext} from "../../App";
 
 interface MapOverviewProps {
     userId: string | null;
     gameId: string | null;
+    players: any[] | null;
 }
 
 const MapOverview: FC<MapOverviewProps> = (props) => {
-    const players = useContext(UserContext);
-    console.log(players);
-
 
     if (props.gameId && props.userId) {
         startGpsTracking(props.gameId, props.userId);
@@ -23,7 +20,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         <div>
             <h2 className="title">Among Eus - {props.gameId}</h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {players.length} Players - <FontAwesomeIcon
+            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {props.players?.length} Players - <FontAwesomeIcon
                 icon={faCheck}/> 5
                 Tasks
             </div>
@@ -49,7 +46,7 @@ function startGpsTracking(game: string, user: string) {
             maximumAge: 0
         };
 
-        const watchId = navigator.geolocation.watchPosition((position => {
+        navigator.geolocation.watchPosition((position => {
             console.info(`GPS latitude ${position.coords.latitude} longitude ${position.coords.longitude} accuracy ${position.coords.accuracy}`);
             if (latitude != position.coords.latitude || longitude != position.coords.longitude) {
                 sendMessage("/app/players", JSON.stringify({
