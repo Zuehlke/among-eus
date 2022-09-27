@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
 import {Status, Wrapper} from '@googlemaps/react-wrapper';
 import PlayerMap from "./PlayerMap/PlayerMap";
-import Marker, {MarkerTypes} from "./PlayerMap/Marker";
+import Marker, {MarkerTypes} from "./Marker/Marker";
 
 interface MapOverviewProps {
     userId: string | null;
