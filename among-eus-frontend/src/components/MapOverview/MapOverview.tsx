@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
-import Map from "../../Map";
+import Map from "../Map/Map";
 
 interface MapOverviewProps {
     userId: string | null;
