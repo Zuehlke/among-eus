@@ -34,7 +34,7 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="players-payload">Player payload</label>
+                    <label for="players-payload">Create & Update Player</label>
                     <textarea id="players-payload" class="form-control payload">player JSON here...</textarea>
                     <button id="players-send" class="btn btn-default" type="submit">Send</button>
                 </div>
@@ -42,15 +42,37 @@
         </div>
 
         <div class="col-md-8">
+            <div><label>Event: Players</label></div>
+            <div class="scrollable-event-area">
             <table id="players-status" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Event: players</th>
-                </tr>
-                </thead>
                 <tbody id="players">
                 </tbody>
             </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="player-kill-payload">Kill Player</label>
+                    <textarea id="player-kill-payload" class="form-control payload">player kill JSON here...</textarea>
+                    <button id="player-kill-send" class="btn btn-default" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <div><label>Event: Player killed</label></div>
+            <div class="scrollable-event-area">
+            <table id="player-killed" class="table table-striped">
+                <tbody id="player-killed-events">
+                </tbody>
+            </table>
+            </div>
         </div>
     </div>
 
@@ -61,7 +83,7 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="create-task-payload">Create task payload</label>
+                    <label for="create-task-payload">Create Task</label>
                     <textarea id="create-task-payload" class="form-control payload">task JSON here...</textarea>
                     <button id="create-task-send" class="btn btn-default" type="submit">Send</button>
                 </div>
@@ -69,7 +91,7 @@
 
             <form>
                 <div class="form-group">
-                    <label for="update-task-payload">Update task payload</label>
+                    <label for="update-task-payload">Complete Task</label>
                     <textarea id="update-task-payload" class="form-control payload">task JSON here...</textarea>
                     <button id="update-task-send" class="btn btn-default" type="submit">Send</button>
                 </div>
@@ -77,15 +99,13 @@
         </div>
 
         <div class="col-md-8">
-            <table id="tasks-status" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Event: tasks</th>
-                </tr>
-                </thead>
-                <tbody id="tasks">
-                </tbody>
-            </table>
+            <div><label>Event: Tasks</label></div>
+            <div class="scrollable-event-area">
+                <table id="tasks-status" class="table table-striped">
+                    <tbody id="tasks">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

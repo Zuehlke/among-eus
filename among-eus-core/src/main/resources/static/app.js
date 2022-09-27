@@ -16,9 +16,9 @@ const taskCreatePayloadTemplate = {
     latitude: 22.5
 };
 
-const taskUpdatePayloadTemplate = {
+const taskCompletePayloadTemplate = {
     gameId: 'rigi',
-    taskId: 'taskId'
+    taskId: '1'
 };
 
 const playerKillPayloadTemplate = {
@@ -57,7 +57,7 @@ function connect() {
         });
         stompClient.subscribe('/topic/players/killed', function (event) {
             console.log("Received event '/topic/players/killed' websocket", event);
-            showEventMessage("#killed", event.body);
+            showEventMessage("#player-killed-events", event.body);
         });
     });
 }
@@ -91,7 +91,10 @@ function updateTask() {
 }
 
 function showEventMessage(elementId, message) {
-    $(elementId).append("<tr><td><pre>" + JSON.stringify(message, null, 4) + "</pre></td></tr>");
+    console.log("rendering message: ", message)
+    let msg = JSON.parse(message);
+    let date = new Date();
+    $(elementId).prepend("<tr><td><pre>Event received at " + date.toISOString() + "\n" + JSON.stringify(msg, null, 4) + "</pre></td></tr>");
 
 }
 
@@ -105,14 +108,14 @@ $(function () {
     $("#disconnect").click(function() { disconnect(); });
 
     $("#players-send").click(function() { sendPlayer(); });
-    $( "#kill-player-send" ).click(function() { sendKillPlayer(); });
+    $("#player-kill-send").click(function() { sendKillPlayer(); });
 
     $("#create-task-send").click(function() { createTask(); });
     $("#update-task-send").click(function() { updateTask(); });
 
     $("#players-payload").val(JSON.stringify(playerPayloadTemplate, null, 4));
     $("#create-task-payload").val(JSON.stringify(taskCreatePayloadTemplate, null, 4));
-    $("#update-task-payload").val(JSON.stringify(taskUpdatePayloadTemplate, null, 4));
+    $("#update-task-payload").val(JSON.stringify(taskCompletePayloadTemplate, null, 4));
     $("#player-kill-payload").val(JSON.stringify(playerKillPayloadTemplate, null, 4));
 });
 

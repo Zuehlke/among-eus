@@ -16,3 +16,13 @@ textarea.payload {
     width: 300px;
     height: 250px;
 }
+
+.scrollable-event-area {
+    max-height: 500px;
+    overflow: scroll;
+}
+
+.row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
