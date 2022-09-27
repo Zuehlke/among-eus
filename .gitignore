@@ -33,6 +33,9 @@ hs_err_pid*
 .idea/**/dictionaries
 .idea/**/shelf
 
+# officially not rated as user specific - but since it caused troubles we not share that anymore
+.idea/**/misc.xml
+
 # AWS User-specific
 .idea/**/aws.xml
 
