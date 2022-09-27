@@ -3,13 +3,15 @@ import './App.css';
 import MapOverview from "./components/MapOverview/MapOverview";
 import {parseGameDetails} from "./utils/game-details";
 import {connect, subscribe} from "./utils/websocket-client";
+import {Player} from "./utils/player";
 
 function App() {
-    const [players, setPlayers] = useState<any[]>([]);
+    const [players, setPlayers] = useState<Player[]>([]);
     const [gameId, setGameId] = useState<string | null>("");
     const [userId, setUserId] = useState<string | null>("");
 
     const updatePlayerDetails = useCallback((message: any) => {
+        console.debug(JSON.parse(message.body));
         setPlayers(JSON.parse(message.body));
     },[setPlayers]);
 
@@ -21,7 +23,7 @@ function App() {
         setGameId(gameDetails.gameId);
         setUserId(gameDetails.userId);
         console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
-    }, [setGameId, setUserId]);
+    }, [setGameId, setUserId, updatePlayerDetails]);
 
 
     return (
