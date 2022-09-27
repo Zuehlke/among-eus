@@ -67,6 +67,29 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
+                    <label for="gameId-payload">start game</label>
+                    <textarea id="gameId-payload" class="form-control payload">rigi</textarea>
+                    <button id="player-ready-send" class="btn btn-default" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <div><label>Event: Game Started</label></div>
+            <div class="scrollable-event-area">
+                <table id="gameState" class="table table-striped">
+                    <tbody id="gameState-event">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
                     <label for="player-kill-payload">Kill Player /app/players/kill</label>
                     <textarea id="player-kill-payload" class="form-control payload">player kill JSON here...</textarea>
                     <button id="player-kill-send" class="btn btn-default" type="submit">Send</button>

@@ -15,13 +15,11 @@ public class Game {
     public static final double MIN_DISTANCE_TO_KILL = 10;
 
     private String id;
+    private GameState state = GameState.WAITING_FOR_PLAYERS;
 
     private Map<String, Player> players = new ConcurrentHashMap<>();
 
     private Map<String, Task> tasks = new ConcurrentHashMap<>();
-
-    public Game() {
-    }
 
     public Game(String id) {
         this.id = id;
@@ -61,6 +59,17 @@ public class Game {
         return DistanceCalculator.getDistanceInMeter(killer, killed) <= MIN_DISTANCE_TO_KILL;
     }
 
+    public void startGame() {
+        if(state != GameState.WAITING_FOR_PLAYERS){
+            throw new IllegalStateException("Game is in "+ state +" state, and can not be started!");
+        }
+        state = GameState.GAME_RUNNING;
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
     public synchronized void createTask(TaskCreatedMessage message) {
         var id = tasks.size() + 1;
         var task = message.createTask(String.valueOf(id));
@@ -74,5 +83,4 @@ public class Game {
     public Collection<Task> getTasks() {
         return tasks.values();
     }
-
 }

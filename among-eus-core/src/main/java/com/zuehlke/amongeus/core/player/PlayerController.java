@@ -2,6 +2,7 @@ package com.zuehlke.amongeus.core.player;
 
 import com.zuehlke.amongeus.core.game.GameService;
 import com.zuehlke.amongeus.core.model.Game;
+import com.zuehlke.amongeus.core.model.GameState;
 import com.zuehlke.amongeus.core.model.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,17 @@ public class PlayerController {
 
         Game game = gameService.getGame(killedMessage.getGameId());
         return game.killPlayer(killedMessage.getKillerId(), killedMessage.getKilledId());
+    }
+
+    @MessageMapping("/players/ready")
+    @SendTo("/topic/game")
+    public GameState updateGameState(final PlayerReadyMessage playerReadyMessage) {
+
+        logger.info("Game state: {}", playerReadyMessage);
+
+        Game game = gameService.getGame(playerReadyMessage.getGameId());
+        game.startGame();
+        return game.getState();
     }
 
 }

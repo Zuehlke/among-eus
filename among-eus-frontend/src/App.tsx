@@ -1,21 +1,32 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import MapOverview from "./components/MapOverview/MapOverview";
 import {parseGameDetails} from "./utils/game-details";
 import {connect, subscribe} from "./utils/websocket-client";
 
-
 function App() {
+    const [players, setPlayers] = useState<any[]>([]);
+    const [gameId, setGameId] = useState<string | null>("");
+    const [userId, setUserId] = useState<string | null>("");
 
-    connect('wss://among-eus-core.azurewebsites.net/socket',
-        () => subscribe('/topic/players', (message: any) => console.info(JSON.parse(message.body))));
+    const updatePlayerDetails = useCallback((message: any) => {
+        setPlayers(JSON.parse(message.body));
+    },[setPlayers]);
 
-    const gameDetails = parseGameDetails();
-    console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
+    useEffect(() => {
+        connect('wss://among-eus-core.azurewebsites.net/socket',
+            () => subscribe('/topic/players', (message: any) => updatePlayerDetails(message)));
+
+        const gameDetails = parseGameDetails();
+        setGameId(gameDetails.gameId);
+        setUserId(gameDetails.userId);
+        console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
+    }, [setGameId, setUserId]);
+
 
     return (
         <div className="App">
-            {gameDetails.userId && gameDetails.gameId && <MapOverview userId={gameDetails.userId} gameId={gameDetails.gameId}></MapOverview>}
+            {gameId && userId && <MapOverview userId={userId} gameId={gameId} players={players}></MapOverview>}
         </div>
     );
 }

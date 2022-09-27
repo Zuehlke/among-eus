@@ -11,6 +11,7 @@ import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 interface MapOverviewProps {
     userId: string;
     gameId: string;
+    players: any[] | null;
 }
 
 const renderMapStatus = (status: Status) => {
@@ -52,7 +53,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         <div>
             <h2 className="title">Among Eus - {props.gameId}</h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> 7 Players - <FontAwesomeIcon
+            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {props.players?.length} Players - <FontAwesomeIcon
                 icon={faCheck}/> 5
                 Tasks
             </div>

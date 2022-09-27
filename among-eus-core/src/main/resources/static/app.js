@@ -27,6 +27,10 @@ const playerKillPayloadTemplate = {
     killedId: 'daniel'
 };
 
+const playerReadyPayloadTemplate = {
+    gameId: 'rigi'
+};
+
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
@@ -58,6 +62,10 @@ function connect() {
             console.log("Received event '/topic/players/killed' websocket", event);
             showEventMessage("#player-killed-events", event.body);
         });
+        stompClient.subscribe('/topic/game', function (event) {
+            console.log("Received event '/topic/game' websocket", event);
+            showEventMessage("#gameState-event", event.body);
+        });
     });
 }
 
@@ -72,6 +80,11 @@ function disconnect() {
 function sendPlayer() {
     const player = $( "#players-payload" ).val();
     stompClient.send("/app/players", {}, player);
+}
+
+function sendPlayerReady() {
+    const gameId = $( "#gameId-payload" ).val();
+    stompClient.send("/app/players/ready", {}, gameId);
 }
 
 function createTask() {
@@ -111,8 +124,11 @@ $(function () {
     $("#create-task-send").click(function() { createTask(); });
     $("#update-task-send").click(function() { updateTask(); });
 
+    $("#player-ready-send").click(function() { sendPlayerReady(); });
+
     $("#players-payload").val(JSON.stringify(playerPayloadTemplate, null, 4));
     $("#create-task-payload").val(JSON.stringify(taskCreatePayloadTemplate, null, 4));
+    $("#gameId-payload").val(JSON.stringify(playerReadyPayloadTemplate, null, 4));
     $("#update-task-payload").val(JSON.stringify(taskCompletePayloadTemplate, null, 4));
     $("#player-kill-payload").val(JSON.stringify(playerKillPayloadTemplate, null, 4));
 });
