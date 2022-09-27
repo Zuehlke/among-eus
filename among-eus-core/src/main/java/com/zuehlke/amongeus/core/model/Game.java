@@ -3,6 +3,8 @@ package com.zuehlke.amongeus.core.model;
 
 import com.zuehlke.amongeus.core.utility.DistanceCalculator;
 
+import com.zuehlke.amongeus.core.task.TaskCreatedMessage;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -15,6 +17,8 @@ public class Game {
     private String id;
 
     private Map<String, Player> players = new ConcurrentHashMap<>();
+
+    private Map<String, Task> tasks = new ConcurrentHashMap<>();
 
     public Game() {
     }
@@ -56,4 +60,19 @@ public class Game {
     private boolean isNearEnoughToKill(Player killer, Player killed){
         return DistanceCalculator.getDistanceInMeter(killer, killed) <= MIN_DISTANCE_TO_KILL;
     }
+
+    public synchronized void createTask(TaskCreatedMessage message) {
+        var id = tasks.size() + 1;
+        var task = message.createTask(String.valueOf(id));
+        tasks.put(task.getId(), task);
+    }
+
+    public void completeTask(String taskId) {
+        tasks.get(taskId).setCompleted(true);
+    }
+
+    public Collection<Task> getTasks() {
+        return tasks.values();
+    }
+
 }
