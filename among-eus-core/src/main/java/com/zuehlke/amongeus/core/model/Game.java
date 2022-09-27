@@ -36,6 +36,9 @@ public class Game {
     public void updatePlayer(Player player) {
         Optional<Player> playerOptional = Optional.ofNullable(players.get(player.getUsername()));
         playerOptional.ifPresent(value -> player.setAlive(value.isAlive()));
+        if (playerOptional.isEmpty() && !state.equals(GameState.WAITING_FOR_PLAYERS)) {
+            throw new IllegalStateException("New player is not allowed to join, game is in state: "+ state);
+        }
         players.put(player.getUsername(), player);
     }
 
@@ -71,12 +74,18 @@ public class Game {
     }
 
     public synchronized void createTask(TaskCreatedMessage message) {
+        if(!state.equals(GameState.WAITING_FOR_PLAYERS)){
+            throw new IllegalStateException("Unable to create task, because game state is "+ state);
+        }
         var id = tasks.size() + 1;
         var task = message.createTask(String.valueOf(id));
         tasks.put(task.getId(), task);
     }
 
     public void completeTask(String taskId) {
+        if(!state.equals(GameState.GAME_RUNNING)){
+            throw new IllegalStateException("Unable to complete tasks in game state: "+ state);
+        }
         tasks.get(taskId).setCompleted(true);
     }
 
