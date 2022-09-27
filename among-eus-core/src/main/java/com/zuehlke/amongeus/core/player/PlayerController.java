@@ -24,7 +24,7 @@ public class PlayerController {
 
     @MessageMapping("/players")
     @SendTo("/topic/players")
-    public Collection<Player> send(final PlayerMessage message) {
+    public Collection<Player> createOrUpdate(final PlayerMessage message) {
 
         logger.info("Player: {}", message);
 
@@ -32,6 +32,15 @@ public class PlayerController {
         game.updatePlayer(message.getPlayer());
 
         return game.getPlayers();
+    }
+    @MessageMapping("/players/killed")
+    @SendTo("/topic/players/killed")
+    public Player killed(final KilledMessage killedMessage) {
+
+        logger.info("Player killed: {}", killedMessage);
+
+        Game game = gameService.getGame(killedMessage.getGameId());
+        return game.killPlayer(killedMessage.getKillerId(), killedMessage.getKilledId());
     }
 
 }

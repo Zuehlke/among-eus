@@ -15,7 +15,7 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div>
             <form class="form-inline">
                 <div class="form-group">
                     <label for="connect">WebSocket connection:</label>
@@ -25,15 +25,27 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
+        <div>
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="name">What is your name?</label>
+                    <label for="name">Create or update Player</label>
                     <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                    <button id="createOrUpdatePlayer" class="btn btn-default" type="submit">Update</button>
                 </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
             </form>
         </div>
+
+        <div>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="name">Kill player</label>
+                    <input type="text" id="killer" class="form-control" placeholder="Name of killer ...">
+                    <input type="text" id="killed" class="form-control" placeholder="Name of killed ...">
+                    <button id="killPlayer" class="btn btn-default" type="submit">Kill</button>
+                </div>
+            </form>
+        </div>
+
     </div>
     <div class="row">
         <div class="col-md-12">
