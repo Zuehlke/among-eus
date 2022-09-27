@@ -49,6 +49,10 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         lng: 8.466423,
     }
 
+    const createTask = () => {
+        doCreateTask(props.gameId, currentLocation);
+    }
+
     return (
         <div>
             <h2 className="title">Among Eus - {props.gameId}</h2>
@@ -73,7 +77,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             <div className="action-bar">
                 <div className="action-bar-child">Task platziere</div>
                 <div className="action-bar-child">
-                    <button className="task-action-button">Task do platziere</button>
+                    <button className="task-action-button" onClick={createTask}>Task do platziere</button>
                 </div>
             </div>
             <div className="action-bar">
@@ -85,6 +89,15 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         </div>
     )
 };
+
+function doCreateTask(gameId: string, position: google.maps.LatLngLiteral) {
+    sendMessage("/app/tasks", JSON.stringify({
+        gameId: gameId,
+        longitude: position.lng,
+        latitude: position.lat
+    }));
+}
+
 
 function sendOwnPosition(gameId: string, userId: string, position: GeolocationPosition) {
     sendMessage("/app/players", JSON.stringify({
