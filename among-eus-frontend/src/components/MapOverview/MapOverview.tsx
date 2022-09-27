@@ -48,11 +48,13 @@ function startGpsTracking(game: string, user: string) {
             console.info(`GPS latitude ${position.coords.latitude} longitude ${position.coords.longitude} accuracy ${position.coords.accuracy}`);
             if (latitude != position.coords.latitude || longitude != position.coords.longitude) {
                 sendMessage("/app/players", JSON.stringify({
-                    game,
-                    user,
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    accuracy: position.coords.accuracy
+                    gameId: 'gameId',
+                    player: {
+                        username: user,
+                        longitude: position.coords.longitude,
+                        latitude: position.coords.latitude,
+                        accuracy: position.coords.accuracy
+                    }
                 }));
             }
 
