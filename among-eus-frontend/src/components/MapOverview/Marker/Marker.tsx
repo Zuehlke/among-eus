@@ -1,10 +1,10 @@
 import {FC, useEffect, useState} from "react";
 
 export enum MarkerTypes {
-    PLAYER, OPPONENT
+    PLAYER, OPPONENT, TASK
 }
 
-interface MarkerProps extends  google.maps.MarkerOptions {
+interface MarkerProps extends google.maps.MarkerOptions {
     labelName: string,
     labelType: MarkerTypes,
 }
@@ -52,12 +52,15 @@ const Marker: FC<MarkerProps> = ({labelName, labelType, ...options}) => {
 };
 
 function getColor(markerType: MarkerTypes): string {
-    if(markerType === MarkerTypes.OPPONENT) {
+    if (markerType === MarkerTypes.OPPONENT) {
         return 'orange';
-    } else if(markerType === MarkerTypes.PLAYER) {
+    } else if (markerType === MarkerTypes.PLAYER) {
         return '#5384ED';
+    } else if (markerType === MarkerTypes.TASK) {
+        return 'red';
     }
-    return 'red';
+    console.warn('Got unexpected type ' + markerType)
+    return 'white';
 }
 
 export default Marker;

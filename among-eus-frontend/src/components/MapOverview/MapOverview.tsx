@@ -8,11 +8,13 @@ import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 import {Player} from "../../utils/player";
+import Task from "../../utils/task";
 
 interface MapOverviewProps {
     userId: string;
     gameId: string;
     players: Player[];
+    tasks: Task[];
 }
 
 const renderMapStatus = (status: Status) => {
@@ -62,6 +64,14 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                                 lat: player.latitude,
                                 lng: player.longitude,
                             }} labelName={player.username} labelType={type}></Marker>
+                        })
+                    }
+                    {
+                        props.tasks.map(task => {
+                            return <Marker key={task.id} position={{
+                                lat: task.latitude,
+                                lng: task.longitude,
+                            }} labelName={'Task ' + task.id} labelType={MarkerTypes.TASK}></Marker>
                         })
                     }
                 </PlayerMap>
