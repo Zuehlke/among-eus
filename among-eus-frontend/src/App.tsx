@@ -11,7 +11,7 @@ function App() {
     const [userId, setUserId] = useState<string | null>("");
 
     const updatePlayerDetails = useCallback((message: any) => {
-        console.log(JSON.parse(message.body));
+        console.debug(JSON.parse(message.body));
         setPlayers(JSON.parse(message.body));
     },[setPlayers]);
 
