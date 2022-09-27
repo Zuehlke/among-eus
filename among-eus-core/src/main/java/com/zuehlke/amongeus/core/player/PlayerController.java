@@ -22,8 +22,8 @@ public class PlayerController {
         this.gameService = gameService;
     }
 
-    @MessageMapping("/positions")
-    @SendTo("/topic/positions")
+    @MessageMapping("/players")
+    @SendTo("/topic/players")
     public Collection<Player> send(final PlayerMessage message) {
 
         logger.info("Player: {}", message);
