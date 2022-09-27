@@ -91,10 +91,9 @@ function updateTask() {
 }
 
 function showEventMessage(elementId, message) {
-    console.log("rendering message: ", message)
-    let msg = JSON.parse(message);
+    let payload = JSON.parse(message);
     let date = new Date();
-    $(elementId).prepend("<tr><td><pre>Event received at " + date.toISOString() + "\n" + JSON.stringify(msg, null, 4) + "</pre></td></tr>");
+    $(elementId).prepend("<tr><td><pre>Event received at " + date.toISOString() + "\n" + JSON.stringify(payload, null, 4) + "</pre></td></tr>");
 
 }
 
