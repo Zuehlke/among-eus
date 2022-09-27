@@ -19,9 +19,13 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/positions', function (greeting) {
-            console.log("Response over websocket", greeting);
+        stompClient.subscribe('/topic/players', function (greeting) {
+            console.log("Response over '/topic/players' websocket", greeting);
             showGreeting(greeting.body);
+        });
+        stompClient.subscribe('/topic/players/killed', function (killed) {
+            console.log("Response over '/topic/players/killed' websocket", killed);
+            showGreeting(killed.body);
         });
     });
 }
@@ -34,9 +38,9 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendPosition() {
+function createOrUpdatePlayer() {
     const username = $("#name").val();
-    stompClient.send("/app/positions", {}, JSON.stringify({
+    stompClient.send("/app/players", {}, JSON.stringify({
         gameId: 'gameId',
         player: {
             username,
@@ -44,6 +48,15 @@ function sendPosition() {
             latitude: 10.5,
             accuracy: 10.5
         }
+    }));
+}
+function killPlayer() {
+    const killerId = $("#killer").val();
+    const killedId = $("#killed").val();
+    stompClient.send("/app/players/killed", {}, JSON.stringify({
+        gameId: 'gameId',
+        killerId: killerId,
+        killedId: killedId
     }));
 }
 
@@ -57,6 +70,7 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendPosition(); });
+    $( "#createOrUpdatePlayer" ).click(function() { createOrUpdatePlayer(); });
+    $( "#killPlayer" ).click(function() { killPlayer(); });
 });
 

@@ -8,7 +8,7 @@ import {connect, subscribe} from "./utils/websocket-client";
 function App() {
 
     connect('wss://among-eus-core.azurewebsites.net/socket',
-        () => subscribe('/topic/positions', (message: any) => console.info(message)));
+        () => subscribe('/topic/players', (message: any) => console.info(JSON.parse(message.body))));
 
     const gameDetails = parseGameDetails();
     console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
