@@ -1,5 +1,26 @@
 var stompClient = null;
 
+const playerPayloadTemplate = {
+    gameId: 'gameId',
+    player: {
+        username: 'bob',
+        longitude: 11.5,
+        latitude: 22.5,
+        accuracy: 33.5
+    }
+};
+
+const taskCreatePayloadTemplate = {
+    gameId: 'gameId',
+    longitude: 11.5,
+    latitude: 22.5
+};
+
+const taskUpdatePayloadTemplate = {
+    gameId: 'gameId',
+    taskId: 'taskId'
+};
+
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
@@ -18,10 +39,12 @@ function connect() {
 
     stompClient.connect({}, function (frame) {
         setConnected(true);
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/players', function (greeting) {
-            console.log("Response over websocket", greeting);
-            showGreeting(greeting.body);
+        stompClient.subscribe('/topic/players', function (response) {
+            showPlayers(response.body);
+        });
+
+        stompClient.subscribe('/topic/tasks', function (response) {
+            showTasks(response.body);
         });
     });
 }
@@ -35,28 +58,40 @@ function disconnect() {
 }
 
 function sendPlayer() {
-    const username = $("#name").val();
-    stompClient.send("/app/players", {}, JSON.stringify({
-        gameId: 'gameId',
-        player: {
-            username,
-            longitude: 10.5,
-            latitude: 10.5,
-            accuracy: 10.5
-        }
-    }));
+    const player = $( "#players-payload" ).val();
+    stompClient.send("/app/players", {}, player);
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function createTask() {
+    const task = $("#create-task-payload").val();
+    stompClient.send("/app/tasks", {}, task);
+}
+
+function updateTask() {
+    const task = $("#update-task-payload").val();
+    stompClient.send("/app/tasks/complete", {}, task);
+}
+
+function showPlayers(message) {
+    $("#players").append("<tr><td><pre>" + JSON.stringify(message, null, 4) + "</pre></td></tr>");
+}
+
+function showTasks(message) {
+    $("#tasks").append("<tr><td><pre>" + JSON.stringify(message, null, 4) + "</pre></td></tr>");
 }
 
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendPlayer(); });
+    $("#connect").click(function() { connect(); });
+    $("#disconnect").click(function() { disconnect(); });
+    $("#players-send").click(function() { sendPlayer(); });
+    $("#create-task-send").click(function() { createTask(); });
+    $("#update-task-send").click(function() { updateTask(); });
+
+    $("#players-payload").val(JSON.stringify(playerPayloadTemplate, null, 4));
+    $("#create-task-payload").val(JSON.stringify(taskCreatePayloadTemplate, null, 4));
+    $("#update-task-payload").val(JSON.stringify(taskUpdatePayloadTemplate, null, 4));
 });
 

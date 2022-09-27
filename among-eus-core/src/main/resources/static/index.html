@@ -25,25 +25,65 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
-            <form class="form-inline">
+    </div>
+
+    <div class="row">
+
+        <h2>Players</h2>
+
+        <div class="col-md-4">
+            <form>
                 <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                    <label for="players-payload">Player payload</label>
+                    <textarea id="players-payload" class="form-control payload">player JSON here...</textarea>
+                    <button id="players-send" class="btn btn-default" type="submit">Send</button>
                 </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
             </form>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
+
+        <div class="col-md-8">
+            <table id="players-status" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Greetings</th>
+                    <th>Event: players</th>
                 </tr>
                 </thead>
-                <tbody id="greetings">
+                <tbody id="players">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <h2>Tasks</h2>
+
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="create-task-payload">Create task payload</label>
+                    <textarea id="create-task-payload" class="form-control payload">task JSON here...</textarea>
+                    <button id="create-task-send" class="btn btn-default" type="submit">Send</button>
+                </div>
+            </form>
+
+            <form>
+                <div class="form-group">
+                    <label for="update-task-payload">Update task payload</label>
+                    <textarea id="update-task-payload" class="form-control payload">task JSON here...</textarea>
+                    <button id="update-task-send" class="btn btn-default" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <table id="tasks-status" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Event: tasks</th>
+                </tr>
+                </thead>
+                <tbody id="tasks">
                 </tbody>
             </table>
         </div>
