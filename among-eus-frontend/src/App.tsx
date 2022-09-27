@@ -10,6 +10,7 @@ function App() {
     const [userId, setUserId] = useState<string | null>("");
 
     const updatePlayerDetails = useCallback((message: any) => {
+        console.log(JSON.parse(message.body));
         setPlayers(JSON.parse(message.body));
     },[setPlayers]);
 
@@ -21,7 +22,7 @@ function App() {
         setGameId(gameDetails.gameId);
         setUserId(gameDetails.userId);
         console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
-    }, [setGameId, setUserId]);
+    }, [setGameId, setUserId, updatePlayerDetails]);
 
 
     return (

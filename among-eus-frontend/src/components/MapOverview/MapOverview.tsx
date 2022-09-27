@@ -44,11 +44,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         });
     }, [props.gameId, props.userId]);
 
-    const otherPlayer = {
-        lat: 47.0444195,
-        lng: 8.466423,
-    }
-
     return (
         <div>
             <h2 className="title">Among Eus - {props.gameId}</h2>
@@ -59,9 +54,15 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             </div>
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
-                    <Marker key={1} position={currentLocation} labelName={'Me'} labelType={MarkerTypes.PLAYER}></Marker>
-                    <Marker key={2} position={otherPlayer} labelName={'Fabio'}
-                            labelType={MarkerTypes.OPPONENT}></Marker>
+                    {
+                        props.players?.map((player) => {
+                            console.log(player);
+                            return <Marker key={player.username} position={{
+                                lat: player.latitude,
+                                lng: player.longitude,
+                            }} labelName={player.username} labelType={props.userId === player.username ? MarkerTypes.PLAYER : MarkerTypes.OPPONENT}></Marker>
+                        })
+                    }
                 </PlayerMap>
             </Wrapper>
             <div className="action-bar">
