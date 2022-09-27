@@ -5,8 +5,8 @@ export interface GameDetails {
 
 export function parseGameDetails(): GameDetails {
     const params = new URLSearchParams(window.location.search);
-    const gameId = params.get("gameId");
-    const userId = params.get("userId");
+    const gameId = params.get("game");
+    const userId = params.get("user");
     return {
         gameId,
         userId,
