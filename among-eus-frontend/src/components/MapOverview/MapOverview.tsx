@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
+import {sendMessage} from "../../utils/websocket-client";
 
 interface MapOverviewProps {
     userId: string | null;
@@ -9,7 +10,9 @@ interface MapOverviewProps {
 }
 
 const MapOverview: FC<MapOverviewProps> = (props) => {
-    startGpsTracking();
+    if (props.gameId && props.userId) {
+        startGpsTracking(props.gameId, props.userId);
+    }
 
     return (
         <div>
@@ -30,7 +33,10 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     )
 };
 
-function startGpsTracking() {
+function startGpsTracking(game: string, user: string) {
+    let latitude = 0;
+    let longitude = 0;
+    let accuracy = 0;
     if ("geolocation" in navigator) {
         const options = {
             enableHighAccuracy: true,
@@ -40,6 +46,21 @@ function startGpsTracking() {
 
         const watchId = navigator.geolocation.watchPosition((position => {
             console.info(`GPS latitude ${position.coords.latitude} longitude ${position.coords.longitude} accuracy ${position.coords.accuracy}`);
+            if (latitude != position.coords.latitude || longitude != position.coords.longitude) {
+                sendMessage("/app/players", JSON.stringify({
+                    gameId: game,
+                    player: {
+                        username: user,
+                        longitude: position.coords.longitude,
+                        latitude: position.coords.latitude,
+                        accuracy: position.coords.accuracy
+                    }
+                }));
+            }
+
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            accuracy = position.coords.accuracy;
         }), (error) => {
             console.error(error.code + " " + error.message)
         }, options);
