@@ -10,6 +10,8 @@ public class Player {
 
     private double accuracy;
 
+    private boolean alive = true;
+
     public String getUsername() {
         return username;
     }
@@ -40,5 +42,13 @@ public class Player {
 
     public void setAccuracy(double accuracy) {
         this.accuracy = accuracy;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 }
