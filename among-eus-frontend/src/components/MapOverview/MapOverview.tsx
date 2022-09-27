@@ -52,8 +52,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             <h2 className="title">Among Eus - {props.gameId}</h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
             <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {props.players.length} Players - <FontAwesomeIcon
-                icon={faCheck}/> 5
-                Tasks
+                icon={faCheck}/> {props.tasks.length}
+                Task(s)
             </div>
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
