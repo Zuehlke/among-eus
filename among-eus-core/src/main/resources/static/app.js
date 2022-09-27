@@ -19,7 +19,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/positions', function (greeting) {
+        stompClient.subscribe('/topic/players', function (greeting) {
             console.log("Response over websocket", greeting);
             showGreeting(greeting.body);
         });
@@ -34,9 +34,9 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendPosition() {
+function sendPlayer() {
     const username = $("#name").val();
-    stompClient.send("/app/positions", {}, JSON.stringify({
+    stompClient.send("/app/players", {}, JSON.stringify({
         gameId: 'gameId',
         player: {
             username,
@@ -57,6 +57,6 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendPosition(); });
+    $( "#send" ).click(function() { sendPlayer(); });
 });
 
