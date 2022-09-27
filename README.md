@@ -39,3 +39,8 @@ The API Key for google maps that is provided in the code, is managed by Fabio.
 
 Depending on current set restrictions for the key, you might have to use a different key for local debugging or login 
 with your google account and get authorised for using that key with Oauth by Fabio. Ask Fabio in case of troubles.
+
+## AmongIsch API - Backend Documentation
+
+The backend is self documented with a test client - just start the backend and browse to it:
+localhost:8080
