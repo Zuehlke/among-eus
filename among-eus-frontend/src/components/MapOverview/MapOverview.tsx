@@ -47,7 +47,7 @@ function startGpsTracking(game: string, user: string) {
         const watchId = navigator.geolocation.watchPosition((position => {
             console.info(`GPS latitude ${position.coords.latitude} longitude ${position.coords.longitude} accuracy ${position.coords.accuracy}`);
             if (latitude != position.coords.latitude || longitude != position.coords.longitude) {
-                sendMessage("/app/positions", JSON.stringify({
+                sendMessage("/app/players", JSON.stringify({
                     game,
                     user,
                     latitude: position.coords.latitude,
