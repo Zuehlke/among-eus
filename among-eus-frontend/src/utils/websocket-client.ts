@@ -20,7 +20,7 @@ export function connect(url: string = 'ws://localhost:8080/socket', connectedCal
         client = new Client({
             brokerURL: url,
             debug: function (str) {
-                console.log(str);
+                console.debug(str);
             },
             reconnectDelay: 15000,
             heartbeatIncoming: 4000,
@@ -30,7 +30,6 @@ export function connect(url: string = 'ws://localhost:8080/socket', connectedCal
         client.onConnect = function (frame) {
             // Do something, all subscribes must be done is this callback
             // This is needed because this will be executed after a (re)connect
-            console.info('we are connected', frame);
             connectedCallback();
         };
 
@@ -39,8 +38,8 @@ export function connect(url: string = 'ws://localhost:8080/socket', connectedCal
             // Bad login/passcode typically will cause an error
             // Complaint brokers will set `message` header with a brief message. Body may contain details.
             // Compliant brokers will terminate the connection after any error
-            console.log('Broker reported error: ' + frame.headers['message']);
-            console.log('Additional details: ' + frame.body);
+            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Additional details: ' + frame.body);
         };
 
         client.activate();

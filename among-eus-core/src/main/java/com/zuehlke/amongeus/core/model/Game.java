@@ -1,6 +1,8 @@
 package com.zuehlke.amongeus.core.model;
 
 
+import com.zuehlke.amongeus.core.utility.DistanceCalculator;
+
 import com.zuehlke.amongeus.core.task.TaskCreatedMessage;
 
 import java.util.Collection;
@@ -9,6 +11,8 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Game {
+
+    public static final double MIN_DISTANCE_TO_KILL = 10;
 
     private String id;
 
@@ -38,10 +42,23 @@ public class Game {
     }
 
     public Player killPlayer(String killerId, String killedId) {
-//        TODO: check whether player can  be killed: isAlive, is near (10m), isImposter
-        Player player = players.get(killedId);
-        player.setAlive(false);
-        return player;
+
+        var killerPlayer = players.get(killerId);
+        var killedPlayer = players.get(killedId);
+
+        if(!killedPlayer.isAlive() || !killerPlayer.isAlive()){
+            throw new IllegalStateException("Both players must be alive to kill!");
+        }
+        if(!isNearEnoughToKill(killerPlayer, killedPlayer)){
+            throw new IllegalStateException("Players are not near enough to kill!");
+        }
+        //TODO: is imposter
+        killedPlayer.setAlive(false);
+        return killedPlayer;
+    }
+
+    private boolean isNearEnoughToKill(Player killer, Player killed){
+        return DistanceCalculator.getDistanceInMeter(killer, killed) <= MIN_DISTANCE_TO_KILL;
     }
 
     public synchronized void createTask(TaskCreatedMessage message) {
