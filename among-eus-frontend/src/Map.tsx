@@ -47,7 +47,8 @@ function MyMapComponent({center, zoom}: {
                     zoom,
                     scrollwheel: false,
                     draggable: false,
-                    fullscreenControl: false
+                    fullscreenControl: false,
+                    disableDefaultUI: true
                 }));
         }
     }, [ref, map]);
@@ -56,8 +57,11 @@ function MyMapComponent({center, zoom}: {
 }
 
 export default function Map() {
-    const pos = { lat: 47.04423359340005, lng: 8.465418735471747 };
     const zoom = 20;
+    const pos = {
+        lat: 0,
+        lng: 0
+    }
 
     return (
         <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={render}>

@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import './MapOverview.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
+import Map from "../../Map";
 
 interface MapOverviewProps {
     userId: string | null;
@@ -19,7 +20,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 icon={faCheck}/> 5
                 Tasks
             </div>
-            <div className="map"></div>
+            <Map />
             <div className="action-bar">
                 <div className="action-bar-child">Daniel (7 Meter)</div>
                 <div className="action-bar-child">
