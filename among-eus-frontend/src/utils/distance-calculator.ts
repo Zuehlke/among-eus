@@ -1,9 +1,9 @@
 import {Player} from "./player";
 import Task from "./task";
+import {HasPosition} from "./has-position";
 
 const RADIUS_OF_WORLD_IN_METER = 6_371_000;
 
-// TODO reduce interface
 export function findNearestAlivePlayer(players: Player[], me: Player): Player | null {
     let closestPlayer = null;
     let minDistance = Number.MAX_SAFE_INTEGER;
@@ -21,26 +21,19 @@ export function findNearestAlivePlayer(players: Player[], me: Player): Player | 
     return closestPlayer;
 }
 
-// TODO add test
-export function findNearestUnsolvedTask(tasks: Task[], me: Player): Task | null {
+export function findNearestUnsolvedTask(tasks: Task[], center: HasPosition): Task | null {
     let closestTask = null;
     let minDistance = Number.MAX_SAFE_INTEGER;
 
     tasks.filter(task => !task.completed)
         .forEach(task => {
-            const distance = getDistanceInMeter(me, task);
+            const distance = getDistanceInMeter(center, task);
             if (distance < minDistance) {
                 closestTask = task;
                 minDistance = distance;
             }
         });
     return closestTask;
-}
-
-// TODO export interface
-export interface HasPosition {
-    latitude: number;
-    longitude: number;
 }
 
 export function getDistanceInMeter(p1: HasPosition, p2: HasPosition): number {
