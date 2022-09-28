@@ -42,16 +42,16 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     }
 
     function createTerroristOptions() {
-        let numberOfOIptions = Math.ceil(props.players.length / 2);
+        let numberOfOptions = Math.floor(props.players.length / 2.0);
         let result = []
-        for (let i = 0; i< numberOfOIptions; i++) {
+        for (let i = 0; i< numberOfOptions; i++) {
             result.push({ label: (i+1) + ' Wallüsser', value: '' + (i+1) })
         }
         return result;
     }
 
     function getInitialNumberOfTerrorists() {
-        return '' + Math.ceil(props.players.length / 4);
+        return '' + Math.max(Math.ceil(props.players.length / 4.0), 1);
     }
 
     return (
@@ -82,7 +82,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
                         <label htmlFor="number-of-terrorists">Azahl Wallüsser</label>
                         <select id="number-of-terrorists" value={numberOfTerrorists} onChange={changeNumberOfTerrorists}>
                             {Array.from(new Set(options)).map((option) => (
-                                <option value={option.value}>{option.label}</option>
+                                <option value={option.value} key={option.value}>{option.label}</option>
                             ))}
                         </select>
                         <div>
