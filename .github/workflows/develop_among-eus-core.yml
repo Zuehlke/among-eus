@@ -5,6 +5,8 @@ name: Build and deploy JAR app to Azure Web App - among-eus-core
 
 on:
   push:
+    paths-ignore:
+      - 'among-eus-frontend/**'
   workflow_dispatch:
 
 jobs:
