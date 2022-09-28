@@ -1,7 +1,7 @@
 package com.zuehlke.amongeus.core.model;
 
 
-import com.zuehlke.amongeus.core.player.PlayerReadyMessage;
+import com.zuehlke.amongeus.core.player.GameStartConfigurationMessage;
 import com.zuehlke.amongeus.core.task.TaskCreatedMessage;
 import com.zuehlke.amongeus.core.utility.DistanceCalculator;
 import org.slf4j.Logger;
@@ -61,12 +61,12 @@ public class Game {
         return DistanceCalculator.getDistanceInMeter(killer, killed) <= MIN_DISTANCE_TO_KILL;
     }
 
-    public void startGame(final PlayerReadyMessage playerReadyMessage) {
+    public void startGame(final GameStartConfigurationMessage gameStartConfigurationMessage) {
         logger.info("starting game ...");
         if (state != GameState.WAITING_FOR_PLAYERS) {
             throw new IllegalStateException("Game is in " + state + " state, and can not be started!");
         }
-        assignPlayerRoles(playerReadyMessage.getNumberOfTerrorists());
+        assignPlayerRoles(gameStartConfigurationMessage.getNumberOfTerrorists());
         state = GameState.GAME_RUNNING;
         logger.info("starting game ... done.");
     }
