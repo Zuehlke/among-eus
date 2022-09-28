@@ -120,6 +120,9 @@ public class Game {
         if (killerPlayer.getRole() != PlayerRole.TERRORIST) {
             throw new IllegalStateException("User with role " + killerPlayer.getRole() + " can not kill");
         }
+        if (killedPlayer.getRole() != PlayerRole.AGENT) {
+            throw new IllegalStateException("User with role " + killedPlayer.getRole() + " can not be killed.");
+        }
         if (state != GameState.GAME_RUNNING) {
             throw new IllegalStateException("Can not kill in game state " + state);
         }
