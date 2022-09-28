@@ -50,7 +50,7 @@ public class PlayerController {
     }
 
     private void sendPlayerList(Game game) {
-        this.simpMessagingTemplate.convertAndSend("/topic/players", game.getPlayers());
+        this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
     }
 
     @MessageMapping("/game/{gameId}/players/ready")

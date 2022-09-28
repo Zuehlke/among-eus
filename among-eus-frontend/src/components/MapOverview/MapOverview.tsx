@@ -158,37 +158,31 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 };
 
 function doCreateTask(gameId: string, position: google.maps.LatLngLiteral) {
-    sendMessage("/app/tasks", JSON.stringify({
-        gameId: gameId,
+    sendMessage(`/app/game/${gameId}/tasks`, JSON.stringify({
         longitude: position.lng,
         latitude: position.lat
     }));
 }
 
 function doKill(gameId: string, killerId: string, killedId: string) {
-    sendMessage("/app/players/kill", JSON.stringify({
-        gameId,
+    sendMessage(`/app/game/${gameId}/players/kill`, JSON.stringify({
         killerId,
         killedId
     }));
 }
 
 function doSolveTask(gameId: string, task: Task) {
-    sendMessage('/app/tasks/complete', JSON.stringify({
-        gameId,
+    sendMessage(`/app/game/${gameId}/tasks/complete`, JSON.stringify({
         taskId: task.id,
     }))
 }
 
 function sendOwnPosition(gameId: string, userId: string, position: GeolocationPosition) {
-    sendMessage("/app/players", JSON.stringify({
-        gameId: gameId,
-        player: {
-            username: userId,
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude,
-            accuracy: position.coords.accuracy
-        }
+    sendMessage(`/app/game/${gameId}/players`, JSON.stringify({
+        username: userId,
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
+        accuracy: position.coords.accuracy
     }));
 }
 
