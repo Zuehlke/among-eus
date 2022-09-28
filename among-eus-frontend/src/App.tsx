@@ -31,7 +31,7 @@ function App() {
         setUserId(gameDetails.userId);
         console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
 
-        connect('wss://among-eus-core.azurewebsites.net/socket',
+        connect(process.env.REACT_APP_WEBSOCKET_URL,
             () => {
                 if (gameDetails.gameId) {
                     subscribe(`/topic/game/${gameDetails.gameId}/players`, (message: IMessage) => updatePlayerDetails(message));
