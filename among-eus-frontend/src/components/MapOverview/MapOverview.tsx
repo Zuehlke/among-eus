@@ -107,7 +107,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             </div>
             {
                 props.killedPlayer &&
-                <div className="kill-banner">{props.killedPlayer.username} isch gstorbe</div>
+                <div className="kill-notification">{props.killedPlayer.username} isch gstorbe</div>
             }
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
