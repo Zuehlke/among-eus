@@ -38,7 +38,7 @@ function App() {
                         console.debug('tasks', tasks);
                         setTasks(tasks);
                     });
-                    subscribe(`/topic/game/${gameDetails.gameId}`, (message: IMessage) => {
+                    subscribe(`/topic/game/${gameDetails.gameId}/`, (message: IMessage) => {
                         const gameState: GameState = JSON.parse(message.body) as GameState;
                         console.debug('gameState received', gameState);
                         setGameState(gameState);

@@ -42,12 +42,14 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             });
+
+            sendOwnPosition(props.gameId, props.userId, position);
         });
 
         return () => {
             navigator.geolocation.clearWatch(watchId);
         }
-    }, []);
+    }, [props.gameId, props.userId]);
 
     const me: Player | undefined = props.players.find((element) => element.username === props.userId);
     let distanceToClosestPlayer: number = 0;
@@ -65,11 +67,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     }
 
-    useEffect(() => {
-        registerCallback((position) => {
-            sendOwnPosition(props.gameId, props.userId, position);
-        });
-    }, [props.gameId, props.userId]);
 
     const createTask = useCallback(() => {
         doCreateTask(props.gameId, currentLocation);
@@ -101,10 +98,19 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     return (
         <div>
-            <h2 className="title">Among Eus - {props.gameId}<p className="role">Dü bisch {getRoleCurrentUser()}</p></h2>
+            <h2 className="title">Among Eus - {props.gameId}
+                {
+                    getRoleCurrentUser() !== Role.UNASSIGNED ? (
+                        <p className="role">Dü bisch {getRoleCurrentUser()}</p>
+                    ) : (
+                        <p className="role">Düe d Tasks platziere!</p>
+                    )
+                }
+            </h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
             <div className="numberOfPlayer">
-                <FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players - <FontAwesomeIcon icon={faCheck}/>
+                <FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
+                - <FontAwesomeIcon icon={faCheck}/>
                 {props.tasks.length} Task(s)
             </div>
             {
@@ -126,11 +132,11 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                         props.tasks
                             .filter(task => !task.completed)
                             .map(task => {
-                            return <Marker key={task.id} position={{
-                                lat: task.latitude,
-                                lng: task.longitude,
-                            }} labelName={'Task ' + task.id} labelType={MarkerTypes.TASK}></Marker>
-                        })
+                                return <Marker key={task.id} position={{
+                                    lat: task.latitude,
+                                    lng: task.longitude,
+                                }} labelName={'Task ' + task.id} labelType={MarkerTypes.TASK}></Marker>
+                            })
                     }
                 </PlayerMap>
             </Wrapper>
@@ -154,7 +160,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             }
             {
                 props.gameState === "WAITING_FOR_PLAYERS" &&
-                <GameStartBanner players={props.players} gameId={props.gameId} />
+                <GameStartBanner players={props.players} gameId={props.gameId}/>
             }
         </div>
     )
