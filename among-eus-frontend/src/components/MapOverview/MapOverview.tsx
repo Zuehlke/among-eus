@@ -11,6 +11,7 @@ import {Player} from "../../utils/player";
 import {findNearestAlivePlayer, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
 import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
+import GameStartBanner from "./Banner/GameStartBanner";
 import {SolveTask} from "./SolveTask/SolveTask";
 
 interface MapOverviewProps {
@@ -88,10 +89,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     };
 
-    const startGame = () => {
-        doStartGame(props.gameId, value);
-    }
-
     const changeNumberOfTerrorists = (event: any) => {
         setValue(event.target.value);
         console.log("Number of terrorists set to " + event.target.value)
@@ -149,12 +146,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                     <button className="task-action-button" onClick={createTask}>Üfgab do platziere</button>
                 </div>
             </div>
-            <div className="action-bar">
-                <div className="action-bar-child">Spiel starte</div>
-                <div className="action-bar-child">
-                    <button onClick={startGame} className="game-action-button">starte</button>
-                </div>
-            </div>
+
+            <GameStartBanner players={props.players} gameId={props.gameId} />
         </div>
     )
 };
@@ -165,15 +158,6 @@ function doCreateTask(gameId: string, position: google.maps.LatLngLiteral) {
         longitude: position.lng,
         latitude: position.lat
     }));
-}
-
-function doStartGame(gameId: string, numberOfTerrorists: string) {
-    if(window.confirm("This starts the game with " + numberOfTerrorists + " terrorists, no more agents will be able to join.")) {
-        sendMessage("/app/players/ready", JSON.stringify({
-            gameId: gameId,
-            numberOfTerrorists: numberOfTerrorists
-        }));
-    }
 }
 
 function doKill(gameId: string, killerId: string, killedId: string) {
