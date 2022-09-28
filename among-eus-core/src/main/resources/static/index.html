@@ -28,7 +28,8 @@
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="connect">WebSocket Connection:</label>
+                    <label for="connect">gameId: </label>
+                    <input type="text" id="gameId" class="form-control">
                     <button id="connect" class="btn btn-default" type="submit">Connect</button>
                     <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
                 </div>
@@ -67,8 +68,7 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="gameId-payload">start game</label>
-                    <textarea id="gameId-payload" class="form-control payload">rigi</textarea>
+                    <label for="player-ready-send">start game</label>
                     <button id="player-ready-send" class="btn btn-default" type="submit">Send</button>
                 </div>
             </form>

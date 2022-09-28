@@ -1,10 +1,7 @@
 package com.zuehlke.amongeus.core.player;
 
-import com.zuehlke.amongeus.core.model.Player;
-
 public class KilledMessage {
 
-    private String gameId;
     private String killerId;
     private String KilledId;
 
@@ -24,11 +21,4 @@ public class KilledMessage {
         KilledId = killedId;
     }
 
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
-    }
-
-    public String getGameId() {
-        return gameId;
-    }
 }

@@ -5,6 +5,7 @@ import com.zuehlke.amongeus.core.model.Game;
 import com.zuehlke.amongeus.core.model.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -22,26 +23,26 @@ public class TaskController {
         this.gameService = gameService;
     }
 
-    @MessageMapping("/tasks")
-    @SendTo("/topic/tasks")
-    public Collection<Task> create(final TaskCreatedMessage message) {
+    @MessageMapping("/game/{gameId}/tasks")
+    @SendTo("/topic/game/{gameId}/tasks")
+    public Collection<Task> create(@DestinationVariable String gameId, final TaskCreatedMessage message) {
 
         logger.info("Task created: {}", message);
 
-        Game game = gameService.getGame(message.getGameId());
+        Game game = gameService.getGame(gameId);
 
         game.createTask(message);
 
         return game.getTasks();
     }
 
-    @MessageMapping("/tasks/complete")
-    @SendTo("/topic/tasks")
-    public Collection<Task> complete(final TaskCompletedMessage message) {
+    @MessageMapping("/game/{gameId}/tasks/complete")
+    @SendTo("/topic/game/{gameId}/tasks")
+    public Collection<Task> complete(@DestinationVariable String gameId, final TaskCompletedMessage message) {
 
         logger.info("Task completed: {}", message);
 
-        Game game = gameService.getGame(message.getGameId());
+        Game game = gameService.getGame(gameId);
 
         game.completeTask(message.getTaskId());
 
