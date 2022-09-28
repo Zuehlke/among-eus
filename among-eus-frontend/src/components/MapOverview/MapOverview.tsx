@@ -69,6 +69,10 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     }, [props.gameId, props.userId, closestPlayer]);
 
+    const startGame = () => {
+        doStartGame(props.gameId);
+    }
+
     return (
         <div>
             <h2 className="title">Among Eus - {props.gameId}</h2>
@@ -109,9 +113,9 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 </div>
             </div>
             <div className="action-bar">
-                <div className="action-bar-child">Start Game</div>
+                <div className="action-bar-child">Spiel starte</div>
                 <div className="action-bar-child">
-                    <button className="game-action-button">starte</button>
+                    <button onClick={startGame} className="game-action-button">starte</button>
                 </div>
             </div>
         </div>
@@ -123,6 +127,13 @@ function doCreateTask(gameId: string, position: google.maps.LatLngLiteral) {
         gameId: gameId,
         longitude: position.lng,
         latitude: position.lat
+    }));
+}
+
+function doStartGame(gameId: string) {
+    sendMessage("/app/players/ready", JSON.stringify({
+        gameId: gameId,
+        numberOfTerrorists: 2
     }));
 }
 
