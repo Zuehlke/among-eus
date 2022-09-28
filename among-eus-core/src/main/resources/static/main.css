@@ -3,7 +3,6 @@ body {
 }
 
 #main-content {
-    max-width: 940px;
     padding: 2em 3em;
     margin: 0 auto 20px;
     background-color: #fff;
@@ -11,4 +10,19 @@ body {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+
+textarea.payload {
+    width: 300px;
+    height: 250px;
+}
+
+.scrollable-event-area {
+    max-height: 500px;
+    overflow: scroll;
+}
+
+.row {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
