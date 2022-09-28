@@ -31,14 +31,14 @@ function App() {
         connect('wss://among-eus-core.azurewebsites.net/socket',
             () => {
                 if (gameDetails.gameId) {
-                    subscribe('/topic/players', (message: IMessage) => updatePlayerDetails(message));
-                    subscribe('/topic/players/killed', (message: IMessage) => updateKilledPlayer(message));
-                    subscribe('/topic/tasks', (message: IMessage) => {
+                    subscribe(`/topic/game/${gameDetails.gameId}/players`, (message: IMessage) => updatePlayerDetails(message));
+                    subscribe(`/topic/game/${gameDetails.gameId}/players/killed`, (message: IMessage) => updateKilledPlayer(message));
+                    subscribe(`/topic/game/${gameDetails.gameId}/tasks`, (message: IMessage) => {
                         const tasks: Task[] = JSON.parse(message.body);
                         console.debug('tasks', tasks);
                         setTasks(tasks);
                     });
-                    subscribe('/topic/game', (message: IMessage) => {
+                    subscribe(`/topic/game/${gameDetails.gameId}`, (message: IMessage) => {
                         const gameState: GameState = JSON.parse(message.body) as GameState;
                         console.debug('gameState received', gameState);
                         setGameState(gameState);
