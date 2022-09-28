@@ -11,6 +11,7 @@ import {Player} from "../../utils/player";
 import {findNearestAlivePlayer, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
 import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
+import {Role} from "../../utils/role";
 import {SolveTask} from "./SolveTask/SolveTask";
 
 interface MapOverviewProps {
@@ -18,6 +19,7 @@ interface MapOverviewProps {
     gameId: string;
     players: Player[];
     tasks: Task[];
+    killedPlayer: Player | null;
 }
 
 const renderMapStatus = (status: Status) => {
@@ -66,9 +68,9 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         });
     }, [props.gameId, props.userId]);
 
-    const createTask = () => {
+    const createTask = useCallback(() => {
         doCreateTask(props.gameId, currentLocation);
-    }
+    }, [props.gameId, currentLocation]);
 
     const kill = useCallback(() => {
         if (closestPlayer) {
@@ -82,19 +84,35 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     };
 
+    function getAmountOfAlivePlayers(): number {
+        return props.players.filter((player) => player.alive).length;
+    }
+
+    function getRoleCurrentUser(): Role | null {
+        const currentUser = props.players.find((player) => player.username === props.userId);
+        if (currentUser) {
+            return currentUser.role;
+        }
+        return null;
+    }
+
     return (
         <div>
-            <h2 className="title">Among Eus - {props.gameId}</h2>
+            <h2 className="title">Among Eus - {props.gameId}<p className="role">Dü bisch {getRoleCurrentUser()}</p></h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {props.players.length} Players
+            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
                 - <FontAwesomeIcon
                     icon={faCheck}/> {props.tasks.length}
                 Task(s)
             </div>
+            {
+                props.killedPlayer &&
+                <div className="kill-banner">{props.killedPlayer.username} isch gstorbe</div>
+            }
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
                     {
-                        props.players.map((player) => {
+                        props.players.filter((player) => player.alive).map((player) => {
                             const type = props.userId === player.username ? MarkerTypes.PLAYER : MarkerTypes.OPPONENT;
                             return <Marker key={player.username} position={{
                                 lat: player.latitude,
@@ -115,7 +133,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 </PlayerMap>
             </Wrapper>
             {
-                closestPlayer && distanceToClosestPlayer <= 10 &&
+                closestPlayer && distanceToClosestPlayer <= 10 && getRoleCurrentUser() === Role.TERRORIST &&
                 <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)}
                             onKill={kill}/>
             }
