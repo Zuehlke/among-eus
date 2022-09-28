@@ -71,11 +71,11 @@ public class Game {
         getPlayers().forEach(p -> p.setRole(PlayerRole.AGENT));
         var playerList = new ArrayList<>(getPlayers());
         Collections.shuffle(playerList);
-        for (int i=0; i<numberOfTerrorists; i++) {
+        for (int i=0; i<numberOfTerrorists && i < playerList.size(); i++) {
             var imposter = playerList.get(i);
             imposter.setRole(PlayerRole.TERRORIST);
         }
-        logger.info("Assigned player roles. The assigned terrorist roles are very secret - so not logged for GDPR reasons ;-)");
+        logger.info("Assigned player roles with {} terrorists. The assigned terrorist roles are very secret - so not logged for GDPR reasons ;-)", numberOfTerrorists);
     }
 
     public void setState(GameState state) {
