@@ -22,7 +22,7 @@ const playerKillPayloadTemplate = {
 };
 
 const playerReadyPayloadTemplate = {
-    numberOfTerrorists: 2
+    numberOfTerrorists: 1
 };
 
 function setConnected(connected) {
