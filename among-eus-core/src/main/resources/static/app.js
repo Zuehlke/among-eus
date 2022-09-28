@@ -82,7 +82,7 @@ function sendPlayer() {
 function sendPlayerReady() {
     const gameId = $( "#gameId" ).val();
     const gameConfig = $( "#game-config-payload" ).val();
-    stompClient.send(`/app/game/${gameId}/players/ready`, {}, gameConfig);
+    stompClient.send(`/app/game/${gameId}/game/start`, {}, gameConfig);
 }
 
 function createTask() {

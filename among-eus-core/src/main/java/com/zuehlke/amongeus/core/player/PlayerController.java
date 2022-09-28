@@ -51,9 +51,9 @@ public class PlayerController {
         this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
     }
 
-    @MessageMapping("/game/{gameId}/players/ready")
+    @MessageMapping("/game/{gameId}/game/start")
     @SendTo("/topic/game/{gameId}/")
-    public GameState updateGameState(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
+    public GameState startGame(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
         logger.info("Starting game: {}", gameId);
         Game game = gameService.getGame(gameId);
         game.startGame(gameStartConfigurationMessage);

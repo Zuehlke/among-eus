@@ -33,10 +33,10 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
         console.log("Number of terrorists set to " + event.target.value)
     };
     const startGame = () => {
-        console.log("starting game " + props.gameId + " with " + numberOfTerrorists + " Terrorists")
-        sendMessage("/app/game/" + props.gameId + "/players/ready", JSON.stringify({
-            gameId: props.gameId,
-            numberOfTerrorists: parseInt(numberOfTerrorists)
+        let numberOfTerroristsAsInt = parseInt(numberOfTerrorists)
+        console.log("starting game " + props.gameId + " with " + numberOfTerroristsAsInt + " Terrorists")
+        sendMessage(`/app/game/${props.gameId}/game/start`, JSON.stringify({
+            numberOfTerrorists: numberOfTerroristsAsInt
         }));
         closeGameStartDialog();
     }
