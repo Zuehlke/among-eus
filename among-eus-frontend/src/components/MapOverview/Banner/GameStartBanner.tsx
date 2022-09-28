@@ -25,10 +25,11 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
 
     const [open, setOpen] = React.useState(false);
     const [numberOfTerrorists, setNumberOfTerrorists] = React.useState('1');
+
     const options = [
-        { label: '1 Terrorists', value: '1' },
-        { label: '2 Terrorists', value: '2' },
-        { label: '3 Terrorists', value: '3' },
+        { label: '1 Wallüsser', value: '1' },
+        { label: numberOfTerroristsForNPlayers(2) + ' Wallüsser', value: numberOfTerroristsForNPlayers(2) },
+        { label: numberOfTerroristsForNPlayers(4) + ' Wallüsser', value: numberOfTerroristsForNPlayers(4) },
     ];
     const openGameStartDialog = () => setOpen(true);
     const closeGameStartDialog = () => setOpen(false);
@@ -42,6 +43,11 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
             gameId: props.gameId,
             numberOfTerrorists
         }));
+        closeGameStartDialog();
+    }
+
+    function numberOfTerroristsForNPlayers(percentage: number) {
+        return Math.ceil(props.players.length / percentage);
     }
 
     return (

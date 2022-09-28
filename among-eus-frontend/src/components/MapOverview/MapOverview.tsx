@@ -30,12 +30,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         lat: 47,
         lng: 8,
     });
-    const [value, setValue] = React.useState('1');
-    const options = [
-        { label: '1 Terrorists', value: '1' },
-        { label: '2 Terrorists', value: '2' },
-        { label: '3 Terrorists', value: '3' },
-    ];
 
     useEffect(() => {
         const watchId = startGpsTracking2();
@@ -89,11 +83,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     };
 
-    const changeNumberOfTerrorists = (event: any) => {
-        setValue(event.target.value);
-        console.log("Number of terrorists set to " + event.target.value)
-    };
-
     return (
         <div>
             <h2 className="title">Among Eus - {props.gameId}</h2>
@@ -101,12 +90,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             <div className="numberOfPlayer">
                 <FontAwesomeIcon icon={faUser}/> {props.players.length} Players - <FontAwesomeIcon icon={faCheck}/>
                 {props.tasks.length} Task(s)
-
-                <select value={value} onChange={changeNumberOfTerrorists}>
-                    {options.map((option) => (
-                        <option value={option.value}>{option.label}</option>
-                    ))}
-                </select>
             </div>
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
