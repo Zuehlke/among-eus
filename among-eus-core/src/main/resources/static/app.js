@@ -1,34 +1,24 @@
 var stompClient = null;
 
 const playerPayloadTemplate = {
-    gameId: 'rigi',
-    player: {
         username: 'mathis',
         longitude: 11.5,
         latitude: 22.5,
         accuracy: 33.5
-    }
 };
 
 const taskCreatePayloadTemplate = {
-    gameId: 'rigi',
     longitude: 11.5,
     latitude: 22.5
 };
 
 const taskCompletePayloadTemplate = {
-    gameId: 'rigi',
     taskId: '1'
 };
 
 const playerKillPayloadTemplate = {
-    gameId: 'rigi',
     killerId: 'mathis',
     killedId: 'daniel'
-};
-
-const playerReadyPayloadTemplate = {
-    gameId: 'rigi'
 };
 
 function setConnected(connected) {
@@ -48,22 +38,24 @@ function connect() {
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function (frame) {
+        const gameId = $('#gameId').val()
+        console.log(`${gameId}`);
         setConnected(true);
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/players', function (event) {
-            console.log("Received event '/topic/players' websocket", event);
+        console.log(`Connected with gameId={gameId}, frame={frame}`);
+        stompClient.subscribe(`/topic/game/${gameId}/players`, function (event) {
+            console.log(`Received event '/topic/game/${gameId}/players' websocket`, event);
             showEventMessage("#players", event.body);
         });
-        stompClient.subscribe('/topic/tasks', function (event) {
-            console.log("Received event '/topic/tasks' websocket", event);
+        stompClient.subscribe(`/topic/game/${gameId}/tasks`, function (event) {
+            console.log(`Received event '/topic/game/${gameId}/tasks' websocket`, event);
             showEventMessage("#tasks", event.body);
         });
-        stompClient.subscribe('/topic/players/killed', function (event) {
-            console.log("Received event '/topic/players/killed' websocket", event);
+        stompClient.subscribe(`/topic/game/${gameId}/players/killed`, function (event) {
+            console.log(`Received event '/topic/game/${gameId}/players/killed' websocket`, event);
             showEventMessage("#player-killed-events", event.body);
         });
-        stompClient.subscribe('/topic/game', function (event) {
-            console.log("Received event '/topic/game' websocket", event);
+        stompClient.subscribe(`/topic/game/${gameId}/`, function (event) {
+            console.log(`Received event '/topic/game/${gameId}' websocket`, event);
             showEventMessage("#gameState-event", event.body);
         });
     });
@@ -78,28 +70,32 @@ function disconnect() {
 }
 
 function sendPlayer() {
+    const gameId = $('#gameId').val()
     const player = $( "#players-payload" ).val();
-    stompClient.send("/app/players", {}, player);
+    stompClient.send(`/app/game/${gameId}/players`, {}, player);
 }
 
 function sendPlayerReady() {
-    const gameId = $( "#gameId-payload" ).val();
-    stompClient.send("/app/players/ready", {}, gameId);
+    const gameId = $( "#gameId" ).val();
+    stompClient.send(`/app/game/${gameId}/players/ready`, {});
 }
 
 function createTask() {
+    const gameId = $('#gameId').val()
     const task = $("#create-task-payload").val();
-    stompClient.send("/app/tasks", {}, task);
+    stompClient.send(`/app/game/${gameId}/tasks`, {}, task);
 }
 
 function sendKillPlayer() {
+    const gameId = $('#gameId').val()
     const playerKillMsg = $( "#player-kill-payload" ).val();
-    stompClient.send("/app/players/kill", {}, playerKillMsg);
+    stompClient.send(`/app/game/${gameId}/players/kill`, {}, playerKillMsg);
 }
 
 function updateTask() {
+    const gameId = $('#gameId').val()
     const task = $("#update-task-payload").val();
-    stompClient.send("/app/tasks/complete", {}, task);
+    stompClient.send(`/app/game/${gameId}/tasks/complete`, {}, task);
 }
 
 function showEventMessage(elementId, message) {
@@ -128,7 +124,6 @@ $(function () {
 
     $("#players-payload").val(JSON.stringify(playerPayloadTemplate, null, 4));
     $("#create-task-payload").val(JSON.stringify(taskCreatePayloadTemplate, null, 4));
-    $("#gameId-payload").val(JSON.stringify(playerReadyPayloadTemplate, null, 4));
     $("#update-task-payload").val(JSON.stringify(taskCompletePayloadTemplate, null, 4));
     $("#player-kill-payload").val(JSON.stringify(playerKillPayloadTemplate, null, 4));
 });

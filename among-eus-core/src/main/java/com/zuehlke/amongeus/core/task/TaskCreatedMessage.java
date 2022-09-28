@@ -6,19 +6,9 @@ import java.util.UUID;
 
 public class TaskCreatedMessage {
 
-    private String gameId;
-
     private double longitude;
 
     private double latitude;
-
-    public String getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
-    }
 
     public double getLongitude() {
         return longitude;

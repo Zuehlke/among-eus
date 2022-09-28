@@ -26,23 +26,28 @@ function App() {
     },[setKilledPlayer]);
 
     useEffect(() => {
+        const gameDetails = parseGameDetails();
+
         connect('wss://among-eus-core.azurewebsites.net/socket',
             () => {
-                subscribe('/topic/players', (message: IMessage) => updatePlayerDetails(message));
-                subscribe('/topic/players/killed', (message: IMessage) => updateKilledPlayer(message));
-                subscribe('/topic/tasks', (message: IMessage) => {
-                    const tasks: Task[] = JSON.parse(message.body);
-                    console.debug('tasks', tasks);
-                    setTasks(tasks);
-                });
-                subscribe('/topic/game', (message: IMessage) => {
-                    const gameState: GameState = JSON.parse(message.body) as GameState;
-                    console.debug('gameState received', gameState);
-                    setGameState(gameState);
-                });
+                if (gameDetails.gameId) {
+                    subscribe(`/topic/game/${gameDetails.gameId}/players`, (message: IMessage) => updatePlayerDetails(message));
+                    subscribe(`/topic/game/${gameDetails.gameId}/players/killed`, (message: IMessage) => updateKilledPlayer(message));
+                    subscribe(`/topic/game/${gameDetails.gameId}/tasks`, (message: IMessage) => {
+                        const tasks: Task[] = JSON.parse(message.body);
+                        console.debug('tasks', tasks);
+                        setTasks(tasks);
+                    });
+                    subscribe(`/topic/game/${gameDetails.gameId}`, (message: IMessage) => {
+                        const gameState: GameState = JSON.parse(message.body) as GameState;
+                        console.debug('gameState received', gameState);
+                        setGameState(gameState);
+                    });
+                } else {
+                    console.warn("Game id is null");
+                }
             });
 
-        const gameDetails = parseGameDetails();
         setGameId(gameDetails.gameId);
         setUserId(gameDetails.userId);
         console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
