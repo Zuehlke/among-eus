@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
@@ -19,17 +20,20 @@ public class PlayerController {
 
     private final GameService gameService;
 
-    public PlayerController(GameService gameService) {
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    public PlayerController(GameService gameService, SimpMessagingTemplate simpMessagingTemplate) {
         this.gameService = gameService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @MessageMapping("/players")
-    @SendTo("/topic/players")
-    public Collection<Player> createOrUpdate(final PlayerMessage message) {
+    public void createOrUpdate(final PlayerMessage message) {
         Game game = gameService.getGame(message.getGameId());
         game.updatePlayer(message.getPlayer());
-        return game.getPlayers();
+        sendPlayerList(game);
     }
+
     @MessageMapping("/players/kill")
     @SendTo("/topic/players/killed")
     public Player killed(final KilledMessage killedMessage) {
@@ -39,7 +43,12 @@ public class PlayerController {
         if (game.isOver()) {
             gameOver(game);
         }
+        sendPlayerList(game);
         return killedPlayer;
+    }
+
+    private void sendPlayerList(Game game) {
+        this.simpMessagingTemplate.convertAndSend("/topic/players", game.getPlayers());
     }
 
     @MessageMapping("/players/ready")
