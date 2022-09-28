@@ -12,7 +12,7 @@ export function SolveTask(props: SolveTaskProps) {
         <div className="action-bar">
             <div className="action-bar-child">Üfgab {props.taskId} ({props.distance} Meter)</div>
             <div className="action-bar-child">
-                <button className="kill-action-button" onClick={props.onSolve}>lösu</button>
+                <button className="task-action-button" onClick={props.onSolve}>lösu</button>
             </div>
         </div>
     );
