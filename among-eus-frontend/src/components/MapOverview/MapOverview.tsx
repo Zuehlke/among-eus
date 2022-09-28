@@ -103,7 +103,9 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                         })
                     }
                     {
-                        props.tasks.map(task => {
+                        props.tasks
+                            .filter(task => !task.completed)
+                            .map(task => {
                             return <Marker key={task.id} position={{
                                 lat: task.latitude,
                                 lng: task.longitude,
