@@ -51,7 +51,8 @@ class PlayerControllerIntegrationsTest {
                 })
                 .get(1, SECONDS);
 
-        session.subscribe("/topic/positions", new StompFrameHandler() {
+        var gameId = "rigi42";
+        session.subscribe("/topic/game/" + gameId + "/players", new StompFrameHandler() {
 
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -64,15 +65,12 @@ class PlayerControllerIntegrationsTest {
             }
         });
 
-        var pm = new PlayerMessage();
-        pm.setGameId("it test");
         var p = new Player();
         p.setLongitude(123.123d);
         p.setLatitude(123.123d);
         p.setAccuracy(12.12f);
         p.setUsername("Oli");
-        pm.setPlayer(p);
-        session.send("/app/positions", pm);
+        session.send("/app/game/" + gameId + "/players", p);
 
         await()
                 .atMost(10, SECONDS)
