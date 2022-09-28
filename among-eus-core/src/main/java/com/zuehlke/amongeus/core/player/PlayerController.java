@@ -12,8 +12,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import java.util.Collection;
-
 @Controller
 public class PlayerController {
 
@@ -53,12 +51,12 @@ public class PlayerController {
         this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
     }
 
-    @MessageMapping("/game/{gameId}/players/ready")
+    @MessageMapping("/game/{gameId}/game/start")
     @SendTo("/topic/game/{gameId}/")
-    public GameState updateGameState(@DestinationVariable String gameId) {
+    public GameState startGame(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
         logger.info("Starting game: {}", gameId);
         Game game = gameService.getGame(gameId);
-        game.startGame();
+        game.startGame(gameStartConfigurationMessage);
         return game.getState();
     }
 

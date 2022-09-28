@@ -29,7 +29,7 @@
             <form class="form-inline">
                 <div class="form-group">
                     <label for="connect">gameId: </label>
-                    <input type="text" id="gameId" class="form-control">
+                    <input type="text" id="gameId" class="form-control" value="rigi">
                     <button id="connect" class="btn btn-default" type="submit">Connect</button>
                     <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
                 </div>
@@ -68,14 +68,15 @@
         <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="player-ready-send">start game</label>
+                    <label for="game-config-payload">Start Game /game/start</label>
+                    <textarea id="game-config-payload" class="form-control payload">game config payload comes here ...</textarea>
                     <button id="player-ready-send" class="btn btn-default" type="submit">Send</button>
                 </div>
             </form>
         </div>
 
         <div class="col-md-8">
-            <div><label>Event: Game Started</label></div>
+            <div><label>Event: Game Started /topic/game</label></div>
             <div class="scrollable-event-area">
                 <table id="gameState" class="table table-striped">
                     <tbody id="gameState-event">

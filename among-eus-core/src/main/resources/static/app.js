@@ -21,6 +21,10 @@ const playerKillPayloadTemplate = {
     killedId: 'daniel'
 };
 
+const playerReadyPayloadTemplate = {
+    numberOfTerrorists: 1
+};
+
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
@@ -77,7 +81,8 @@ function sendPlayer() {
 
 function sendPlayerReady() {
     const gameId = $( "#gameId" ).val();
-    stompClient.send(`/app/game/${gameId}/players/ready`, {});
+    const gameConfig = $( "#game-config-payload" ).val();
+    stompClient.send(`/app/game/${gameId}/game/start`, {}, gameConfig);
 }
 
 function createTask() {
@@ -124,6 +129,7 @@ $(function () {
 
     $("#players-payload").val(JSON.stringify(playerPayloadTemplate, null, 4));
     $("#create-task-payload").val(JSON.stringify(taskCreatePayloadTemplate, null, 4));
+    $("#game-config-payload").val(JSON.stringify(playerReadyPayloadTemplate, null, 4));
     $("#update-task-payload").val(JSON.stringify(taskCompletePayloadTemplate, null, 4));
     $("#player-kill-payload").val(JSON.stringify(playerKillPayloadTemplate, null, 4));
 });

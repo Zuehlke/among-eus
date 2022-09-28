@@ -11,6 +11,7 @@ import {Player} from "../../utils/player";
 import {findNearestAlivePlayer, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
 import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
+import GameStartBanner from "./Banner/GameStartBanner";
 import {Role} from "../../utils/role";
 import {SolveTask} from "./SolveTask/SolveTask";
 import {GameState} from "../../utils/game-state";
@@ -41,12 +42,14 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             });
+
+            sendOwnPosition(props.gameId, props.userId, position);
         });
 
         return () => {
             navigator.geolocation.clearWatch(watchId);
         }
-    }, []);
+    }, [props.gameId, props.userId]);
 
     const me: Player | undefined = props.players.find((element) => element.username === props.userId);
     let distanceToClosestPlayer: number = 0;
@@ -64,11 +67,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     }
 
-    useEffect(() => {
-        registerCallback((position) => {
-            sendOwnPosition(props.gameId, props.userId, position);
-        });
-    }, [props.gameId, props.userId]);
 
     const createTask = useCallback(() => {
         doCreateTask(props.gameId, currentLocation);
@@ -100,12 +98,20 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     return (
         <div>
-            <h2 className="title">Among Eus - {props.gameId}<p className="role">Dü bisch {getRoleCurrentUser()}</p></h2>
+            <h2 className="title">Among Eus - {props.gameId}
+                {
+                    getRoleCurrentUser() !== Role.UNASSIGNED ? (
+                        <p className="role">Dü bisch {getRoleCurrentUser()}</p>
+                    ) : (
+                        <p className="role">Düe d Tasks platziere!</p>
+                    )
+                }
+            </h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
-                - <FontAwesomeIcon
-                    icon={faCheck}/> {props.tasks.length}
-                Task(s)
+            <div className="numberOfPlayer">
+                <FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
+                - <FontAwesomeIcon icon={faCheck}/>
+                {props.tasks.length} Task(s)
             </div>
             {
                 props.killedPlayer &&
@@ -126,11 +132,11 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                         props.tasks
                             .filter(task => !task.completed)
                             .map(task => {
-                            return <Marker key={task.id} position={{
-                                lat: task.latitude,
-                                lng: task.longitude,
-                            }} labelName={'Task ' + task.id} labelType={MarkerTypes.TASK}></Marker>
-                        })
+                                return <Marker key={task.id} position={{
+                                    lat: task.latitude,
+                                    lng: task.longitude,
+                                }} labelName={'Task ' + task.id} labelType={MarkerTypes.TASK}></Marker>
+                            })
                     }
                 </PlayerMap>
             </Wrapper>
@@ -154,12 +160,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             }
             {
                 props.gameState === "WAITING_FOR_PLAYERS" &&
-                <div className="action-bar">
-                    <div className="action-bar-child">Start Game</div>
-                    <div className="action-bar-child">
-                        <button className="game-action-button">starte</button>
-                    </div>
-                </div>
+                <GameStartBanner players={props.players} gameId={props.gameId}/>
             }
         </div>
     )

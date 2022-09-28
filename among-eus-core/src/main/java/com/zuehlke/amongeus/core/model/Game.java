@@ -1,6 +1,7 @@
 package com.zuehlke.amongeus.core.model;
 
 
+import com.zuehlke.amongeus.core.player.GameStartConfigurationMessage;
 import com.zuehlke.amongeus.core.task.TaskCreatedMessage;
 import com.zuehlke.amongeus.core.utility.DistanceCalculator;
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ public class Game {
         playerOptional.ifPresent(value -> player.setAlive(value.isAlive()));
         playerOptional.ifPresent(value -> player.setRole(value.getRole()));
         if (playerOptional.isEmpty() && !state.equals(GameState.WAITING_FOR_PLAYERS)) {
-            throw new IllegalStateException("New player is not allowed to join, game is in state: "+ state);
+            throw new IllegalStateException("New player is not allowed to join, game is in state: " + state);
         }
         players.put(player.getUsername(), player);
         logger.info("Updated {}", player);
@@ -60,27 +61,25 @@ public class Game {
         return DistanceCalculator.getDistanceInMeter(killer, killed) <= MIN_DISTANCE_TO_KILL;
     }
 
-    public void startGame() {
+    public void startGame(final GameStartConfigurationMessage gameStartConfigurationMessage) {
         logger.info("starting game ...");
         if (state != GameState.WAITING_FOR_PLAYERS) {
             throw new IllegalStateException("Game is in " + state + " state, and can not be started!");
         }
-        assignPlayerRoles();
+        assignPlayerRoles(gameStartConfigurationMessage.getNumberOfTerrorists());
         state = GameState.GAME_RUNNING;
         logger.info("starting game ... done.");
     }
 
-    private void assignPlayerRoles() {
+    private void assignPlayerRoles(int numberOfTerrorists) {
         getPlayers().forEach(p -> p.setRole(PlayerRole.AGENT));
-        var imposter = getRandomPlayer();
-        imposter.setRole(PlayerRole.TERRORIST);
-        logger.info("assigned player roles. Imposter is {}", imposter);
-    }
-
-    private Player getRandomPlayer() {
         var playerList = new ArrayList<>(getPlayers());
-        var randomIndex = new Random().nextInt(playerList.size());
-        return playerList.get(randomIndex);
+        Collections.shuffle(playerList);
+        for (int i = 0; i < numberOfTerrorists && i < playerList.size(); i++) {
+            var imposter = playerList.get(i);
+            imposter.setRole(PlayerRole.TERRORIST);
+        }
+        logger.info("Assigned player roles with {} terrorists. The assigned terrorist roles are very secret - so not logged for GDPR reasons ;-)", numberOfTerrorists);
     }
 
     public void setState(GameState state) {
@@ -92,8 +91,8 @@ public class Game {
     }
 
     public synchronized void createTask(TaskCreatedMessage message) {
-        if(!state.equals(GameState.WAITING_FOR_PLAYERS)){
-            throw new IllegalStateException("Unable to create task, because game state is "+ state);
+        if (!state.equals(GameState.WAITING_FOR_PLAYERS)) {
+            throw new IllegalStateException("Unable to create task, because game state is " + state);
         }
         var id = tasks.size() + 1;
         var task = message.createTask(String.valueOf(id));
@@ -101,8 +100,8 @@ public class Game {
     }
 
     public void completeTask(String taskId) {
-        if(!state.equals(GameState.GAME_RUNNING)){
-            throw new IllegalStateException("Unable to complete tasks in game state: "+ state);
+        if (!state.equals(GameState.GAME_RUNNING)) {
+            throw new IllegalStateException("Unable to complete tasks in game state: " + state);
         }
         tasks.get(taskId).setCompleted(true);
     }
@@ -120,6 +119,9 @@ public class Game {
         }
         if (killerPlayer.getRole() != PlayerRole.TERRORIST) {
             throw new IllegalStateException("User with role " + killerPlayer.getRole() + " can not kill");
+        }
+        if (killedPlayer.getRole() != PlayerRole.AGENT) {
+            throw new IllegalStateException("User with role " + killedPlayer.getRole() + " can not be killed.");
         }
         if (state != GameState.GAME_RUNNING) {
             throw new IllegalStateException("Can not kill in game state " + state);
