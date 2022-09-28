@@ -8,10 +8,11 @@ import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 import {Player} from "../../utils/player";
-import {findNearestAlivePlayer, getDistanceInMeter} from "../../utils/distance-calculator";
+import {findNearestAlivePlayer, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
 import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
 import {Role} from "../../utils/role";
+import {SolveTask} from "./SolveTask/SolveTask";
 
 interface MapOverviewProps {
     userId: string;
@@ -47,11 +48,17 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     const me: Player | undefined = props.players.find((element) => element.username === props.userId);
     let distanceToClosestPlayer: number = 0;
+    let distanceToClosestTask: number = -1;
+    let closestTask: Task | null = null;
     let closestPlayer: Player | null = null;
     if (me) {
         closestPlayer = findNearestAlivePlayer(props.players, me);
+        closestTask = findNearestUnsolvedTask(props.tasks, me);
         if (closestPlayer) {
             distanceToClosestPlayer = getDistanceInMeter(me, closestPlayer);
+        }
+        if (closestTask) {
+            distanceToClosestTask = getDistanceInMeter(me, closestTask);
         }
     }
 
@@ -71,6 +78,12 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     }, [props.gameId, props.userId, closestPlayer]);
 
+    const solveTask = () => {
+        if (closestTask) {
+            doSolveTask(props.gameId, closestTask);
+        }
+    };
+
     function getAmountOfAlivePlayers(): number {
         return props.players.filter((player) => player.alive).length;
     }
@@ -87,8 +100,9 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         <div>
             <h2 className="title">Among Eus - {props.gameId}<p className="role">Dü bisch {getRoleCurrentUser()}</p></h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players - <FontAwesomeIcon
-                icon={faCheck}/> {props.tasks.length}
+            <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
+                - <FontAwesomeIcon
+                    icon={faCheck}/> {props.tasks.length}
                 Task(s)
             </div>
             {
@@ -107,7 +121,9 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                         })
                     }
                     {
-                        props.tasks.map(task => {
+                        props.tasks
+                            .filter(task => !task.completed)
+                            .map(task => {
                             return <Marker key={task.id} position={{
                                 lat: task.latitude,
                                 lng: task.longitude,
@@ -118,12 +134,17 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             </Wrapper>
             {
                 closestPlayer && distanceToClosestPlayer <= 10 && getRoleCurrentUser() === Role.TERRORIST &&
-                <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)} onKill={kill} />
+                <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)}
+                            onKill={kill}/>
+            }
+            {
+                closestTask && distanceToClosestTask <= 10 &&
+                <SolveTask taskId={closestTask.id} distance={distanceToClosestTask} onSolve={solveTask}></SolveTask>
             }
             <div className="action-bar">
-                <div className="action-bar-child">Task platziere</div>
+                <div className="action-bar-child">Üfgab platziere</div>
                 <div className="action-bar-child">
-                    <button className="task-action-button" onClick={createTask}>Task do platziere</button>
+                    <button className="task-action-button" onClick={createTask}>Üfgab do platziere</button>
                 </div>
             </div>
             <div className="action-bar">
@@ -150,6 +171,13 @@ function doKill(gameId: string, killerId: string, killedId: string) {
         killerId,
         killedId
     }));
+}
+
+function doSolveTask(gameId: string, task: Task) {
+    sendMessage('/app/tasks/complete', JSON.stringify({
+        gameId,
+        taskId: task.id,
+    }))
 }
 
 function sendOwnPosition(gameId: string, userId: string, position: GeolocationPosition) {
