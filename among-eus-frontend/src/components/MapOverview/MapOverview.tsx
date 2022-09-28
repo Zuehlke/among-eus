@@ -49,7 +49,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     let distanceToClosestPlayer: number = 0;
     let closestPlayer: Player | null = null;
     if (me) {
-        closestPlayer = findNearestAlivePlayer(props.players.filter((element) => element.alive && element.username !== props.killedPlayer?.username), me);
+        closestPlayer = findNearestAlivePlayer(props.players, me);
         if (closestPlayer) {
             distanceToClosestPlayer = getDistanceInMeter(me, closestPlayer);
         }
@@ -61,9 +61,9 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         });
     }, [props.gameId, props.userId]);
 
-    const createTask = () => {
+    const createTask = useCallback(() => {
         doCreateTask(props.gameId, currentLocation);
-    }
+    }, [props.gameId, currentLocation]);
 
     const kill = useCallback(() => {
         if (closestPlayer) {
@@ -72,11 +72,11 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     }, [props.gameId, props.userId, closestPlayer]);
 
     function getAmountOfAlivePlayers(): number {
-        return props.players.filter((element) => element.alive && element.username !== props.killedPlayer?.username).length;
+        return props.players.filter((player) => player.alive).length;
     }
 
-    function getRole(): Role | null {
-        const currentUser = props.players.find((element) => element.username === props.userId);
+    function getRoleCurrentUser(): Role | null {
+        const currentUser = props.players.find((player) => player.username === props.userId);
         if (currentUser) {
             return currentUser.role;
         }
@@ -85,7 +85,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     return (
         <div>
-            <h2 className="title">Among Eus - {props.gameId} - Dini Rolla: {getRole()}</h2>
+            <h2 className="title">Among Eus - {props.gameId}<p className="role">Dü bisch {getRoleCurrentUser()}</p></h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
             <div className="numberOfPlayer"><FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players - <FontAwesomeIcon
                 icon={faCheck}/> {props.tasks.length}
@@ -93,12 +93,12 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             </div>
             {
                 props.killedPlayer &&
-                <div className="kill-action-button">{props.killedPlayer.username} isch gstorbe</div>
+                <div className="kill-banner">{props.killedPlayer.username} isch gstorbe</div>
             }
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
                     {
-                        props.players.filter((element) => element.alive && element.username !== props.killedPlayer?.username).map((player) => {
+                        props.players.filter((player) => player.alive).map((player) => {
                             const type = props.userId === player.username ? MarkerTypes.PLAYER : MarkerTypes.OPPONENT;
                             return <Marker key={player.username} position={{
                                 lat: player.latitude,
@@ -117,7 +117,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 </PlayerMap>
             </Wrapper>
             {
-                closestPlayer && closestPlayer.username !== props.killedPlayer?.username && distanceToClosestPlayer <= 10 && getRole() == Role.TERRORIST &&
+                closestPlayer && distanceToClosestPlayer <= 10 && getRoleCurrentUser() === Role.TERRORIST &&
                 <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)} onKill={kill} />
             }
             <div className="action-bar">

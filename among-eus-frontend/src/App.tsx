@@ -39,7 +39,7 @@ function App() {
         setGameId(gameDetails.gameId);
         setUserId(gameDetails.userId);
         console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
-    }, [setGameId, setUserId, updatePlayerDetails]);
+    }, [setGameId, setUserId, updatePlayerDetails, updateKilledPlayer]);
 
 
     return (
