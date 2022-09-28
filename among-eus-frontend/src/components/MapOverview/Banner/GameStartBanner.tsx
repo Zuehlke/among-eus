@@ -25,11 +25,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
 
     const [open, setOpen] = React.useState(false);
     const [numberOfTerrorists, setNumberOfTerrorists] = React.useState(getInitialNumberOfTerrorists());
-
     const options = createTerroristOptions()
-
-
-
     const openGameStartDialog = () => setOpen(true);
     const closeGameStartDialog = () => setOpen(false);
     const changeNumberOfTerrorists = (event: any) => {
@@ -38,7 +34,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     };
     const startGame = () => {
         console.log("starting game " + props.gameId + " with " + numberOfTerrorists + " Terrorists")
-        sendMessage("/app/players/ready", JSON.stringify({
+        sendMessage("/app/game/" + props.gameId + "/players/ready", JSON.stringify({
             gameId: props.gameId,
             numberOfTerrorists: parseInt(numberOfTerrorists)
         }));
