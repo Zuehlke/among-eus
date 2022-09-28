@@ -140,7 +140,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                             onKill={kill}/>
             }
             {
-                closestTask && distanceToClosestTask <= 10 && props.gameState === "GAME_RUNNING" &&
+                closestTask && distanceToClosestTask <= 10 && props.gameState === "GAME_RUNNING" && getRoleCurrentUser() === Role.AGENT &&
                 <SolveTask taskId={closestTask.id} distance={distanceToClosestTask} onSolve={solveTask}></SolveTask>
             }
             {
