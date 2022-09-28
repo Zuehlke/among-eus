@@ -14,12 +14,14 @@ import Task from "../../utils/task";
 import GameStartBanner from "./Banner/GameStartBanner";
 import {Role} from "../../utils/role";
 import {SolveTask} from "./SolveTask/SolveTask";
+import {GameState} from "../../utils/game-state";
 
 interface MapOverviewProps {
     userId: string;
     gameId: string;
     players: Player[];
     tasks: Task[];
+    gameState: GameState;
     killedPlayer: Player | null;
 }
 
@@ -133,58 +135,57 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 </PlayerMap>
             </Wrapper>
             {
-                closestPlayer && distanceToClosestPlayer <= 10 && getRoleCurrentUser() === Role.TERRORIST &&
+                closestPlayer && distanceToClosestPlayer <= 10 && props.gameState === "GAME_RUNNING" && getRoleCurrentUser() === Role.TERRORIST &&
                 <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)}
                             onKill={kill}/>
             }
             {
-                closestTask && distanceToClosestTask <= 10 &&
+                closestTask && distanceToClosestTask <= 10 && props.gameState === "GAME_RUNNING" && getRoleCurrentUser() === Role.AGENT &&
                 <SolveTask taskId={closestTask.id} distance={distanceToClosestTask} onSolve={solveTask}></SolveTask>
             }
-            <div className="action-bar">
-                <div className="action-bar-child">Üfgab platziere</div>
-                <div className="action-bar-child">
-                    <button className="task-action-button" onClick={createTask}>Üfgab do platziere</button>
+            {
+                props.gameState === "WAITING_FOR_PLAYERS" &&
+                <div className="action-bar">
+                    <div className="action-bar-child">Üfgab platziere</div>
+                    <div className="action-bar-child">
+                        <button className="task-action-button" onClick={createTask}>Üfgab do platziere</button>
+                    </div>
                 </div>
-            </div>
-
-            <GameStartBanner players={props.players} gameId={props.gameId} />
+            }
+            {
+                props.gameState === "WAITING_FOR_PLAYERS" &&
+                <GameStartBanner players={props.players} gameId={props.gameId} />
+            }
         </div>
     )
 };
 
 function doCreateTask(gameId: string, position: google.maps.LatLngLiteral) {
-    sendMessage("/app/tasks", JSON.stringify({
-        gameId: gameId,
+    sendMessage(`/app/game/${gameId}/tasks`, JSON.stringify({
         longitude: position.lng,
         latitude: position.lat
     }));
 }
 
 function doKill(gameId: string, killerId: string, killedId: string) {
-    sendMessage("/app/players/kill", JSON.stringify({
-        gameId,
+    sendMessage(`/app/game/${gameId}/players/kill`, JSON.stringify({
         killerId,
         killedId
     }));
 }
 
 function doSolveTask(gameId: string, task: Task) {
-    sendMessage('/app/tasks/complete', JSON.stringify({
-        gameId,
+    sendMessage(`/app/game/${gameId}/tasks/complete`, JSON.stringify({
         taskId: task.id,
     }))
 }
 
 function sendOwnPosition(gameId: string, userId: string, position: GeolocationPosition) {
-    sendMessage("/app/players", JSON.stringify({
-        gameId: gameId,
-        player: {
-            username: userId,
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude,
-            accuracy: position.coords.accuracy
-        }
+    sendMessage(`/app/game/${gameId}/players`, JSON.stringify({
+        username: userId,
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
+        accuracy: position.coords.accuracy
     }));
 }
 

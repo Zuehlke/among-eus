@@ -25,6 +25,10 @@ public class Game {
         this.id = id;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public Collection<Player> getPlayers() {
         return players.values();
     }

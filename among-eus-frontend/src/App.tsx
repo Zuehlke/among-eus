@@ -6,6 +6,7 @@ import {connect, subscribe} from "./utils/websocket-client";
 import {Player} from "./utils/player";
 import {IMessage} from "@stomp/stompjs";
 import Task from "./utils/task";
+import {GameState} from "./utils/game-state";
 
 function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -13,6 +14,7 @@ function App() {
     const [gameId, setGameId] = useState<string | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [gameState, setGameState] = useState<GameState>("WAITING_FOR_PLAYERS");
 
     const updatePlayerDetails = useCallback((message: IMessage) => {
         console.debug(JSON.parse(message.body));
@@ -24,18 +26,28 @@ function App() {
     },[setKilledPlayer]);
 
     useEffect(() => {
+        const gameDetails = parseGameDetails();
+
         connect('wss://among-eus-core.azurewebsites.net/socket',
             () => {
-                subscribe('/topic/players', (message: IMessage) => updatePlayerDetails(message));
-                subscribe('/topic/players/killed', (message: IMessage) => updateKilledPlayer(message));
-                subscribe('/topic/tasks', (message: IMessage) => {
-                    const tasks: Task[] = JSON.parse(message.body);
-                    console.debug('tasks', tasks);
-                    setTasks(tasks);
-                });
+                if (gameDetails.gameId) {
+                    subscribe(`/topic/game/${gameDetails.gameId}/players`, (message: IMessage) => updatePlayerDetails(message));
+                    subscribe(`/topic/game/${gameDetails.gameId}/players/killed`, (message: IMessage) => updateKilledPlayer(message));
+                    subscribe(`/topic/game/${gameDetails.gameId}/tasks`, (message: IMessage) => {
+                        const tasks: Task[] = JSON.parse(message.body);
+                        console.debug('tasks', tasks);
+                        setTasks(tasks);
+                    });
+                    subscribe(`/topic/game/${gameDetails.gameId}`, (message: IMessage) => {
+                        const gameState: GameState = JSON.parse(message.body) as GameState;
+                        console.debug('gameState received', gameState);
+                        setGameState(gameState);
+                    });
+                } else {
+                    console.warn("Game id is null");
+                }
             });
 
-        const gameDetails = parseGameDetails();
         setGameId(gameDetails.gameId);
         setUserId(gameDetails.userId);
         console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
@@ -44,7 +56,13 @@ function App() {
 
     return (
         <div className="App">
-            {gameId && userId && <MapOverview userId={userId} gameId={gameId} players={players} tasks={tasks} killedPlayer={killedPlayer}></MapOverview>}
+            {gameId && userId && <MapOverview userId={userId}
+                                              gameId={gameId}
+                                              players={players}
+                                              gameState={gameState}
+                                              killedPlayer={killedPlayer}
+                                              tasks={tasks}/>
+            }
         </div>
     );
 }
