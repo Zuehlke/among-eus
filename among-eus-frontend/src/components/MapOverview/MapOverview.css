@@ -44,8 +44,12 @@
     background-color: red;
 }
 
-.kill-action-button {
+.kill-notification {
     background-color: orange;
+}
+
+.role {
+    margin: 0;
 }
 
 .action-bar-child:first-child {

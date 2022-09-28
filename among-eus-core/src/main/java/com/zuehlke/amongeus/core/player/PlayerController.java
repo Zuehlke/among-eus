@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
@@ -20,17 +21,21 @@ public class PlayerController {
 
     private final GameService gameService;
 
-    public PlayerController(GameService gameService) {
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    public PlayerController(GameService gameService, SimpMessagingTemplate simpMessagingTemplate) {
         this.gameService = gameService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @MessageMapping("/game/{gameId}/players")
     @SendTo("/topic/game/{gameId}/players")
-    public Collection<Player> createOrUpdate(@DestinationVariable String gameId, final Player player) {
+    public void createOrUpdate(@DestinationVariable String gameId, final Player player) {
         Game game = gameService.getGame(gameId);
         game.updatePlayer(player);
-        return game.getPlayers();
+        sendPlayerList(game);
     }
+
     @MessageMapping("/game/{gameId}/players/kill")
     @SendTo("/topic/game/{gameId}/players/killed")
     public Player killed(@DestinationVariable String gameId, final KilledMessage killedMessage) {
@@ -40,7 +45,12 @@ public class PlayerController {
         if (game.isOver()) {
             gameOver(game);
         }
+        sendPlayerList(game);
         return killedPlayer;
+    }
+
+    private void sendPlayerList(Game game) {
+        this.simpMessagingTemplate.convertAndSend("/topic/players", game.getPlayers());
     }
 
     @MessageMapping("/game/{gameId}/players/ready")

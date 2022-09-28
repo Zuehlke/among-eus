@@ -1,4 +1,5 @@
 import React from "react";
+import './KillBanner.css';
 
 export interface KillBannerProps {
     username: string;
