@@ -6,12 +6,14 @@ import {connect, subscribe} from "./utils/websocket-client";
 import {Player} from "./utils/player";
 import {IMessage} from "@stomp/stompjs";
 import Task from "./utils/task";
+import {GameState} from "./utils/game-state";
 
 function App() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [gameId, setGameId] = useState<string | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [gameState, setGameState] = useState<GameState>("WAITING_FOR_PLAYERS");
 
     const updatePlayerDetails = useCallback((message: IMessage) => {
         console.debug(JSON.parse(message.body));
@@ -27,6 +29,11 @@ function App() {
                     console.debug('tasks', tasks);
                     setTasks(tasks);
                 });
+                subscribe('/topic/game', (message: IMessage) => {
+                    const gameState: GameState = JSON.parse(message.body) as GameState;
+                    console.debug('gameState received', gameState);
+                    setGameState(gameState);
+                });
             });
 
         const gameDetails = parseGameDetails();
@@ -38,7 +45,12 @@ function App() {
 
     return (
         <div className="App">
-            {gameId && userId && <MapOverview userId={userId} gameId={gameId} players={players} tasks={tasks}></MapOverview>}
+            {gameId && userId && <MapOverview userId={userId}
+                                              gameId={gameId}
+                                              players={players}
+                                              gameState={gameState}
+                                              tasks={tasks}/>
+            }
         </div>
     );
 }

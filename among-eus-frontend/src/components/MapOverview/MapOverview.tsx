@@ -12,12 +12,14 @@ import {findNearestAlivePlayer, findNearestUnsolvedTask, getDistanceInMeter} fro
 import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
 import {SolveTask} from "./SolveTask/SolveTask";
+import {GameState} from "../../utils/game-state";
 
 interface MapOverviewProps {
     userId: string;
     gameId: string;
     players: Player[];
     tasks: Task[];
+    gameState: GameState;
 }
 
 const renderMapStatus = (status: Status) => {
@@ -115,26 +117,32 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 </PlayerMap>
             </Wrapper>
             {
-                closestPlayer && distanceToClosestPlayer <= 10 &&
+                closestPlayer && distanceToClosestPlayer <= 10 && props.gameState === "GAME_RUNNING" &&
                 <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)}
                             onKill={kill}/>
             }
             {
-                closestTask && distanceToClosestTask <= 10 &&
+                closestTask && distanceToClosestTask <= 10 && props.gameState === "GAME_RUNNING" &&
                 <SolveTask taskId={closestTask.id} distance={distanceToClosestTask} onSolve={solveTask}></SolveTask>
             }
-            <div className="action-bar">
-                <div className="action-bar-child">Üfgab platziere</div>
-                <div className="action-bar-child">
-                    <button className="task-action-button" onClick={createTask}>Üfgab do platziere</button>
+            {
+                props.gameState === "WAITING_FOR_PLAYERS" &&
+                <div className="action-bar">
+                    <div className="action-bar-child">Üfgab platziere</div>
+                    <div className="action-bar-child">
+                        <button className="task-action-button" onClick={createTask}>Üfgab do platziere</button>
+                    </div>
                 </div>
-            </div>
-            <div className="action-bar">
-                <div className="action-bar-child">Start Game</div>
-                <div className="action-bar-child">
-                    <button className="game-action-button">starte</button>
+            }
+            {
+                props.gameState === "WAITING_FOR_PLAYERS" &&
+                <div className="action-bar">
+                    <div className="action-bar-child">Start Game</div>
+                    <div className="action-bar-child">
+                        <button className="game-action-button">starte</button>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 };
