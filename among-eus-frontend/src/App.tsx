@@ -23,10 +23,13 @@ function App() {
 
     const updateKilledPlayer = useCallback((message: IMessage) => {
         setKilledPlayer(JSON.parse(message.body));
-    },[setKilledPlayer]);
+    }, [setKilledPlayer]);
 
     useEffect(() => {
         const gameDetails = parseGameDetails();
+        setGameId(gameDetails.gameId);
+        setUserId(gameDetails.userId);
+        console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
 
         connect('wss://among-eus-core.azurewebsites.net/socket',
             () => {
@@ -47,24 +50,24 @@ function App() {
                     console.warn("Game id is null");
                 }
             });
-
-        setGameId(gameDetails.gameId);
-        setUserId(gameDetails.userId);
-        console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
     }, [setGameId, setUserId, updatePlayerDetails, updateKilledPlayer]);
 
 
-    return (
-        <div className="App">
-            {gameId && userId && <MapOverview userId={userId}
-                                              gameId={gameId}
-                                              players={players}
-                                              gameState={gameState}
-                                              killedPlayer={killedPlayer}
-                                              tasks={tasks}/>
-            }
+    if (gameId && userId) {
+        return <div className="App">
+            <MapOverview userId={userId}
+                         gameId={gameId}
+                         players={players}
+                         gameState={gameState}
+                         killedPlayer={killedPlayer}
+                         tasks={tasks}/>
+
         </div>
-    );
+    } else {
+        return <div className="App">
+            <h1>Provide game and user through query parameters.</h1>
+        </div>
+    }
 }
 
 export default App;
