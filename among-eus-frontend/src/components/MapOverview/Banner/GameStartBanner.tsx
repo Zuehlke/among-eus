@@ -24,13 +24,12 @@ const style = {
 const GameStartBanner: FC<GameStartBannerProps> = (props) => {
 
     const [open, setOpen] = React.useState(false);
-    const [numberOfTerrorists, setNumberOfTerrorists] = React.useState('1');
+    const [numberOfTerrorists, setNumberOfTerrorists] = React.useState(getInitialNumberOfTerrorists());
 
-    const options = [
-        { label: '1 Wallüsser', value: '1' },
-        { label: numberOfTerroristsForNPlayers(2) + ' Wallüsser', value: numberOfTerroristsForNPlayers(2) },
-        { label: numberOfTerroristsForNPlayers(4) + ' Wallüsser', value: numberOfTerroristsForNPlayers(4) },
-    ];
+    const options = createTerroristOptions()
+
+
+
     const openGameStartDialog = () => setOpen(true);
     const closeGameStartDialog = () => setOpen(false);
     const changeNumberOfTerrorists = (event: any) => {
@@ -41,13 +40,22 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
         console.log("starting game " + props.gameId + " with " + numberOfTerrorists + " Terrorists")
         sendMessage("/app/players/ready", JSON.stringify({
             gameId: props.gameId,
-            numberOfTerrorists
+            numberOfTerrorists: parseInt(numberOfTerrorists)
         }));
         closeGameStartDialog();
     }
 
-    function numberOfTerroristsForNPlayers(percentage: number) {
-        return Math.ceil(props.players.length / percentage);
+    function createTerroristOptions() {
+        let numberOfOIptions = Math.ceil(props.players.length / 2);
+        let result = []
+        for (let i = 0; i< numberOfOIptions; i++) {
+            result.push({ label: (i+1) + ' Wallüsser', value: '' + (i+1) })
+        }
+        return result;
+    }
+
+    function getInitialNumberOfTerrorists() {
+        return '' + Math.ceil(props.players.length / 4);
     }
 
     return (
@@ -77,7 +85,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
                         </div>
                         <label htmlFor="number-of-terrorists">Azahl Wallüsser</label>
                         <select id="number-of-terrorists" value={numberOfTerrorists} onChange={changeNumberOfTerrorists}>
-                            {options.map((option) => (
+                            {Array.from(new Set(options)).map((option) => (
                                 <option value={option.value}>{option.label}</option>
                             ))}
                         </select>
