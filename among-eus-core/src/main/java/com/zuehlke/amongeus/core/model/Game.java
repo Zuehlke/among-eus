@@ -1,6 +1,7 @@
 package com.zuehlke.amongeus.core.model;
 
 
+import com.zuehlke.amongeus.core.player.PlayerReadyMessage;
 import com.zuehlke.amongeus.core.task.TaskCreatedMessage;
 import com.zuehlke.amongeus.core.utility.DistanceCalculator;
 import org.slf4j.Logger;
@@ -56,27 +57,25 @@ public class Game {
         return DistanceCalculator.getDistanceInMeter(killer, killed) <= MIN_DISTANCE_TO_KILL;
     }
 
-    public void startGame() {
+    public void startGame(final PlayerReadyMessage playerReadyMessage) {
         logger.info("starting game ...");
         if (state != GameState.WAITING_FOR_PLAYERS) {
             throw new IllegalStateException("Game is in " + state + " state, and can not be started!");
         }
-        assignPlayerRoles();
+        assignPlayerRoles(playerReadyMessage.getNumberOfTerrorists());
         state = GameState.GAME_RUNNING;
         logger.info("starting game ... done.");
     }
 
-    private void assignPlayerRoles() {
+    private void assignPlayerRoles(int numberOfTerrorists) {
         getPlayers().forEach(p -> p.setRole(PlayerRole.AGENT));
-        var imposter = getRandomPlayer();
-        imposter.setRole(PlayerRole.TERRORIST);
-        logger.info("assigned player roles. Imposter is {}", imposter);
-    }
-
-    private Player getRandomPlayer() {
         var playerList = new ArrayList<>(getPlayers());
-        var randomIndex = new Random().nextInt(playerList.size());
-        return playerList.get(randomIndex);
+        Collections.shuffle(playerList);
+        for (int i=0; i<numberOfTerrorists; i++) {
+            var imposter = playerList.get(i);
+            imposter.setRole(PlayerRole.TERRORIST);
+        }
+        logger.info("Assigned player roles. The assigned terrorist roles are very secret - so not logged for GDPR reasons ;-)");
     }
 
     public void setState(GameState state) {

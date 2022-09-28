@@ -47,7 +47,7 @@ public class PlayerController {
     public GameState updateGameState(final PlayerReadyMessage playerReadyMessage) {
         logger.info("Game state: {}", playerReadyMessage);
         Game game = gameService.getGame(playerReadyMessage.getGameId());
-        game.startGame();
+        game.startGame(playerReadyMessage);
         return game.getState();
     }
 

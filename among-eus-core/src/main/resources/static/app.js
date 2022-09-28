@@ -28,7 +28,8 @@ const playerKillPayloadTemplate = {
 };
 
 const playerReadyPayloadTemplate = {
-    gameId: 'rigi'
+    gameId: 'rigi',
+    numberOfTerrorists: 2
 };
 
 function setConnected(connected) {
