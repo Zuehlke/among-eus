@@ -1,7 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import './MapOverview.css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
 import {sendMessage} from "../../utils/websocket-client";
 import {Status, Wrapper} from '@googlemaps/react-wrapper';
 import PlayerMap from "./PlayerMap/PlayerMap";
@@ -15,6 +13,7 @@ import GameStartBanner from "./Banner/GameStartBanner";
 import {Role} from "../../utils/role";
 import {SolveTask} from "./SolveTask/SolveTask";
 import {GameState} from "../../utils/game-state";
+import GameInfoBanner from "./Banner/GameInfoBanner";
 
 interface MapOverviewProps {
     userId: string;
@@ -84,18 +83,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     };
 
-    function getAmountOfAliveAgents(): number {
-        return props.players.filter((player) => player.alive && player.role === Role.AGENT).length;
-    }
-
-    function getAmountOfAgents(): number {
-        return props.players.filter((player) => player.role === Role.AGENT).length;
-    }
-
-    function getAmountOfTerrorists(): number {
-        return props.players.filter((player) => player.alive && player.role === Role.TERRORIST).length;
-    }
-
     function getRoleCurrentUser(): Role | null {
         const currentUser = props.players.find((player) => player.username === props.userId);
         if (currentUser) {
@@ -116,17 +103,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 }
             </h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer">
-                {
-                    props.gameState === "WAITING_FOR_PLAYERS" ?
-                        <><FontAwesomeIcon icon={faUser} /> {props.players.length} Players</> :
-                        <><FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists()} Terrorists -
-                            <FontAwesomeIcon icon={faUser} />{getAmountOfAliveAgents()}/{getAmountOfAgents()} Agents
-                            - <FontAwesomeIcon icon={faCheck}/>
-                            {props.tasks.length} Task(s)</>
-                }
-
-            </div>
+            <GameInfoBanner gameState={props.gameState} players={props.players} tasks={props.tasks}/>
             {
                 props.killedPlayer &&
                 <div className="kill-notification">{props.killedPlayer.username} isch gstorbe</div>
