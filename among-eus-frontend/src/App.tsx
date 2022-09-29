@@ -25,30 +25,31 @@ function App() {
         setKilledPlayer(JSON.parse(message.body));
     }, [setKilledPlayer]);
 
+    const updateTasks = (message: IMessage) => {
+        const tasks: Task[] = JSON.parse(message.body);
+        console.debug('tasks', tasks);
+        setTasks(tasks);
+    }
+
+    const updateGameState = (message: IMessage) => {
+        const gameState: GameState = JSON.parse(message.body) as GameState;
+        console.debug('gameState received', gameState);
+        setGameState(gameState);
+    }
+
     useEffect(() => {
         const gameDetails = parseGameDetails();
         setGameId(gameDetails.gameId);
         setUserId(gameDetails.userId);
         console.info(`Detected game ${gameDetails.gameId} and user ${gameDetails.userId}`);
+        if (!gameDetails.gameId) return;
 
         connect(process.env.REACT_APP_WEBSOCKET_URL,
             () => {
-                if (gameDetails.gameId) {
-                    subscribe(`/topic/game/${gameDetails.gameId}/players`, (message: IMessage) => updatePlayerDetails(message));
-                    subscribe(`/topic/game/${gameDetails.gameId}/players/killed`, (message: IMessage) => updateKilledPlayer(message));
-                    subscribe(`/topic/game/${gameDetails.gameId}/tasks`, (message: IMessage) => {
-                        const tasks: Task[] = JSON.parse(message.body);
-                        console.debug('tasks', tasks);
-                        setTasks(tasks);
-                    });
-                    subscribe(`/topic/game/${gameDetails.gameId}/`, (message: IMessage) => {
-                        const gameState: GameState = JSON.parse(message.body) as GameState;
-                        console.debug('gameState received', gameState);
-                        setGameState(gameState);
-                    });
-                } else {
-                    console.warn("Game id is null");
-                }
+                subscribe(`/topic/game/${gameDetails.gameId}/players`, updatePlayerDetails);
+                subscribe(`/topic/game/${gameDetails.gameId}/players/killed`, updateKilledPlayer);
+                subscribe(`/topic/game/${gameDetails.gameId}/tasks`, updateTasks);
+                subscribe(`/topic/game/${gameDetails.gameId}/`, updateGameState);
             });
     }, [setGameId, setUserId, updatePlayerDetails, updateKilledPlayer]);
 
