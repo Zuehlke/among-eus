@@ -12,9 +12,10 @@ interface GameStartBannerProps {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '5%',
-    left: '5%',
-    transform: 'translate(-5%, -5%)',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -76,6 +77,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
                         <div>
                             <b>Azahl Spiler:</b> {props.players.length}
                         </div>
+                        <div>&nbsp;</div>
                         <div>
                             Wievill Walliser willt dü ha?
                         </div>
@@ -85,10 +87,12 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
                                 <option value={option.value} key={option.value}>{option.label}</option>
                             ))}
                         </select>
+                        <div>&nbsp;</div>
                         <div>
                             <b>Üfgepasst:</b> Sobald dü es Spill gstartet hesch, chat kei neue Spiler mehr derzüe cho!
                         </div>
                         <div>
+                            <button onClick={closeGameStartDialog} className="cancel-button">Wartu uf witeri Spiler</button>
                             <button onClick={startGame}>Startu</button>
                         </div>
                     </Typography>

@@ -2,6 +2,10 @@
     background-color: orange;
 }
 
+.cancel-button {
+    background-color: gray;
+}
+
 .title {
     margin: 0;
     padding: 10px 0;
