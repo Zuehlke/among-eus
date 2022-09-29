@@ -86,8 +86,8 @@ public class Game {
     }
 
     public void gameOver() {
-        state = GAME_OVER;
         winner = calculateWinner().orElseThrow(() -> new IllegalStateException("Can not detect winner"));
+        state = GAME_OVER;
         logger.info("Game Over. {}", this);
     }
 
