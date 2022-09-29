@@ -145,13 +145,10 @@ public class Game {
     }
 
     public boolean isOver() {
-        var noRemainingTerrorist = getPlayers().stream()
-                .filter(p -> p.getRole() == PlayerRole.TERRORIST)
-                .noneMatch(Player::isAlive);
         var noRemainingAgent = getPlayers().stream()
                 .filter(p -> p.getRole() == PlayerRole.AGENT)
                 .noneMatch(Player::isAlive);
-        return noRemainingTerrorist || noRemainingAgent;
+        return noRemainingAgent || areAllTasksCompleted();
     }
 
     public Optional<PlayerRole> calculateWinner() {

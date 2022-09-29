@@ -8,6 +8,7 @@ import {IMessage} from "@stomp/stompjs";
 import Task from "./utils/task";
 import {GameState} from "./utils/game-state";
 import {Game} from "./utils/game";
+import {Role} from "./utils/role";
 
 function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -16,6 +17,7 @@ function App() {
     const [userId, setUserId] = useState<string | null>(null);
     const [tasks, setTasks] = useState<Task[]>([]);
     const [gameState, setGameState] = useState<GameState>("WAITING_FOR_PLAYERS");
+    const [winner, setWinner] = useState<Role | null>(null);
 
     const updatePlayerDetails = useCallback((message: IMessage) => {
         console.debug(JSON.parse(message.body));
@@ -46,6 +48,7 @@ function App() {
                         const game: Game = JSON.parse(message.body) as Game;
                         console.debug('game state received', game);
                         setGameState(game.state);
+                        setWinner(game.winner);
                     });
                     sendMessage(`/app/game/${gameDetails.gameId}/join`, "");
                 } else {
@@ -61,6 +64,7 @@ function App() {
                          gameId={gameId}
                          players={players}
                          gameState={gameState}
+                         winner={winner}
                          killedPlayer={killedPlayer}
                          tasks={tasks}/>
 
