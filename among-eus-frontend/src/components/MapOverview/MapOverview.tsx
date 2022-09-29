@@ -1,5 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import './MapOverview.css';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
 import {sendMessage} from "../../utils/websocket-client";
 import {Status, Wrapper} from '@googlemaps/react-wrapper';
 import PlayerMap from "./PlayerMap/PlayerMap";
@@ -13,6 +15,8 @@ import GameStartBanner from "./Banner/GameStartBanner";
 import {Role} from "../../utils/role";
 import {SolveTask} from "./SolveTask/SolveTask";
 import {GameState} from "../../utils/game-state";
+import {WelcomeBanner} from "./Banner/WelcomeBanner";
+import {PlayerStatusBanner} from "./Banner/PlayerStatusBanner";
 import GameInfoBanner from "./Banner/GameInfoBanner";
 
 interface MapOverviewProps {
@@ -83,6 +87,10 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     };
 
+    function getAmountOfAlivePlayers(): number {
+        return props.players.filter((player) => player.alive).length;
+    }
+
     function getRoleCurrentUser(): Role | null {
         const currentUser = props.players.find((player) => player.username === props.userId);
         if (currentUser) {
@@ -93,16 +101,14 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     return (
         <div>
-            <h2 className="title">Among Eus - {props.gameId}
-                {
-                    getRoleCurrentUser() !== Role.UNASSIGNED ? (
-                        <p className="role">Dü bisch {getRoleCurrentUser()}</p>
-                    ) : (
-                        <p className="role">Düe d Tasks platziere!</p>
-                    )
-                }
-            </h2>
-            <h3 className="sub-title">Welcome {props.userId}</h3>
+            <h2 className="title">Among Isch - {props.gameId}</h2>
+            {
+                props.gameState === "WAITING_FOR_PLAYERS" ? (
+                    <WelcomeBanner userId={props.userId} />
+                ) : (
+                    <PlayerStatusBanner userId={props.userId} isAlive={me?.alive} role={getRoleCurrentUser()} />
+                )
+            }
             <GameInfoBanner gameState={props.gameState} players={props.players} tasks={props.tasks}/>
             {
                 props.killedPlayer &&
