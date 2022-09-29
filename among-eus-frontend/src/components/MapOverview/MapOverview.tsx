@@ -15,6 +15,8 @@ import GameStartBanner from "./Banner/GameStartBanner";
 import {Role} from "../../utils/role";
 import {SolveTask} from "./SolveTask/SolveTask";
 import {GameState} from "../../utils/game-state";
+import {WelcomeBanner} from "./Banner/WelcomeBanner";
+import {PlayerStatusBanner} from "./Banner/PlayerStatusBanner";
 
 interface MapOverviewProps {
     userId: string;
@@ -98,16 +100,14 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     return (
         <div>
-            <h2 className="title">Among Eus - {props.gameId}
-                {
-                    getRoleCurrentUser() !== Role.UNASSIGNED ? (
-                        <p className="role">Dü bisch {getRoleCurrentUser()}</p>
-                    ) : (
-                        <p className="role">Düe d Tasks platziere!</p>
-                    )
-                }
-            </h2>
-            <h3 className="sub-title">Welcome {props.userId}</h3>
+            {
+                props.gameState === "WAITING_FOR_PLAYERS" ? (
+                    <WelcomeBanner gameId={props.gameId} userId={props.userId} />
+                ) : (
+                    <PlayerStatusBanner gameId={props.gameId} userId={props.userId} isAlive={me?.alive} role={getRoleCurrentUser()} />
+                )
+            }
+
             <div className="numberOfPlayer">
                 <FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
                 - <FontAwesomeIcon icon={faCheck}/>
