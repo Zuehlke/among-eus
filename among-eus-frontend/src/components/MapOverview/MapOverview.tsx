@@ -84,8 +84,16 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         }
     };
 
-    function getAmountOfAlivePlayers(): number {
-        return props.players.filter((player) => player.alive).length;
+    function getAmountOfAliveAgents(): number {
+        return props.players.filter((player) => player.alive && player.role === Role.AGENT).length;
+    }
+
+    function getAmountOfAgents(): number {
+        return props.players.filter((player) => player.role === Role.AGENT).length;
+    }
+
+    function getAmountOfTerrorists(): number {
+        return props.players.filter((player) => player.alive && player.role === Role.TERRORIST).length;
     }
 
     function getRoleCurrentUser(): Role | null {
@@ -109,9 +117,15 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             </h2>
             <h3 className="sub-title">Welcome {props.userId}</h3>
             <div className="numberOfPlayer">
-                <FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
-                - <FontAwesomeIcon icon={faCheck}/>
-                {props.tasks.length} Task(s)
+                {
+                    props.gameState === "WAITING_FOR_PLAYERS" ?
+                        <><FontAwesomeIcon icon={faUser} /> {props.players.length} Players</> :
+                        <><FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists()} Terrorists -
+                            <FontAwesomeIcon icon={faUser} />{getAmountOfAliveAgents()}/{getAmountOfAgents()} Agents
+                            - <FontAwesomeIcon icon={faCheck}/>
+                            {props.tasks.length} Task(s)</>
+                }
+
             </div>
             {
                 props.killedPlayer &&
