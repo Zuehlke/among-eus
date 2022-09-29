@@ -34,7 +34,7 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
         );
     }
     return (
-        <div className="numberOfPlayer">
+        <div className="numberOfPlayers">
             {banner}
         </div>
     )

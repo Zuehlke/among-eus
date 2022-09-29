@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -24,18 +24,18 @@ const style = {
 
 const GameStartBanner: FC<GameStartBannerProps> = (props) => {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [numberOfTerrorists, setNumberOfTerrorists] = React.useState(getInitialNumberOfTerrorists());
     const options = createTerroristOptions()
     const openGameStartDialog = () => setOpen(true);
     const closeGameStartDialog = () => setOpen(false);
     const changeNumberOfTerrorists = (event: any) => {
         setNumberOfTerrorists(event.target.value);
-        console.log("Number of terrorists set to " + event.target.value)
+        console.debug("Number of terrorists set to " + event.target.value)
     };
     const startGame = () => {
         let numberOfTerroristsAsInt = parseInt(numberOfTerrorists)
-        console.log("starting game " + props.gameId + " with " + numberOfTerroristsAsInt + " Terrorists")
+        console.debug(`starting game ${props.gameId} with ${numberOfTerroristsAsInt} Terrorists`)
         sendMessage(`/app/game/${props.gameId}/game/start`, JSON.stringify({
             numberOfTerrorists: numberOfTerroristsAsInt
         }));
