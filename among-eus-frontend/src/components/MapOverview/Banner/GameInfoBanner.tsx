@@ -21,7 +21,7 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
         banner = (
             <>
                 <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/> {props.players.length} Spieler </span>
-                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {props.tasks.length} Üfgob(e)</span>
+                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {props.tasks.length} Üfgab(e)</span>
             </>
         );
     } else if (props.winner === Role.AGENT || props.winner === Role.TERRORIST) {
@@ -43,7 +43,7 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
                 <>
                     <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists(props.players)} Walliser </span>
                     - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/>{getAmountOfAliveAgents(props.players)}/{getAmountOfAgents(props.players)} Üsserschwizer</span>
-                    - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {getAmountOfTasksCompleted(props.tasks)} / {props.tasks.length} Üfgobe</span>
+                    - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {getAmountOfTasksCompleted(props.tasks)} / {props.tasks.length} Üfgabe</span>
                 </>
             );
     }
