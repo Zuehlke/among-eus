@@ -17,6 +17,7 @@ import {SolveTask} from "./SolveTask/SolveTask";
 import {GameState} from "../../utils/game-state";
 import {WelcomeBanner} from "./Banner/WelcomeBanner";
 import {PlayerStatusBanner} from "./Banner/PlayerStatusBanner";
+import GameInfoBanner from "./Banner/GameInfoBanner";
 
 interface MapOverviewProps {
     userId: string;
