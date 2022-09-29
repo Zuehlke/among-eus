@@ -111,7 +111,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             <Wrapper apiKey="AIzaSyC3PzqgCWeT_lrobprlTEz1SmVQ443n2Mg" render={renderMapStatus}>
                 <PlayerMap center={currentLocation} zoom={18}>
                     {
-                        props.players.filter((player) => player.alive).map((player) => {
+                        props.players.filter((player) => player.alive || me?.username === player.username).map((player) => {
                             const type = props.userId === player.username ? MarkerTypes.PLAYER : MarkerTypes.OPPONENT;
                             return <Marker key={player.username} position={{
                                 lat: player.latitude,
