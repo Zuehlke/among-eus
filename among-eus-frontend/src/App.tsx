@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import MapOverview from "./components/MapOverview/MapOverview";
 import {parseGameDetails} from "./utils/game-details";
-import {connect, subscribe} from "./utils/websocket-client";
+import {connect, sendMessage, subscribe} from "./utils/websocket-client";
 import {Player} from "./utils/player";
 import {IMessage} from "@stomp/stompjs";
 import Task from "./utils/task";
@@ -47,6 +47,7 @@ function App() {
                         console.debug('game state received', game);
                         setGameState(game.state);
                     });
+                    sendMessage(`/app/game/${gameDetails.gameId}/join`, "");
                 } else {
                     console.warn("Game id is null");
                 }
