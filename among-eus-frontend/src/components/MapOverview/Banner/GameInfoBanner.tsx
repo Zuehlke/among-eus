@@ -29,7 +29,7 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
                 <FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists(props.players)} Terrorists -
                 <FontAwesomeIcon icon={faUser}/>{getAmountOfAliveAgents(props.players)}/{getAmountOfAgents(props.players)} Agents
                 - <FontAwesomeIcon icon={faCheck}/>
-                {props.tasks.length} Task(s)
+                {getAmountOfTasksCompleted(props.tasks)} / {props.tasks.length} Task(s)
             </>
         );
     }
@@ -38,6 +38,10 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
             {banner}
         </div>
     )
+}
+
+function getAmountOfTasksCompleted(tasks: Task[]) : number {
+    return tasks.filter((task) => task.completed).length;
 }
 
 function getAmountOfAliveAgents(players: Player[]): number {
