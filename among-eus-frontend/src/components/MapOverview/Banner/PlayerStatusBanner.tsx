@@ -12,7 +12,8 @@ interface PlayerStatusBannerProps {
 export function PlayerStatusBanner(props: PlayerStatusBannerProps) {
     return (
         <div>
-            <h3 className="sub-title">{props.gameId} - {props.userId} -
+            <h2 className="title">Among Isch - {props.gameId}</h2>
+            <h3 className="sub-title">{props.userId} -
                 {
                     props.isAlive ? <b> {props.role}</b> : <b> dü bisch tot</b>
                 }
