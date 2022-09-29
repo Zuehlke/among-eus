@@ -42,7 +42,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     }
 
     function createTerroristOptions() {
-        let numberOfOptions = Math.floor(props.players.length / 2.0);
+        let numberOfOptions = Math.max(Math.floor(props.players.length / 2.0),1);
         let result = []
         for (let i = 0; i< numberOfOptions; i++) {
             result.push({ label: (i+1) + ' Walliser', value: '' + (i+1) })
@@ -51,7 +51,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     }
 
     function getInitialNumberOfTerrorists() {
-        return '' + Math.max(Math.ceil(props.players.length / 4.0), 1);
+        return '' + Math.ceil(props.players.length / 4.0);
     }
 
     return (
