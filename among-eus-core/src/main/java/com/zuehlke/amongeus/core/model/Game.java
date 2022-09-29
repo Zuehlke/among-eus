@@ -86,8 +86,8 @@ public class Game {
     }
 
     public void gameOver() {
-        state = GAME_OVER;
         winner = calculateWinner().orElseThrow(() -> new IllegalStateException("Can not detect winner"));
+        state = GAME_OVER;
         logger.info("Game Over. {}", this);
     }
 
@@ -113,6 +113,13 @@ public class Game {
             throw new IllegalStateException("Unable to complete tasks in game state: " + state);
         }
         tasks.get(taskId).setCompleted(true);
+        if (areAllTasksCompleted()) {
+            gameOver();
+        }
+    }
+
+    private boolean areAllTasksCompleted() {
+        return tasks.values().stream().allMatch(Task::isCompleted);
     }
 
     public Collection<Task> getTasks() {
@@ -148,11 +155,14 @@ public class Game {
     }
 
     public Optional<PlayerRole> calculateWinner() {
+        if (areAllTasksCompleted()) { // game over by all tasks done
+            return Optional.of(PlayerRole.AGENT);
+        }
         var alivePlayers = getPlayers().stream()
                 .filter(Player::isAlive)
                 .collect(Collectors.toSet());
-        if (alivePlayers.size() == 1) {
-           return Optional.of(alivePlayers.iterator().next().getRole());
+        if (alivePlayers.size() == 1) { // game over by killing
+            return Optional.of(alivePlayers.iterator().next().getRole());
         }
         return Optional.empty();
     }
