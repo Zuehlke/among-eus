@@ -7,6 +7,7 @@ import {Player} from "./utils/player";
 import {IMessage} from "@stomp/stompjs";
 import Task from "./utils/task";
 import {GameState} from "./utils/game-state";
+import {Game} from "./utils/game";
 
 function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -42,9 +43,9 @@ function App() {
                         setTasks(tasks);
                     });
                     subscribe(`/topic/game/${gameDetails.gameId}`, (message: IMessage) => {
-                        const gameState: GameState = JSON.parse(message.body) as GameState;
-                        console.debug('gameState received', gameState);
-                        setGameState(gameState);
+                        const game: Game = JSON.parse(message.body) as Game;
+                        console.debug('game state received', game);
+                        setGameState(game.state);
                     });
                 } else {
                     console.warn("Game id is null");
