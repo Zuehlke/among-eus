@@ -57,6 +57,7 @@ public class PlayerController {
         logger.info("Starting game: {}", gameId);
         Game game = gameService.getGame(gameId);
         game.startGame(gameStartConfigurationMessage);
+        sendPlayerList(game);
         return game.getState();
     }
 
