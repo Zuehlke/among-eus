@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+import static com.zuehlke.amongeus.core.model.GameState.*;
 
 public class Game {
 
@@ -16,10 +19,12 @@ public class Game {
     public static final double MIN_DISTANCE_TO_KILL = 10;
 
     private String id;
-    private GameState state = GameState.WAITING_FOR_PLAYERS;
+    private GameState state = WAITING_FOR_PLAYERS;
     private Map<String, Player> players = new ConcurrentHashMap<>();
 
     private Map<String, Task> tasks = new ConcurrentHashMap<>();
+
+    private PlayerRole winner;
 
     public Game(String id) {
         this.id = id;
@@ -41,7 +46,7 @@ public class Game {
         Optional<Player> playerOptional = Optional.ofNullable(players.get(player.getUsername()));
         playerOptional.ifPresent(value -> player.setAlive(value.isAlive()));
         playerOptional.ifPresent(value -> player.setRole(value.getRole()));
-        if (playerOptional.isEmpty() && !state.equals(GameState.WAITING_FOR_PLAYERS)) {
+        if (playerOptional.isEmpty() && !state.equals(WAITING_FOR_PLAYERS)) {
             throw new IllegalStateException("New player is not allowed to join, game is in state: " + state);
         }
         players.put(player.getUsername(), player);
@@ -62,13 +67,11 @@ public class Game {
     }
 
     public void startGame(final GameStartConfigurationMessage gameStartConfigurationMessage) {
-        logger.info("starting game ...");
-        if (state != GameState.WAITING_FOR_PLAYERS) {
+        if (state != WAITING_FOR_PLAYERS) {
             throw new IllegalStateException("Game is in " + state + " state, and can not be started!");
         }
         assignPlayerRoles(gameStartConfigurationMessage.getNumberOfTerrorists());
-        state = GameState.GAME_RUNNING;
-        logger.info("starting game ... done.");
+        state = GAME_RUNNING;
     }
 
     private void assignPlayerRoles(int numberOfTerrorists) {
@@ -82,16 +85,21 @@ public class Game {
         logger.info("Assigned player roles with {} terrorists. The assigned terrorist roles are very secret - so not logged for GDPR reasons ;-)", numberOfTerrorists);
     }
 
-    public void setState(GameState state) {
-        this.state = state;
+    public void gameOver() {
+        state = GAME_OVER;
+        winner = calculateWinner().orElseThrow(() -> new IllegalStateException("Can not detect winner"));
     }
 
     public GameState getState() {
         return state;
     }
 
+    public PlayerRole getWinner() {
+        return winner;
+    }
+
     public synchronized void createTask(TaskCreatedMessage message) {
-        if (!state.equals(GameState.WAITING_FOR_PLAYERS)) {
+        if (!state.equals(WAITING_FOR_PLAYERS)) {
             throw new IllegalStateException("Unable to create task, because game state is " + state);
         }
         var id = tasks.size() + 1;
@@ -100,7 +108,7 @@ public class Game {
     }
 
     public void completeTask(String taskId) {
-        if (!state.equals(GameState.GAME_RUNNING)) {
+        if (!state.equals(GAME_RUNNING)) {
             throw new IllegalStateException("Unable to complete tasks in game state: " + state);
         }
         tasks.get(taskId).setCompleted(true);
@@ -123,7 +131,7 @@ public class Game {
         if (killedPlayer.getRole() != PlayerRole.AGENT) {
             throw new IllegalStateException("User with role " + killedPlayer.getRole() + " can not be killed.");
         }
-        if (state != GameState.GAME_RUNNING) {
+        if (state != GAME_RUNNING) {
             throw new IllegalStateException("Can not kill in game state " + state);
         }
     }
@@ -136,6 +144,16 @@ public class Game {
                 .filter(p -> p.getRole() == PlayerRole.AGENT)
                 .noneMatch(Player::isAlive);
         return noRemainingTerrorist || noRemainingAgent;
+    }
+
+    public Optional<PlayerRole> calculateWinner() {
+        var alivePlayers = getPlayers().stream()
+                .filter(Player::isAlive)
+                .collect(Collectors.toSet());
+        if (alivePlayers.size() == 1) {
+           return Optional.of(alivePlayers.iterator().next().getRole());
+        }
+        return Optional.empty();
     }
 
     @Override

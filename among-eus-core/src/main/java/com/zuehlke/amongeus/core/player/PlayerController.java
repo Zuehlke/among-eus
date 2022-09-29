@@ -2,7 +2,6 @@ package com.zuehlke.amongeus.core.player;
 
 import com.zuehlke.amongeus.core.game.GameService;
 import com.zuehlke.amongeus.core.model.Game;
-import com.zuehlke.amongeus.core.model.GameState;
 import com.zuehlke.amongeus.core.model.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,36 +34,37 @@ public class PlayerController {
     }
 
     @MessageMapping("/game/{gameId}/players/kill")
-    @SendTo("/topic/game/{gameId}/players/killed")
-    public Player killed(@DestinationVariable String gameId, final KilledMessage killedMessage) {
+    public void kill(@DestinationVariable String gameId, final KilledMessage killedMessage) {
         logger.info("Player killed: {}", killedMessage);
         Game game = gameService.getGame(gameId);
         var killedPlayer = game.killPlayer(killedMessage.getKillerId(), killedMessage.getKilledId());
-        if (game.isOver()) {
-            gameOver(game);
-        }
+        sendPlayerKilledEvent(game, killedPlayer);
         sendPlayerList(game);
-        return killedPlayer;
+        if (game.isOver()) {
+            game.gameOver();
+            sendGameOverEvent(game);
+        }
+    }
+    private void sendPlayerKilledEvent(Game game, Player player) {
+        this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players/killed".formatted(game.getId()), player);
     }
 
     private void sendPlayerList(Game game) {
         this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
     }
 
+    public void sendGameOverEvent(final Game game) {
+        logger.info("GameOver: {}", game);
+        simpMessagingTemplate.convertAndSend("/topic/game/%s/".formatted(game.getId()), game);
+    }
+
     @MessageMapping("/game/{gameId}/game/start")
     @SendTo("/topic/game/{gameId}/")
-    public GameState startGame(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
+    public Game startGame(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
         logger.info("Starting game: {}", gameId);
         Game game = gameService.getGame(gameId);
         game.startGame(gameStartConfigurationMessage);
-        return game.getState();
-    }
-
-    @SendTo("/topic/game/{gameId}/")
-    public GameState gameOver(final Game game) {
-        game.setState(GameState.GAME_OVER);
-        logger.info("GameOver: {}", game);
-        return game.getState();
+        return game;
     }
 
 }
