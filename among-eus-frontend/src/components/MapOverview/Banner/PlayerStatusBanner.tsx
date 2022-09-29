@@ -1,10 +1,6 @@
 import React from "react";
 import {Role} from "../../../utils/role";
 import './Banner.css';
-import GameInfoBanner from "./GameInfoBanner";
-import {GameState} from "../../../utils/game-state";
-import {Player} from "../../../utils/player";
-import Task from "../../../utils/task";
 
 interface PlayerStatusBannerProps {
     userId: string;

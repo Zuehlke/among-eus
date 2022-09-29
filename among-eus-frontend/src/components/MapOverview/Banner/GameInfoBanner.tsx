@@ -5,6 +5,7 @@ import {Player} from "../../../utils/player";
 import Task from "../../../utils/task";
 import {GameState} from "../../../utils/game-state";
 import {Role} from "../../../utils/role";
+import './Banner.css';
 
 interface GameInfoBannerProps {
     players: Player[];
@@ -18,18 +19,16 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
     if (props.gameState === "WAITING_FOR_PLAYERS") {
         banner = (
             <>
-                <FontAwesomeIcon icon={faUser}/> {props.players.length} Players
-                - <FontAwesomeIcon icon={faCheck}/>
-                {props.tasks.length} Task(s)
+                <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/> {props.players.length} Players </span>
+                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {props.tasks.length} Task(s)</span>
             </>
         );
     } else {
         banner = (
             <>
-                <FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists(props.players)} Terrorists -
-                <FontAwesomeIcon icon={faUser}/>{getAmountOfAliveAgents(props.players)}/{getAmountOfAgents(props.players)} Agents
-                - <FontAwesomeIcon icon={faCheck}/>
-                {props.tasks.length} Task(s)
+                <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists(props.players)} Terrorists </span>
+                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/>{getAmountOfAliveAgents(props.players)}/{getAmountOfAgents(props.players)} Agents</span>
+                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {getAmountOfTasksCompleted(props.tasks)} / {props.tasks.length} Task(s)</span>
             </>
         );
     }
@@ -38,6 +37,10 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
             {banner}
         </div>
     )
+}
+
+function getAmountOfTasksCompleted(tasks: Task[]) : number {
+    return tasks.filter((task) => task.completed).length;
 }
 
 function getAmountOfAliveAgents(players: Player[]): number {

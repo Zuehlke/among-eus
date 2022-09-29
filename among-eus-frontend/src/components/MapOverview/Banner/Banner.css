@@ -19,3 +19,7 @@
     background-color: #957598;
     color: white;
 }
+
+.non-wrapping-element {
+    white-space: nowrap;
+}

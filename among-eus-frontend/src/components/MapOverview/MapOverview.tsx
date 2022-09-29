@@ -1,7 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import './MapOverview.css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCheck, faUser} from '@fortawesome/free-solid-svg-icons'
 import {sendMessage} from "../../utils/websocket-client";
 import {Status, Wrapper} from '@googlemaps/react-wrapper';
 import PlayerMap from "./PlayerMap/PlayerMap";
@@ -86,10 +84,6 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
             doSolveTask(props.gameId, closestTask);
         }
     };
-
-    function getAmountOfAlivePlayers(): number {
-        return props.players.filter((player) => player.alive).length;
-    }
 
     function getRoleCurrentUser(): Role | null {
         const currentUser = props.players.find((player) => player.username === props.userId);
