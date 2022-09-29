@@ -52,7 +52,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     }
 
     function getInitialNumberOfTerrorists() {
-        return '' + Math.ceil(props.players.length / 4.0);
+        return '' + Math.max(Math.ceil(props.players.length / 4.0),1);
     }
 
     return (
