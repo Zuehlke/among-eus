@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -12,9 +12,10 @@ interface GameStartBannerProps {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '5%',
-    left: '5%',
-    transform: 'translate(-5%, -5%)',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -23,18 +24,18 @@ const style = {
 
 const GameStartBanner: FC<GameStartBannerProps> = (props) => {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [numberOfTerrorists, setNumberOfTerrorists] = React.useState(getInitialNumberOfTerrorists());
     const options = createTerroristOptions()
     const openGameStartDialog = () => setOpen(true);
     const closeGameStartDialog = () => setOpen(false);
     const changeNumberOfTerrorists = (event: any) => {
         setNumberOfTerrorists(event.target.value);
-        console.log("Number of terrorists set to " + event.target.value)
+        console.debug("Number of terrorists set to " + event.target.value)
     };
     const startGame = () => {
         let numberOfTerroristsAsInt = parseInt(numberOfTerrorists)
-        console.log("starting game " + props.gameId + " with " + numberOfTerroristsAsInt + " Terrorists")
+        console.debug(`starting game ${props.gameId} with ${numberOfTerroristsAsInt} Terrorists`)
         sendMessage(`/app/game/${props.gameId}/start`, JSON.stringify({
             numberOfTerrorists: numberOfTerroristsAsInt
         }));
@@ -42,7 +43,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     }
 
     function createTerroristOptions() {
-        let numberOfOptions = Math.floor(props.players.length / 2.0);
+        let numberOfOptions = Math.max(Math.floor(props.players.length / 2.0),1);
         let result = []
         for (let i = 0; i< numberOfOptions; i++) {
             result.push({ label: (i+1) + ' Walliser', value: '' + (i+1) })
@@ -51,7 +52,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     }
 
     function getInitialNumberOfTerrorists() {
-        return '' + Math.max(Math.ceil(props.players.length / 4.0), 1);
+        return '' + Math.ceil(props.players.length / 4.0);
     }
 
     return (
@@ -76,6 +77,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
                         <div>
                             <b>Azahl Spiler:</b> {props.players.length}
                         </div>
+                        <div>&nbsp;</div>
                         <div>
                             Wievill Walliser willt dü ha?
                         </div>
@@ -85,10 +87,12 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
                                 <option value={option.value} key={option.value}>{option.label}</option>
                             ))}
                         </select>
+                        <div>&nbsp;</div>
                         <div>
                             <b>Üfgepasst:</b> Sobald dü es Spill gstartet hesch, chat kei neue Spiler mehr derzüe cho!
                         </div>
                         <div>
+                            <button onClick={closeGameStartDialog} className="cancel-button">Wartu uf witeri Spiler</button>
                             <button onClick={startGame}>Startu</button>
                         </div>
                     </Typography>

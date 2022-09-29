@@ -2,6 +2,10 @@
     background-color: orange;
 }
 
+.cancel-button {
+    background-color: gray;
+}
+
 .title {
     margin: 0;
     padding: 10px 0;
@@ -14,4 +18,8 @@
     padding: 5px 0;
     background-color: #957598;
     color: white;
+}
+
+.non-wrapping-element {
+    white-space: nowrap;
 }
