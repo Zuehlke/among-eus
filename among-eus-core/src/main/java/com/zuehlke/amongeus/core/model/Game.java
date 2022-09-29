@@ -158,11 +158,11 @@ public class Game {
         if (areAllTasksCompleted()) { // game over by all tasks done
             return Optional.of(PlayerRole.AGENT);
         }
-        var alivePlayers = getPlayers().stream()
-                .filter(Player::isAlive)
-                .collect(Collectors.toSet());
-        if (alivePlayers.size() == 1) { // game over by killing
-            return Optional.of(alivePlayers.iterator().next().getRole());
+        var allAgentsDead = getPlayers().stream()
+                .filter(p -> p.getRole() == PlayerRole.AGENT)
+                .noneMatch(Player::isAlive);
+        if (allAgentsDead) { // game over by killing
+            return Optional.of(PlayerRole.TERRORIST);
         }
         return Optional.empty();
     }
