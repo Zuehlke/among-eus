@@ -8,7 +8,7 @@ import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 import {Player} from "../../utils/player";
-import {findNearestAlivePlayer, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
+import {findNearestAliveAgent, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
 import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
 import GameStartBanner from "./Banner/GameStartBanner";
@@ -55,12 +55,12 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     let distanceToClosestPlayer: number = 0;
     let distanceToClosestTask: number = -1;
     let closestTask: Task | null = null;
-    let closestPlayer: Player | null = null;
+    let closestAliveAgent: Player | null = null;
     if (me) {
-        closestPlayer = findNearestAlivePlayer(props.players, me);
+        closestAliveAgent = findNearestAliveAgent(props.players, me);
         closestTask = findNearestUnsolvedTask(props.tasks, me);
-        if (closestPlayer) {
-            distanceToClosestPlayer = getDistanceInMeter(me, closestPlayer);
+        if (closestAliveAgent) {
+            distanceToClosestPlayer = getDistanceInMeter(me, closestAliveAgent);
         }
         if (closestTask) {
             distanceToClosestTask = getDistanceInMeter(me, closestTask);
@@ -73,10 +73,10 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     }, [props.gameId, currentLocation]);
 
     const kill = useCallback(() => {
-        if (closestPlayer) {
-            doKill(props.gameId, props.userId, closestPlayer.username);
+        if (closestAliveAgent) {
+            doKill(props.gameId, props.userId, closestAliveAgent.username);
         }
-    }, [props.gameId, props.userId, closestPlayer]);
+    }, [props.gameId, props.userId, closestAliveAgent]);
 
     const solveTask = () => {
         if (closestTask) {
@@ -141,8 +141,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 </PlayerMap>
             </Wrapper>
             {
-                closestPlayer && distanceToClosestPlayer <= 10 && props.gameState === "GAME_RUNNING" && getRoleCurrentUser() === Role.TERRORIST &&
-                <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)}
+                closestAliveAgent && distanceToClosestPlayer <= 10 && props.gameState === "GAME_RUNNING" && getRoleCurrentUser() === Role.TERRORIST &&
+                <KillBanner username={closestAliveAgent.username} distance={distanceToClosestPlayer.toFixed(1)}
                             onKill={kill}/>
             }
             {
