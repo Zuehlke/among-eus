@@ -46,16 +46,17 @@ public class PlayerController {
         }
     }
     private void sendPlayerKilledEvent(Game game, Player player) {
-        this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players/killed".formatted(game.getId()), player);
+        simpMessagingTemplate.convertAndSend("/topic/game/%s/players/killed".formatted(game.getId()), player);
+        logger.info("Sent PlayerKilledEvent: {}", player);
     }
 
     private void sendPlayerList(Game game) {
-        this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
+        simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
     }
 
-    public void sendGameOverEvent(final Game game) {
-        logger.info("GameOver: {}", game);
+    public void sendGameOverEvent(Game game) {
         simpMessagingTemplate.convertAndSend("/topic/game/%s/".formatted(game.getId()), game);
+        logger.info("Sent GameOverEvent: {}", game);
     }
 
     @MessageMapping("/game/{gameId}/game/start")

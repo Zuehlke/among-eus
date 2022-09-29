@@ -88,6 +88,7 @@ public class Game {
     public void gameOver() {
         state = GAME_OVER;
         winner = calculateWinner().orElseThrow(() -> new IllegalStateException("Can not detect winner"));
+        logger.info("Game Over. {}", this);
     }
 
     public GameState getState() {
@@ -161,6 +162,7 @@ public class Game {
         return "Game{" +
                 "id='" + id + '\'' +
                 ", state=" + state +
+                ", winner=" + winner +
                 ", players=" + players +
                 ", tasks=" + tasks +
                 '}';
