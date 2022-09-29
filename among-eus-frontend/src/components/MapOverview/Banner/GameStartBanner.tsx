@@ -35,7 +35,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
     const startGame = () => {
         let numberOfTerroristsAsInt = parseInt(numberOfTerrorists)
         console.log("starting game " + props.gameId + " with " + numberOfTerroristsAsInt + " Terrorists")
-        sendMessage(`/app/game/${props.gameId}/game/start`, JSON.stringify({
+        sendMessage(`/app/game/${props.gameId}/start`, JSON.stringify({
             numberOfTerrorists: numberOfTerroristsAsInt
         }));
         closeGameStartDialog();

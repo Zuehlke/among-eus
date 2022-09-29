@@ -26,7 +26,6 @@ public class PlayerController {
     }
 
     @MessageMapping("/game/{gameId}/players")
-    @SendTo("/topic/game/{gameId}/players")
     public void createOrUpdate(@DestinationVariable String gameId, final Player player) {
         Game game = gameService.getGame(gameId);
         game.updatePlayer(player);
@@ -42,7 +41,7 @@ public class PlayerController {
         sendPlayerList(game);
         if (game.isOver()) {
             game.gameOver();
-            sendGameOverEvent(game);
+            sendGameStatusEvent(game);
         }
     }
     private void sendPlayerKilledEvent(Game game, Player player) {
@@ -54,19 +53,31 @@ public class PlayerController {
         simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
     }
 
-    public void sendGameOverEvent(Game game) {
-        simpMessagingTemplate.convertAndSend("/topic/game/%s/".formatted(game.getId()), game);
-        logger.info("Sent GameOverEvent: {}", game);
+    public void sendGameStatusEvent(Game game) {
+        simpMessagingTemplate.convertAndSend("/topic/game/%s".formatted(game.getId()), game);
+        logger.info("Sent Game status event: {}", game);
     }
 
-    @MessageMapping("/game/{gameId}/game/start")
-    @SendTo("/topic/game/{gameId}/")
+    private void sendTaskList(Game game) {
+        this.simpMessagingTemplate.convertAndSend("/topic/game/%s/tasks".formatted(game.getId()), game.getTasks());
+    }
+
+    @MessageMapping("/game/{gameId}/start")
+    @SendTo("/topic/game/{gameId}")
     public Game startGame(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
         logger.info("Starting game: {}", gameId);
         Game game = gameService.getGame(gameId);
         game.startGame(gameStartConfigurationMessage);
         sendPlayerList(game);
         return game;
+    }
+
+    @MessageMapping("/game/{gameId}/join")
+    public void join(@DestinationVariable String gameId) {
+        Game game = gameService.getGame(gameId);
+        sendPlayerList(game);
+        sendTaskList(game);
+        sendGameStatusEvent(game);
     }
 
 }

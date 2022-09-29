@@ -58,7 +58,7 @@ function connect() {
             console.log(`Received event '/topic/game/${gameId}/players/killed' websocket`, event);
             showEventMessage("#player-killed-events", event.body);
         });
-        stompClient.subscribe(`/topic/game/${gameId}/`, function (event) {
+        stompClient.subscribe(`/topic/game/${gameId}`, function (event) {
             console.log(`Received event '/topic/game/${gameId}' websocket`, event);
             showEventMessage("#gameState-event", event.body);
         });
@@ -79,10 +79,17 @@ function sendPlayer() {
     stompClient.send(`/app/game/${gameId}/players`, {}, player);
 }
 
-function sendPlayerReady() {
+function sendGameStart() {
     const gameId = $( "#gameId" ).val();
     const gameConfig = $( "#game-config-payload" ).val();
-    stompClient.send(`/app/game/${gameId}/game/start`, {}, gameConfig);
+    console.log("game start");
+    stompClient.send(`/app/game/${gameId}/start`, {}, gameConfig);
+}
+
+function sendGameJoin() {
+    const gameId = $( "#gameId" ).val();
+    console.log("game join");
+    stompClient.send(`/app/game/${gameId}/join`, {});
 }
 
 function createTask() {
@@ -125,7 +132,8 @@ $(function () {
     $("#create-task-send").click(function() { createTask(); });
     $("#update-task-send").click(function() { updateTask(); });
 
-    $("#player-ready-send").click(function() { sendPlayerReady(); });
+    $("#game-start-send").click(function() { sendGameStart(); });
+    $("#game-join-send").click(function() { sendGameJoin(); });
 
     $("#players-payload").val(JSON.stringify(playerPayloadTemplate, null, 4));
     $("#create-task-payload").val(JSON.stringify(taskCreatePayloadTemplate, null, 4));
