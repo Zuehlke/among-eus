@@ -11,6 +11,7 @@ interface GameInfoBannerProps {
     players: Player[];
     tasks: Task[];
     gameState: GameState;
+    winner: Role | null;
 }
 
 const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
@@ -19,18 +20,32 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
     if (props.gameState === "WAITING_FOR_PLAYERS") {
         banner = (
             <>
-                <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/> {props.players.length} Players </span>
-                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {props.tasks.length} Task(s)</span>
+                <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/> {props.players.length} Spieler </span>
+                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {props.tasks.length} Üfgab(e)</span>
             </>
         );
-    } else {
+    } else if (props.winner === Role.AGENT || props.winner === Role.TERRORIST) {
         banner = (
             <>
-                <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists(props.players)} Terrorists </span>
-                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/>{getAmountOfAliveAgents(props.players)}/{getAmountOfAgents(props.players)} Agents</span>
-                - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {getAmountOfTasksCompleted(props.tasks)} / {props.tasks.length} Task(s)</span>
+                <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> <b>SPIEL ISCH VERBI!</b></span><br/>
+                {
+                    props.winner === Role.TERRORIST ? (
+                        <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser} color={"red"}/> D Walliser hei gegwunne!</span>
+                    ) : (
+                        <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/> D Üsserschwizer hei gegwunne!</span>
+                    )
+                }
             </>
         );
+
+    } else {
+            banner = (
+                <>
+                    <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser} color={"red"}/> {getAmountOfTerrorists(props.players)} Walliser </span>
+                    - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faUser}/>{getAmountOfAliveAgents(props.players)}/{getAmountOfAgents(props.players)} Üsserschwizer</span>
+                    - <span className={"non-wrapping-element"}><FontAwesomeIcon icon={faCheck}/> {getAmountOfTasksCompleted(props.tasks)} / {props.tasks.length} Üfgabe</span>
+                </>
+            );
     }
     return (
         <div className="numberOfPlayers">

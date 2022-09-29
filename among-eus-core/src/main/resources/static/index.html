@@ -37,6 +37,40 @@
         </div>
     </div>
 
+
+    <div class="row">
+
+        <h2>Game</h2>
+
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="game-config-payload">Join Game /game/{gameId}/join</label>
+                    <button id="game-join-send" class="btn btn-default" type="submit">Send</button>
+                </div>
+            </form>
+
+            <form>
+                <div class="form-group">
+                    <label for="game-config-payload">Start Game /game/{gameId}/start</label>
+                    <textarea id="game-config-payload" class="form-control payload">game config payload comes here ...</textarea>
+                    <button id="game-start-send" class="btn btn-default" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <div><label>Event: Game Status /topic/game/{gameId}</label></div>
+            <div class="scrollable-event-area">
+                <table id="gameState" class="table table-striped">
+                    <tbody id="gameState-event">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
     <div class="row">
 
         <h2>Players</h2>
@@ -52,7 +86,7 @@
         </div>
 
         <div class="col-md-8">
-            <div><label>Event: Players /topic/players</label></div>
+            <div><label>Event: Players /topic/game/{gameId}/players/</label></div>
             <div class="scrollable-event-area">
             <table id="players-status" class="table table-striped">
                 <tbody id="players">
@@ -63,28 +97,6 @@
 
     </div>
 
-    <div class="row">
-
-        <div class="col-md-4">
-            <form>
-                <div class="form-group">
-                    <label for="game-config-payload">Start Game /game/start</label>
-                    <textarea id="game-config-payload" class="form-control payload">game config payload comes here ...</textarea>
-                    <button id="player-ready-send" class="btn btn-default" type="submit">Send</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="col-md-8">
-            <div><label>Event: Game Started /topic/game</label></div>
-            <div class="scrollable-event-area">
-                <table id="gameState" class="table table-striped">
-                    <tbody id="gameState-event">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 
     <div class="row">
 

@@ -23,6 +23,7 @@ interface MapOverviewProps {
     players: Player[];
     tasks: Task[];
     gameState: GameState;
+    winner: Role | null;
     killedPlayer: Player | null;
 }
 
@@ -95,7 +96,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     return (
         <div>
-            <h2 className="title">Among Isch - {props.gameId}</h2>
+            <h2 className="title">Ünger Isch - {props.gameId}</h2>
             {
                 props.gameState === "WAITING_FOR_PLAYERS" ? (
                     <WelcomeBanner userId={props.userId} />
@@ -103,7 +104,7 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                     <PlayerStatusBanner userId={props.userId} isAlive={me?.alive} role={getRoleCurrentUser()} />
                 )
             }
-            <GameInfoBanner gameState={props.gameState} players={props.players} tasks={props.tasks}/>
+            <GameInfoBanner gameState={props.gameState} winner={props.winner} players={props.players} tasks={props.tasks}/>
             {
                 props.killedPlayer &&
                 <div className="kill-notification">{props.killedPlayer.username} isch gstorbe</div>

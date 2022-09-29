@@ -2,11 +2,13 @@ import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import MapOverview from "./components/MapOverview/MapOverview";
 import {parseGameDetails} from "./utils/game-details";
-import {connect, subscribe} from "./utils/websocket-client";
+import {connect, sendMessage, subscribe} from "./utils/websocket-client";
 import {Player} from "./utils/player";
 import {IMessage} from "@stomp/stompjs";
 import Task from "./utils/task";
 import {GameState} from "./utils/game-state";
+import {Game} from "./utils/game";
+import {Role} from "./utils/role";
 
 function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -15,6 +17,7 @@ function App() {
     const [userId, setUserId] = useState<string | null>(null);
     const [tasks, setTasks] = useState<Task[]>([]);
     const [gameState, setGameState] = useState<GameState>("WAITING_FOR_PLAYERS");
+    const [winner, setWinner] = useState<Role | null>(null);
 
     const updatePlayerDetails = useCallback((message: IMessage) => {
         console.debug(JSON.parse(message.body));
@@ -41,11 +44,13 @@ function App() {
                         console.debug('tasks', tasks);
                         setTasks(tasks);
                     });
-                    subscribe(`/topic/game/${gameDetails.gameId}/`, (message: IMessage) => {
-                        const gameState: GameState = JSON.parse(message.body) as GameState;
-                        console.debug('gameState received', gameState);
-                        setGameState(gameState);
+                    subscribe(`/topic/game/${gameDetails.gameId}`, (message: IMessage) => {
+                        const game: Game = JSON.parse(message.body) as Game;
+                        console.debug('game state received', game);
+                        setGameState(game.state);
+                        setWinner(game.winner);
                     });
+                    sendMessage(`/app/game/${gameDetails.gameId}/join`, "");
                 } else {
                     console.warn("Game id is null");
                 }
@@ -59,6 +64,7 @@ function App() {
                          gameId={gameId}
                          players={players}
                          gameState={gameState}
+                         winner={winner}
                          killedPlayer={killedPlayer}
                          tasks={tasks}/>
 

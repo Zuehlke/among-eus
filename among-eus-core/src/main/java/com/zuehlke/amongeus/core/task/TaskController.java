@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
@@ -19,8 +20,11 @@ public class TaskController {
 
     private final GameService gameService;
 
-    public TaskController(GameService gameService) {
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    public TaskController(GameService gameService, SimpMessagingTemplate simpMessagingTemplate) {
         this.gameService = gameService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @MessageMapping("/game/{gameId}/tasks")
@@ -46,7 +50,16 @@ public class TaskController {
 
         game.completeTask(message.getTaskId());
 
+        if (game.isOver()) {
+            sendGameStatusEvent(game);
+        }
         return game.getTasks();
     }
+
+    public void sendGameStatusEvent(Game game) {
+        simpMessagingTemplate.convertAndSend("/topic/game/%s".formatted(game.getId()), game);
+        logger.info("Sent Game status event: {}", game);
+    }
+
 
 }

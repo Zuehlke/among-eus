@@ -21,4 +21,11 @@ public class KilledMessage {
         KilledId = killedId;
     }
 
+    @Override
+    public String toString() {
+        return "KilledMessage{" +
+                "killerId='" + killerId + '\'' +
+                ", KilledId='" + KilledId + '\'' +
+                '}';
+    }
 }

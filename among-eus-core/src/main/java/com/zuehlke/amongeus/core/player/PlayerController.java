@@ -2,7 +2,6 @@ package com.zuehlke.amongeus.core.player;
 
 import com.zuehlke.amongeus.core.game.GameService;
 import com.zuehlke.amongeus.core.model.Game;
-import com.zuehlke.amongeus.core.model.GameState;
 import com.zuehlke.amongeus.core.model.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,6 @@ public class PlayerController {
     }
 
     @MessageMapping("/game/{gameId}/players")
-    @SendTo("/topic/game/{gameId}/players")
     public void createOrUpdate(@DestinationVariable String gameId, final Player player) {
         Game game = gameService.getGame(gameId);
         game.updatePlayer(player);
@@ -35,37 +33,51 @@ public class PlayerController {
     }
 
     @MessageMapping("/game/{gameId}/players/kill")
-    @SendTo("/topic/game/{gameId}/players/killed")
-    public Player killed(@DestinationVariable String gameId, final KilledMessage killedMessage) {
+    public void kill(@DestinationVariable String gameId, final KilledMessage killedMessage) {
         logger.info("Player killed: {}", killedMessage);
         Game game = gameService.getGame(gameId);
         var killedPlayer = game.killPlayer(killedMessage.getKillerId(), killedMessage.getKilledId());
-        if (game.isOver()) {
-            gameOver(game);
-        }
+        sendPlayerKilledEvent(game, killedPlayer);
         sendPlayerList(game);
-        return killedPlayer;
+        if (game.isOver()) {
+            game.gameOver();
+            sendGameStatusEvent(game);
+        }
+    }
+    private void sendPlayerKilledEvent(Game game, Player player) {
+        simpMessagingTemplate.convertAndSend("/topic/game/%s/players/killed".formatted(game.getId()), player);
+        logger.info("Sent PlayerKilledEvent: {}", player);
     }
 
     private void sendPlayerList(Game game) {
-        this.simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
+        simpMessagingTemplate.convertAndSend("/topic/game/%s/players".formatted(game.getId()), game.getPlayers());
     }
 
-    @MessageMapping("/game/{gameId}/game/start")
-    @SendTo("/topic/game/{gameId}/")
-    public GameState startGame(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
+    public void sendGameStatusEvent(Game game) {
+        simpMessagingTemplate.convertAndSend("/topic/game/%s".formatted(game.getId()), game);
+        logger.info("Sent Game status event: {}", game);
+    }
+
+    private void sendTaskList(Game game) {
+        this.simpMessagingTemplate.convertAndSend("/topic/game/%s/tasks".formatted(game.getId()), game.getTasks());
+    }
+
+    @MessageMapping("/game/{gameId}/start")
+    @SendTo("/topic/game/{gameId}")
+    public Game startGame(@DestinationVariable String gameId, final GameStartConfigurationMessage gameStartConfigurationMessage) {
         logger.info("Starting game: {}", gameId);
         Game game = gameService.getGame(gameId);
         game.startGame(gameStartConfigurationMessage);
         sendPlayerList(game);
-        return game.getState();
+        return game;
     }
 
-    @SendTo("/topic/game/{gameId}/")
-    public GameState gameOver(final Game game) {
-        game.setState(GameState.GAME_OVER);
-        logger.info("GameOver: {}", game);
-        return game.getState();
+    @MessageMapping("/game/{gameId}/join")
+    public void join(@DestinationVariable String gameId) {
+        Game game = gameService.getGame(gameId);
+        sendPlayerList(game);
+        sendTaskList(game);
+        sendGameStatusEvent(game);
     }
 
 }
