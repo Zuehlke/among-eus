@@ -103,17 +103,11 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
         <div>
             {
                 props.gameState === "WAITING_FOR_PLAYERS" ? (
-                    <WelcomeBanner gameId={props.gameId} userId={props.userId} />
+                    <WelcomeBanner gameId={props.gameId} userId={props.userId} gameState={props.gameState} players={props.players} tasks={props.tasks} />
                 ) : (
-                    <PlayerStatusBanner gameId={props.gameId} userId={props.userId} isAlive={me?.alive} role={getRoleCurrentUser()} />
+                    <PlayerStatusBanner gameId={props.gameId} userId={props.userId} isAlive={me?.alive} role={getRoleCurrentUser()  } gameState={props.gameState} players={props.players} tasks={props.tasks} />
                 )
             }
-
-            <div className="numberOfPlayer">
-                <FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
-                - <FontAwesomeIcon icon={faCheck}/>
-                {props.tasks.length} Task(s)
-            </div>
             {
                 props.killedPlayer &&
                 <div className="kill-notification">{props.killedPlayer.username} isch gstorbe</div>

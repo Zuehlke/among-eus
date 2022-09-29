@@ -19,6 +19,8 @@ const GameInfoBanner: FC<GameInfoBannerProps> = (props) => {
         banner = (
             <>
                 <FontAwesomeIcon icon={faUser}/> {props.players.length} Players
+                - <FontAwesomeIcon icon={faCheck}/>
+                {props.tasks.length} Task(s)
             </>
         );
     } else {
