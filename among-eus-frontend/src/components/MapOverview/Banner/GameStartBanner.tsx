@@ -45,7 +45,7 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
         let numberOfOptions = Math.floor(props.players.length / 2.0);
         let result = []
         for (let i = 0; i< numberOfOptions; i++) {
-            result.push({ label: (i+1) + ' Wallüsser', value: '' + (i+1) })
+            result.push({ label: (i+1) + ' Walliser', value: '' + (i+1) })
         }
         return result;
     }
@@ -74,22 +74,22 @@ const GameStartBanner: FC<GameStartBannerProps> = (props) => {
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <div>
-                            <b>Azahl Spielür:</b> {props.players.length}
+                            <b>Azahl Spiler:</b> {props.players.length}
                         </div>
                         <div>
-                            Wievieli Wallüsser wüisch Dü denn Dü in Dim Spielu?
+                            Wievill Walliser willt dü ha?
                         </div>
-                        <label htmlFor="number-of-terrorists">Azahl Wallüsser</label>
+                        <label htmlFor="number-of-terrorists">Azahl Walliser</label>
                         <select id="number-of-terrorists" value={numberOfTerrorists} onChange={changeNumberOfTerrorists}>
                             {Array.from(new Set(options)).map((option) => (
                                 <option value={option.value} key={option.value}>{option.label}</option>
                             ))}
                         </select>
                         <div>
-                            <b>Üfgepasst:</b> Sobald Du s Spiel gstartut häsch, chan kei neuu Spelur mä drzue cho!
+                            <b>Üfgepasst:</b> Sobald dü es Spill gstartet hesch, chat kei neue Spiler mehr derzüe cho!
                         </div>
                         <div>
-                            <button onClick={startGame}>Start</button>
+                            <button onClick={startGame}>Startu</button>
                         </div>
                     </Typography>
                 </Box>

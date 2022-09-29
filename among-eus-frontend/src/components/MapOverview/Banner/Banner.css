@@ -1,0 +1,17 @@
+.kill-action-button {
+    background-color: orange;
+}
+
+.title {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #975a9c;
+    color: white;
+}
+
+.sub-title {
+    margin: 0;
+    padding: 5px 0;
+    background-color: #957598;
+    color: white;
+}

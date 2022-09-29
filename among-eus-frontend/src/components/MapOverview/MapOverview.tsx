@@ -8,13 +8,16 @@ import PlayerMap from "./PlayerMap/PlayerMap";
 import Marker, {MarkerTypes} from "./Marker/Marker";
 import {registerCallback, startGpsTracking2} from "../../utils/gps-tracking";
 import {Player} from "../../utils/player";
-import {findNearestAlivePlayer, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
+import {findNearestAliveAgent, findNearestUnsolvedTask, getDistanceInMeter} from "../../utils/distance-calculator";
 import {KillBanner} from "./Banner/KillBanner";
 import Task from "../../utils/task";
 import GameStartBanner from "./Banner/GameStartBanner";
 import {Role} from "../../utils/role";
 import {SolveTask} from "./SolveTask/SolveTask";
 import {GameState} from "../../utils/game-state";
+import {WelcomeBanner} from "./Banner/WelcomeBanner";
+import {PlayerStatusBanner} from "./Banner/PlayerStatusBanner";
+import GameInfoBanner from "./Banner/GameInfoBanner";
 
 interface MapOverviewProps {
     userId: string;
@@ -55,12 +58,12 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     let distanceToClosestPlayer: number = 0;
     let distanceToClosestTask: number = -1;
     let closestTask: Task | null = null;
-    let closestPlayer: Player | null = null;
+    let closestAliveAgent: Player | null = null;
     if (me) {
-        closestPlayer = findNearestAlivePlayer(props.players, me);
+        closestAliveAgent = findNearestAliveAgent(props.players, me);
         closestTask = findNearestUnsolvedTask(props.tasks, me);
-        if (closestPlayer) {
-            distanceToClosestPlayer = getDistanceInMeter(me, closestPlayer);
+        if (closestAliveAgent) {
+            distanceToClosestPlayer = getDistanceInMeter(me, closestAliveAgent);
         }
         if (closestTask) {
             distanceToClosestTask = getDistanceInMeter(me, closestTask);
@@ -73,10 +76,10 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
     }, [props.gameId, currentLocation]);
 
     const kill = useCallback(() => {
-        if (closestPlayer) {
-            doKill(props.gameId, props.userId, closestPlayer.username);
+        if (closestAliveAgent) {
+            doKill(props.gameId, props.userId, closestAliveAgent.username);
         }
-    }, [props.gameId, props.userId, closestPlayer]);
+    }, [props.gameId, props.userId, closestAliveAgent]);
 
     const solveTask = () => {
         if (closestTask) {
@@ -98,21 +101,15 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
 
     return (
         <div>
-            <h2 className="title">Among Eus - {props.gameId}
-                {
-                    getRoleCurrentUser() !== Role.UNASSIGNED ? (
-                        <p className="role">Dü bisch {getRoleCurrentUser()}</p>
-                    ) : (
-                        <p className="role">Düe d Tasks platziere!</p>
-                    )
-                }
-            </h2>
-            <h3 className="sub-title">Welcome {props.userId}</h3>
-            <div className="numberOfPlayer">
-                <FontAwesomeIcon icon={faUser}/> {getAmountOfAlivePlayers()}/{props.players.length} Players
-                - <FontAwesomeIcon icon={faCheck}/>
-                {props.tasks.length} Task(s)
-            </div>
+            <h2 className="title">Among Isch - {props.gameId}</h2>
+            {
+                props.gameState === "WAITING_FOR_PLAYERS" ? (
+                    <WelcomeBanner userId={props.userId} />
+                ) : (
+                    <PlayerStatusBanner userId={props.userId} isAlive={me?.alive} role={getRoleCurrentUser()} />
+                )
+            }
+            <GameInfoBanner gameState={props.gameState} players={props.players} tasks={props.tasks}/>
             {
                 props.killedPlayer &&
                 <div className="kill-notification">{props.killedPlayer.username} isch gstorbe</div>
@@ -141,8 +138,8 @@ const MapOverview: FC<MapOverviewProps> = (props) => {
                 </PlayerMap>
             </Wrapper>
             {
-                closestPlayer && distanceToClosestPlayer <= 10 && props.gameState === "GAME_RUNNING" && getRoleCurrentUser() === Role.TERRORIST &&
-                <KillBanner username={closestPlayer.username} distance={distanceToClosestPlayer.toFixed(1)}
+                closestAliveAgent && distanceToClosestPlayer <= 10 && props.gameState === "GAME_RUNNING" && getRoleCurrentUser() === Role.TERRORIST &&
+                <KillBanner username={closestAliveAgent.username} distance={distanceToClosestPlayer.toFixed(1)}
                             onKill={kill}/>
             }
             {
