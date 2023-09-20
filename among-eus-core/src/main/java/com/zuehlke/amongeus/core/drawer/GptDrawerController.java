@@ -9,6 +9,7 @@ import com.theokanning.openai.service.OpenAiService;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +21,17 @@ import java.util.List;
 @RequestMapping(value = "/drawer/gpt")
 public class GptDrawerController {
 
-    private static final String CHAT_GPT_API_KEY = "PUT_YOUR_API_KEY_HERE";
-
     Logger logger = LoggerFactory.getLogger(GptDrawerController.class);
+
+    @Value("${among.eus.chat.gpt.api.key}")
+    private String apiKey;
 
     @PostMapping
     @ResponseBody
     public String drawInMermaid(@RequestBody String message) {
         logger.info("Drawing: " + message);
 
-        OpenAiService service = new OpenAiService(CHAT_GPT_API_KEY);
+        OpenAiService service = new OpenAiService(apiKey);
         ChatCompletionRequest completionRequest = ChatCompletionRequest.builder()
                 .messages(List.of(
                         new ChatMessage("system", "You are a helpful assistant to produce correct MermaidJS code without any surrounding markdown tags."),

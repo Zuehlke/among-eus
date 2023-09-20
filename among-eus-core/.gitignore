@@ -70,3 +70,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Local Developer Properties (with secrets not to checkin) ###
+/src/main/resources/application-developer.properties
