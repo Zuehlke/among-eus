@@ -29,7 +29,7 @@ public class GptDrawerController {
     @Value("${among.eus.chat.gpt.api.key}")
     private String apiKey;
 
-    @PostMapping
+    @PostMapping(produces = "text/plain", consumes = "text/plain")
     @ResponseBody
     public String drawInMermaid(@RequestBody String drawingDescription) {
         logger.info("Drawing: \n===============\n" + drawingDescription + "\n==============\n\n");

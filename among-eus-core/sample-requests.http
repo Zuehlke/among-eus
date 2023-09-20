@@ -1,5 +1,5 @@
 POST http://localhost:8080/drawer/gpt
-Content-Type: application/json
+Content-Type: text/plain
 
 Microservice Architecture of Hospital System with two microservices.
 One service is for patient data and is called PatientsService.
@@ -9,7 +9,7 @@ The prescription service uses the patients service by calling the patients backe
 
 ###
 POST http://localhost:8080/drawer/gpt
-Content-Type: application/json
+Content-Type: text/plain
 
 UltimateAid is a Hospital System with a microservice architecture consisting of two microservices.
 One service is for patient data and is called PatientsService.
