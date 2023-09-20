@@ -19,6 +19,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/drawer/gpt")
+@CrossOrigin(origins={
+        "http://localhost:3000",
+        "https://blue-sea-050a45e10.1.azurestaticapps.net"})
 public class GptDrawerController {
 
     Logger logger = LoggerFactory.getLogger(GptDrawerController.class);
@@ -26,9 +29,6 @@ public class GptDrawerController {
     @Value("${among.eus.chat.gpt.api.key}")
     private String apiKey;
 
-    @CrossOrigin(origins={
-            "http://localhost:3000",
-            "https://blue-sea-050a45e10.1.azurestaticapps.net"})
     @PostMapping
     @ResponseBody
     public String drawInMermaid(@RequestBody String drawingDescription) {
@@ -37,8 +37,8 @@ public class GptDrawerController {
         OpenAiService service = new OpenAiService(apiKey);
         ChatCompletionRequest completionRequest = ChatCompletionRequest.builder()
                 .messages(List.of(
-                        new ChatMessage("system", "You are a helpful assistant to produce correct and MermaidJS code for well understandable technical diagrams without any surrounding markdown tags."),
-                        new ChatMessage("user", "Produce a MermaidJS to draw the following diagram: " + drawingDescription + ". Please provide your answer in pure MermaidJS without any additional comments and no surrounding markdown tags. Simply start with keyword graph directly. Make sure the mermaid code is complete and compiles. The diagram should be visual attractive and easy to understand.")
+                        new ChatMessage("system", "You are a helpful assistant to produce correct MermaidJS code for well understandable technical diagrams without any surrounding markdown tags."),
+                        new ChatMessage("user", "Produce a MermaidJS to draw the following diagram: " + drawingDescription + ". Please provide your answer in pure MermaidJS without any additional comments and no surrounding markdown tags. Simply start with keyword graph directly. Make sure the mermaid code is complete and compiles. The diagram should be visual attractive and easy to understand. Take your self one minute of time to make it look very nice.")
                 ))
                 .model("gpt-3.5-turbo")
                 .build();
