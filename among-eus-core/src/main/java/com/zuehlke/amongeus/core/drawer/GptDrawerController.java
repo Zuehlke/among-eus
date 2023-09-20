@@ -26,6 +26,9 @@ public class GptDrawerController {
     @Value("${among.eus.chat.gpt.api.key}")
     private String apiKey;
 
+    @CrossOrigin(origins={
+            "http://localhost:3000",
+            "https://blue-sea-050a45e10.1.azurestaticapps.net"})
     @PostMapping
     @ResponseBody
     public String drawInMermaid(@RequestBody String drawingDescription) {
