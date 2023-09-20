@@ -28,14 +28,14 @@ public class GptDrawerController {
 
     @PostMapping
     @ResponseBody
-    public String drawInMermaid(@RequestBody String message) {
-        logger.info("Drawing: " + message);
+    public String drawInMermaid(@RequestBody String drawingDescription) {
+        logger.info("Drawing: \n===============\n" + drawingDescription + "\n==============\n\n");
 
         OpenAiService service = new OpenAiService(apiKey);
         ChatCompletionRequest completionRequest = ChatCompletionRequest.builder()
                 .messages(List.of(
-                        new ChatMessage("system", "You are a helpful assistant to produce correct MermaidJS code without any surrounding markdown tags."),
-                        new ChatMessage("user", "Produce a MermaidJS to draw the following diagram: " + message + ". Please provide your answer in pure MermaidJS without any additional comments and no surrounding markdown tags. Simply start with graph directly. Make sure the mermaid code is complete and compiles.")
+                        new ChatMessage("system", "You are a helpful assistant to produce correct and MermaidJS code for well understandable technical diagrams without any surrounding markdown tags."),
+                        new ChatMessage("user", "Produce a MermaidJS to draw the following diagram: " + drawingDescription + ". Please provide your answer in pure MermaidJS without any additional comments and no surrounding markdown tags. Simply start with keyword graph directly. Make sure the mermaid code is complete and compiles. The diagram should be visual attractive and easy to understand.")
                 ))
                 .model("gpt-3.5-turbo")
                 .build();
